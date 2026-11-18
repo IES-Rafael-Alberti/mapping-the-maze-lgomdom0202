@@ -266,6 +266,11 @@ técnicas activas, sin autenticación.
 - Scripts NSE solo de las categorías default y safe a la vez (más scripts sueltos de la categoría
   safe que solo leen el saludo del servicio), excluyendo
   intrusive, exploit, dos, brute, malware, auth, broadcast y external.
+- `mqtt-subscribe` no lo pide el filtro `$SAFE`: es de las categorías safe, discovery y
+  version, no default (comprobado con `nmap --script-help mqtt-subscribe`). Se ejecutó solo porque
+  nmap lanza automáticamente los scripts de la categoría `version` cuando se usa `-sV`. La guía lo
+  incluye entre los scripts que no deben usarse; no se pidió, solo devolvió dos nombres de temas
+  internos de ActiveMQ sin contenido, y nunca se lanzó aparte.
 - Lectura de banners con `nc` y peticiones HTTP normales con `curl`.
 - Sin credenciales, sin sesiones anónimas y sin fuerza bruta de rutas, usuarios o contraseñas.
 - El equipo 172.17.0.7 se enumeró con `-T2` y solo scripts de la categoría safe.
@@ -276,6 +281,8 @@ técnicas activas, sin autenticación.
   comprobó, pero finalmente no se usó porque inicia una sesión anónima.
 
 ![Categorías de los scripts NSE usados](imagenes/p2-02-categorias-scripts.png)
+
+![Categorías de mqtt-subscribe](imagenes/p2-11-categorias-mqtt-subscribe.png)
 
 ### Decisiones de la Parte 2 y por qué
 
@@ -332,7 +339,7 @@ técnicas activas, sin autenticación.
 | 61616/OpenWire | Al conectar, el broker envía su `WireFormatInfo`: ProviderName `ActiveMQ`, PlatformDetails `Java`, **ProviderVersion `5.15.15`**, con StackTraceEnabled, CacheEnabled y TightEncodingEnabled | `nc -nv -w 3 172.17.0.5 61616 </dev/null` | `evidencias/p2/23-banner-172.17.0.5-61616.txt`, [captura](imagenes/p2-06-banner-ftp-activemq.png) |
 | 61613/stomp | Ante una orden desconocida responde con un error y la traza Java completa (`org.apache.activemq.transport.stomp...`). No envía saludo al conectar | Sonda de versión de nmap (`-sV`); `nc` | `evidencias/p2/20-nse-172.17.0.5.nmap`, `evidencias/p2/23-banner-sin-saludo.txt`, [captura](imagenes/p2-06-banner-sin-saludo.png) |
 | 5672/amqp | Responde `AMQP` y el error `amqp:decode-error ... unsupported AMQP`: habla AMQP 1.0. `amqp-info` falló (`handshake expected header (1) frame, but was 65`) porque el script solo entiende AMQP 0-9-1 | NSE `amqp-info`; `nc` | `evidencias/p2/26-amqp-172.17.0.5.nmap`, `evidencias/p2/20-nse-172.17.0.5.nmap`, [captura](imagenes/p2-09-amqp-172.17.0.5.png) |
-| 1883/mqtt | El script `mqtt-subscribe`, incluido en el filtro default y safe, obtuvo los topics de aviso del broker (`ActiveMQ/Advisory/Consumer/Topic/#`, `ActiveMQ/Advisory/MasterBroker`), sin contenido. No envía saludo al conectar | NSE default y safe; `nc` | `evidencias/p2/20-nse-172.17.0.5.nmap`, `evidencias/p2/23-banner-sin-saludo.txt`, [captura](imagenes/p2-01-nse-172.17.0.5.png) |
+| 1883/mqtt | El script `mqtt-subscribe`, lanzado automáticamente por nmap al usar `-sV` (categoría `version`; no se pidió), obtuvo los topics de aviso del broker (`ActiveMQ/Advisory/Consumer/Topic/#`, `ActiveMQ/Advisory/MasterBroker`), sin contenido. No envía saludo al conectar | Script de versión de nmap ejecutado con `-sV`; `nc` | `evidencias/p2/20-nse-172.17.0.5.nmap`, `evidencias/p2/23-banner-sin-saludo.txt`, [captura](imagenes/p2-01-nse-172.17.0.5.png), [categorías](imagenes/p2-11-categorias-mqtt-subscribe.png) |
 | 8161/http | Consola web de ActiveMQ en `Jetty(9.4.39.v20210325)`: responde `401 Unauthorized` con `WWW-Authenticate: basic realm="ActiveMQRealm"`; también `robots.txt` pide autenticación. No se probaron credenciales | `curl -sk -I`, `whatweb -a 1` | `evidencias/p2/21-http-cabeceras-172.17.0.5-8161.txt`, `evidencias/p2/21-whatweb-172.17.0.5-8161.txt`, [captura](imagenes/p2-03-http-172.17.0.5-8161.png) |
 | 61614/http | WebSocket de ActiveMQ en `Jetty(9.4.39.v20210325)`: responde 200 con cuerpo vacío; admite el método `TRACE` | `curl -sk -I`, `whatweb -a 1`, NSE `http-methods` | `evidencias/p2/21-http-cabeceras-172.17.0.5-61614.txt`, `evidencias/p2/20-nse-172.17.0.5.nmap`, [captura](imagenes/p2-03-http-172.17.0.5-61614.png) |
 | 38443/tcp | Acepta la conexión pero no envía nada (`tcpwrapped`). Servicio no identificado | `nc -nv -w 3 172.17.0.5 38443 </dev/null` | `evidencias/p2/23-banner-172.17.0.5-38443.txt`, [captura](imagenes/p2-06-banner-ftp-activemq.png) |
@@ -426,9 +433,10 @@ Candidatos de `evidencias/p2/29-cuentas-candidatas.txt` que se revisaron y **no*
   conectar con `nc`.
 - 172.17.0.5:5672: `amqp-info` no pudo leer las propiedades del broker porque el servicio habla
   AMQP 1.0 y el script, AMQP 0-9-1. No se usaron clientes de mensajería para sacar más datos.
-- 172.17.0.5:1883: el script `mqtt-subscribe` va incluido en el filtro default y safe y se ejecutó
-  dentro del escaneo general; no se lanzó aparte ni se repitió. Solo devolvió nombres de topics de
-  aviso, sin contenido. El broker aceptó la conexión sin credenciales: servicio expuesto, pendiente
+- 172.17.0.5:1883: el script `mqtt-subscribe` no estaba pedido (no es de la categoría default):
+  nmap lo lanzó por su cuenta al usar `-sV`, por ser de la categoría `version`. Ocurrió en el
+  escaneo NSE de esta parte y otra vez en el de `vulners` de la Parte 3; nunca se lanzó aparte.
+  Solo devolvió nombres de topics de aviso, sin contenido. El broker aceptó la conexión sin credenciales: servicio expuesto, pendiente
   de comprobar en la siguiente fase si requiere autenticación.
 - 172.17.0.5:8161 (consola de ActiveMQ), 172.17.0.6:8080 (Jenkins) y los formularios de login de
   172.17.0.8 y 172.17.0.9 piden autenticación: no se probaron credenciales, ni las de por defecto.

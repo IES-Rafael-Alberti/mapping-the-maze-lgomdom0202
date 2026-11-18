@@ -9,12 +9,17 @@ Partes: de la 0 a la 4 (cada integrante las hace todas sobre su propia red)
 Cada entrada sigue las cinco notas de la UD1: cuándo, objetivo y alcance,
 qué hice, qué salió y siguiente paso. Las salidas completas están en evidencias/.
 
+**Sobre los `git add`, `git commit` y `git push` del historial:** durante el trabajo usé un
+repositorio intermedio para pasar los ficheros de evidencias desde la máquina Kali a mi
+ordenador local, donde preparaba las capturas y los documentos. Por eso esos comandos aparecen
+en el historial y en algunas entradas. No envían tráfico a la red del cliente.
+
 ---
 
 ## Parte 0 - Preparación del entorno
 
-### 2026-11-17 [16:08] - Comprobación de herramientas
-- **Cuándo:** 2026-11-17 [16:08]
+### 2026-11-17 antes de las 15:03 - Comprobación de herramientas
+- **Cuándo:** 2026-11-17, antes de las 15:03 (primer comando del historial con fecha)
 - **Objetivo y alcance:** comprobar que la máquina Kali tiene las herramientas necesarias para el
   proyecto. Comando local; no envía tráfico a ningún equipo.
 - **Qué hice:** `which nmap jq curl whatweb searchsploit nc git openssl nmblookup`
@@ -24,12 +29,12 @@ qué hice, qué salió y siguiente paso. Las salidas completas están en evidenc
 - **Captura:** ![Comprobación de herramientas instaladas](../imagenes/p0-01-herramientas.png)
 - **Siguiente paso:** clonar el repositorio del proyecto y comprobar el alcance.
 
-### 2026-11-17 [16:09] - Repositorio clonado y alcance comprobado
-- **Cuándo:** 2026-11-17 [16:09]
+### 2026-11-17 antes de las 15:03 - Repositorio clonado y alcance comprobado
+- **Cuándo:** 2026-11-17, antes de las 15:03 (no figura en el historial con fecha, que se activó después)
 - **Objetivo y alcance:** preparar el repositorio de entrega y fijar la frontera del trabajo.
   Comandos locales; no tocan la red del cliente.
-- **Qué hice:** clonado del repositorio `mapping-the-maze-luismi0202` de la organización del IES en
-  `~/Git/mapping-the-maze-luismi0202` (con las plantillas ya subidas), y después
+- **Qué hice:** clonado del repositorio `mapping-the-maze-lgomdom0202` de la organización del IES en
+  `~/Git/mapping-the-maze-lgomdom0202` (con las plantillas ya subidas), y después
   `cat ./scope.txt` y `ls -R`.
 - **Qué salió:** `scope.txt` contiene `172.17.0.0/24`, el rango que autoriza el cliente. El
   repositorio tiene la estructura del enunciado: `cuadernos/` (con este cuaderno),
@@ -39,8 +44,8 @@ qué hice, qué salió y siguiente paso. Las salidas completas están en evidenc
 - **Siguiente paso:** pasar la terminal a zsh, activar el historial con fecha y guardar el filtro
   seguro de scripts de nmap.
 
-### 2026-11-17 [16:10] - Historial con fecha y filtro seguro de nmap
-- **Cuándo:** 2026-11-17 [16:10]
+### 2026-11-17 15:03 - Historial con fecha y filtro seguro de nmap
+- **Cuándo:** 2026-11-17 15:03 (historial con fecha) y 15:04 (filtro `SAFE`)
 - **Objetivo y alcance:** que todos los comandos siguientes queden registrados con fecha y hora
   para este cuaderno, y limitar los scripts de nmap a los no intrusivos. Configuración local.
 - **Qué hice:** cambio de PowerShell a zsh (`zsh`); en `~/.zshrc`,
@@ -380,7 +385,9 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   - Títulos y cabeceras web de todos los servidores y claves de host SSH.
   - 172.17.0.4:8009: métodos AJP.
   - 172.17.0.5: certificado caducado, topics de aviso de MQTT (`mqtt-subscribe`), `TRACE` en 61614
-    y error de `amqp-info` en 5672.
+    y error de `amqp-info` en 5672. `mqtt-subscribe` no lo pide el filtro: es de la categoría
+    `version` (no default) y nmap lo lanzó por su cuenta al usar `-sV` (ver entrada «Categorías de
+    mqtt-subscribe», en la Parte 4).
   - 172.17.0.6:8080: `robots.txt`.
   - 172.17.0.8: firma SMB no obligatoria y nombre NetBIOS `SAMBASERVER`.
 
@@ -609,14 +616,14 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
 - **Siguiente paso:** guardar las evidencias en el repositorio y exportar el historial.
 
 ### 2026-11-17 21:47 - Evidencias subidas e historial exportado
-- **Cuándo:** 2026-11-17 21:47 (commit) y 22:00 (historial)
+- **Cuándo:** 2026-11-17 21:47 (subida a git) y 22:00 (historial)
 - **Objetivo y alcance:** dejar en el repositorio las evidencias de la Parte 2 y el historial con
   fecha. Comandos locales y de git; no tocan la red del cliente.
 - **Qué hice:** `git add .`, `git commit -m "Añadidas evidencias de la parte 2"` y `git push`.
   Después exporté el historial quitando las órdenes sin interés:
   `fc -li 1 | grep -vE '^ *[0-9]+ +[0-9-]+ +[0-9:]+ +(cd|ls|clear|cap|less|nano|xdgopen|fc|history|exit)( |$)' | awk '$2 >= "2026-11-17"' > evidencias/p2/historial-comandos.txt`
   y lo comprobé con `wc -l evidencias/p2/historial-comandos.txt`.
-- **Qué salió:** evidencias subidas a GitHub (`c25710d..7b10181 main -> main`). El primer intento
+- **Qué salió:** evidencias subidas a GitHub. El primer intento
   de exportar se lanzó con el texto literal `"AAAA-MM-DD"` de la guía y dio un fichero vacío (0
   líneas); repetido con la fecha real `2026-11-17`, el historial quedó con **126 líneas**: todos los
   comandos de las Partes 0 a 2 con su hora. Es la fuente de esta parte del cuaderno. El
@@ -662,13 +669,13 @@ Al equipo delicado (172.17.0.7) no se le lanza `vulners`: sus versiones se busca
 datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-comandos.txt`.
 
 ### 2026-11-17 22:01 - Historial de la Parte 2 subido
-- **Cuándo:** 2026-11-17 22:01 (commit) y 22:09 (sincronización)
+- **Cuándo:** 2026-11-17 22:01 (subida a git) y 22:09 (sincronización)
 - **Objetivo y alcance:** dejar en el repositorio el historial de la Parte 2 antes de empezar la
   Parte 3. Comandos locales y de git; no tocan la red del cliente.
 - **Qué hice:** `git pull`, `git add .`, `git commit -m "Añadido historial comandos parte 2"`,
   `git push` y, a las 22:09, `git pull`.
 - **Qué salió:** el primer `git commit` quedó con las comillas sin cerrar y se repitió bien escrito
-  en el siguiente comando. Commit `0983e02` con `evidencias/p2/historial-comandos.txt` (126 líneas).
+  en el siguiente comando. Quedó subido `evidencias/p2/historial-comandos.txt` (126 líneas).
 - **Captura:** sin captura.
 - **Siguiente paso:** reunir en un fichero los productos y versiones que hay que investigar.
 
@@ -769,7 +776,7 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
 - **Objetivo y alcance:** guardar en el repositorio las salidas de las entradas anteriores. Git; no
   toca la red del cliente.
 - **Qué hice:** `git add .`, `git commit -m "Añadido vulners"` y `git push`
-- **Qué salió:** commit `c2a1fb5` con `30-versiones.txt`, las salidas `31-vulners-*`, la consulta
+- **Qué salió:** subidos `30-versiones.txt`, las salidas `31-vulners-*`, la consulta
   NVD de la .7 y `32-searchsploit.txt`.
 - **Captura:** sin captura.
 - **Siguiente paso:** descargar la ficha NVD de cada candidato.
@@ -876,18 +883,18 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
 - **Objetivo y alcance:** guardar en el repositorio las fichas NVD y las notas de decisión. Git; no
   toca la red del cliente.
 - **Qué hice:** `git add .`, `git commit -m "Añadidos notas cve y cves parte 3"` y `git push`
-- **Qué salió:** commit `787431f` con los 12 `33-nvd-CVE-*.json` y `notas-cve.txt`.
+- **Qué salió:** subidos los 12 `33-nvd-CVE-*.json` y `notas-cve.txt`.
 - **Captura:** sin captura.
 - **Siguiente paso:** exportar el historial de comandos de la Parte 3.
 
 ### 2026-11-17 23:42 - Historial de la Parte 3 exportado
-- **Cuándo:** 2026-11-17 23:42 (exportación) y 23:43 (commit, según `git log`)
+- **Cuándo:** 2026-11-17 23:42
 - **Objetivo y alcance:** guardar los comandos de la Parte 3 con su fecha y hora. Comandos
   locales; no tocan la red del cliente.
 - **Qué hice:** exporté el historial con `fc -li`, quitando las órdenes sin interés (cd, ls, clear,
   nano...), lo comprobé con `wc -l evidencias/p3/historial-comandos.txt`, lo revisé en `nano` y lo
-  subí con el commit «Añadido historial de comandos parte 3».
-- **Qué salió:** commit `ea0d964` con `evidencias/p3/historial-comandos.txt` (156 líneas, del
+  subí a git.
+- **Qué salió:** `evidencias/p3/historial-comandos.txt` subido (156 líneas, del
   2026-11-17 15:03 al 23:42), con fecha y hora de cada comando. El 2026-11-18 se dejaron en él
   solo los comandos de la Parte 3, incluidos los de Jenkins e IPMI de las 00:00 a las 00:05 (ver
   «Historiales separados por parte», en la Parte 4). Es la fuente de esta parte del
@@ -981,7 +988,7 @@ por CVSS.
 
 **Sobre las horas y los comandos de esta parte:** salen de `evidencias/p4/historial-comandos.txt`
 (historial de zsh con fecha y hora). Las entradas que no corresponden a un comando (priorización,
-revisión del inventario e informe) toman la hora de `git log`.
+revisión del inventario e informe) son trabajo de redacción y solo llevan la fecha.
 
 ### 2026-11-18 00:12 - Lista de CVE y fecha de consulta
 - **Cuándo:** 2026-11-18 00:12, justo después de un `git pull`.
@@ -1081,15 +1088,14 @@ revisión del inventario e informe) toman la hora de `git log`.
 - **Objetivo y alcance:** guardar en el repositorio las salidas de la Parte 4. Git; no toca la red
   del cliente.
 - **Qué hice:** `git add .`, `git commit -m "Añadida evidencias prueba 4"` y `git push`.
-- **Qué salió:** commit `b671b59` con los 7 ficheros de `evidencias/p4/` (`39-cves.txt`,
+- **Qué salió:** subidos los 7 ficheros de `evidencias/p4/` (`39-cves.txt`,
   `40-cvss.txt`, `41-epss.json`, `41-epss.txt`, `42-kev-2026-11-18.json`, `42-kev.txt` y
   `fecha-consulta.txt`).
 - **Captura:** sin captura.
 - **Siguiente paso:** ordenar los hallazgos y completar las fichas del registro.
 
 ### 2026-11-18 - Método y orden de prioridad (pasos 4 a 6)
-- **Cuándo:** 2026-11-18, después de las 00:20. Subido en el commit `88861b5` («Hecha parte 4
-  hasta paso 6»), que en `git log` figura a las 01:30.
+- **Cuándo:** 2026-11-18, después de las 00:20.
 - **Objetivo y alcance:** decidir qué debe corregir primero el cliente y que el orden se pueda
   justificar con datos, no solo con el CVSS. Trabajo de redacción sobre `registro-vulns.md`; no toca
   la red del cliente.
@@ -1100,7 +1106,7 @@ revisión del inventario e informe) toman la hora de `git log`.
   - Completé en cada ficha las filas de CVSS (versión, puntuación, vector y qué implica para C/I/A),
     EPSS, KEV y prioridad.
   - Revisé la tabla fila a fila con la pregunta de la guía: «¿por qué va antes que la siguiente?».
-  - Subí las tres capturas de la parte en el mismo commit.
+  - Subí las tres capturas de la parte al repositorio.
 - **Qué salió:**
   - Orden: 1 V-02 ActiveMQ (.5), 2 V-08 Jenkins (.6), 3 V-03 Tomcat AJP (.4), 4 V-10 Tomcat PUT
     (.4), 5 V-01 vsftpd (.3), 6 V-12 IPMI (.10), 7 V-09 Jolokia (.5), 8 V-04 regreSSHion (.6),
@@ -1120,8 +1126,7 @@ revisión del inventario e informe) toman la hora de `git log`.
   sus cifras.
 
 ### 2026-11-18 - Revisión de la hoja del cliente en el inventario
-- **Cuándo:** 2026-11-18, por la mañana. Subido en el commit `3f22c65`, que en `git log` figura a
-  las 08:36.
+- **Cuándo:** 2026-11-18, por la mañana.
 - **Objetivo y alcance:** que las cifras sobre la hoja del cliente sean exactas antes de pasarlas
   al informe. Revisión de documentos; no toca la red del cliente.
 - **Qué hice:** volví a comparar la hoja del cliente con `vivos.txt` y `resumen-puertos.txt`, y
@@ -1143,7 +1148,7 @@ revisión del inventario e informe) toman la hora de `git log`.
 - **Siguiente paso:** redactar el informe para la dirección.
 
 ### 2026-11-18 - Informe para el cliente (paso 8, salvo el aviso)
-- **Cuándo:** 2026-11-18, en el mismo commit `3f22c65`.
+- **Cuándo:** 2026-11-18, por la mañana, a continuación de la entrada anterior.
 - **Objetivo y alcance:** explicar a la dirección, sin jerga, qué hay en su red y qué corregir
   primero. Redacción a partir de `inventario.md` y `registro-vulns.md`; no toca la red del cliente.
 - **Qué hice:** rellené `informe-cliente.md` respetando el orden del registro: resumen, tabla de
@@ -1205,6 +1210,19 @@ revisión del inventario e informe) toman la hora de `git log`.
 - **Qué salió:** las decisiones de las cuatro partes quedan explicadas en el documento donde se
   aplican, y el ATT&CK de todas las fichas sigue una misma regla.
 - **Captura:** sin captura; es redacción.
+- **Siguiente paso:** el aviso de la noticia.
+
+### 2026-11-18 12:20 - Categorías de mqtt-subscribe
+- **Cuándo:** 2026-11-18 12:20
+- **Objetivo y alcance:** aclarar por qué se ejecutó `mqtt-subscribe` en la .5 si no se pidió. La
+  guía lo incluye entre los scripts que no se deben usar. Comando local; no envía tráfico a la red.
+- **Qué hice:** `nmap --script-help mqtt-subscribe | grep -i categories`
+- **Qué salió:** `Categories: safe discovery version`. No es de la categoría default, así que el
+  filtro `$SAFE` no lo selecciona. Se ejecutó porque nmap lanza automáticamente los scripts de la
+  categoría `version` cuando se usa `-sV`: pasó en el NSE de la Parte 2 y en el `vulners` de la
+  Parte 3, siempre contra 172.17.0.5:1883. Solo devolvió dos nombres de temas de aviso de ActiveMQ,
+  sin contenido. Corregí `inventario.md`, que decía que iba incluido en el filtro default y safe.
+- **Captura:** ![Categorías de mqtt-subscribe](../imagenes/p2-11-categorias-mqtt-subscribe.png)
 - **Siguiente paso:** el aviso de la noticia.
 
 ### PENDIENTE - Aviso de la noticia (paso 7)
