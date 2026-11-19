@@ -12,7 +12,8 @@
 - Pasada suave a cada equipo vivo (100 puertos más comunes, `-sV --version-light`, `-T2`) para
   localizar el equipo delicado antes de escanear a fondo.
 - Escaneo de los 65 535 puertos TCP de cada equipo (`-p-`) con velocidad limitada (`--max-rate`)
-  y de los 100 puertos UDP más comunes.
+  y de los 100 puertos UDP más comunes. El 2026-11-19 se amplió UDP a los 1000 más comunes en todos
+  los equipos salvo el delicado, y a los 100 más comunes en el delicado, a muy baja velocidad.
 - Detección de versión (`-sV`) sobre los puertos TCP abiertos, sin detección activa de sistema
   operativo (`-O`) para no enviar tráfico innecesario.
 - Sin scripts intrusivos ni de explotación. Los comandos exactos y sus horas están en el
@@ -36,7 +37,8 @@
 | Equipo delicado: `--max-rate 30 --max-retries 1` | Como mucho 30 paquetes por segundo y un solo reintento, para no saturarlo. Con `-T2` estimaba más de 6 horas y se cambió a `-T3`, pero el límite real sigue siendo `--max-rate 30`. Tardó 2 185 segundos y siguió respondiendo | Cuaderno, entrada de las 16:54 |
 | Detección de versión (`-sV`) solo sobre los puertos ya encontrados abiertos | Lanzar `-sV` sobre los 65 535 puertos repetiría el escaneo completo con sondas más pesadas. Sobre los abiertos basta. En el equipo delicado, con `--version-light -T2` | `evidencias/p1/11-tcp-ver-*` |
 | Sin detección de sistema operativo (`-O`) ni `-A` | `-O` envía sondas TCP, UDP e ICMP poco habituales (también a puertos cerrados), es tráfico extra que puede afectar a un equipo frágil y el dato no es imprescindible: el sistema se deduce de los banners | «Sistema operativo (deducido de los banners)» |
-| UDP solo en los 100 puertos más comunes (10 en el equipo delicado), con `--max-retries 1`, `--max-rate 100` y `--version-intensity 0` | En UDP un puerto abierto a menudo no responde: nmap tiene que esperar y reintentar en cada uno, y Linux limita las respuestas de «puerto cerrado». Los 65 535 puertos habrían tardado horas por equipo. Los 100 más comunes incluyen los servicios UDP habituales (DNS, DHCP, TFTP, NTP, NetBIOS, SNMP, IPMI) | «UDP» |
+| UDP primero en los 100 puertos más comunes (10 en el equipo delicado), con `--max-retries 1`, `--max-rate 100` y `--version-intensity 0` | En UDP un puerto abierto a menudo no responde: nmap tiene que esperar y reintentar en cada uno, y Linux limita las respuestas de «puerto cerrado». Los 65 535 puertos habrían tardado horas por equipo. Los 100 más comunes incluyen los servicios UDP habituales (DNS, DHCP, TFTP, NTP, NetBIOS, SNMP, IPMI) | «UDP» |
+| Ampliar después UDP a los 1000 más comunes (100 en el equipo delicado, con `-T2 --max-rate 10` y sin `-sV`) | Reducir la parte de UDP sin revisar. Se usaron los mismos límites de velocidad, unos 2 minutos por equipo. El equipo delicado se escaneó diez veces más despacio y sin sondas de versión | `evidencias/p1/13-udp-*` |
 | No contar como abiertos los puertos UDP `open\|filtered` | Que no respondan no demuestra que estén abiertos: también pueden estar filtrados. Solo se cuentan los que respondieron | «UDP» |
 | Marcar la función de cada equipo como «probable» | Se deduce de los servicios que expone, no de una comprobación dentro del equipo | Tabla de la Parte 1 |
 
@@ -93,7 +95,7 @@ UDP abiertos en total (`evidencias/p1/vivos.txt`, `evidencias/p1/resumen-puertos
 | 172.17.0.5 | | 61613 | tcp | stomp | Apache ActiveMQ | idem |
 | 172.17.0.5 | | 61614 | tcp | http | Jetty 9.4.39.v20210325 (ActiveMQ por WebSocket) | idem |
 | 172.17.0.5 | | 61616 | tcp | apachemq | ActiveMQ OpenWire transport 5.15.15 | idem |
-| 172.17.0.6 | Aplicación web Java (Jetty) | 22 | tcp | ssh | OpenSSH 9.2p1 Debian 2+deb12u2 | `evidencias/p1/11-tcp-ver-172.17.0.6.nmap` |
+| 172.17.0.6 | Aplicación web Java (Jetty); en la Parte 2 se identificó como Jenkins 2.441 | 22 | tcp | ssh | OpenSSH 9.2p1 Debian 2+deb12u2 | `evidencias/p1/11-tcp-ver-172.17.0.6.nmap` |
 | 172.17.0.6 | | 8080 | tcp | http | Jetty 10.0.18 | idem |
 | 172.17.0.7 | **Equipo antiguo y delicado** | 22 | tcp | ssh | OpenSSH 7.7 (protocol 2.0) | `evidencias/p1/11-tcp-ver-172.17.0.7.nmap` |
 | 172.17.0.8 | Servidor de ficheros (Samba, nombre SAMBASERVER) | 22 | tcp | ssh | OpenSSH 9.6p1 Ubuntu 3ubuntu13.5 | `evidencias/p1/11-tcp-ver-172.17.0.8.nmap` |
@@ -164,8 +166,30 @@ puertos más comunes:
   93 por equipo) porque el servicio no respondió. No se cuentan como abiertos. Nmap avisó de
   «retransmission cap hit»: se limitó a propósito a un reintento por puerto para no cargar la red,
   y Linux limita las respuestas ICMP de puerto cerrado, así que no se pudieron confirmar.
-- 172.17.0.7 (equipo delicado): solo se comprobaron 10 puertos UDP típicos; todos cerrados salvo
-  69/udp (TFTP), que queda como `open|filtered` sin confirmar.
+- 172.17.0.7 (equipo delicado): en la primera pasada solo se comprobaron 10 puertos UDP típicos;
+  todos cerrados salvo 69/udp (TFTP), que quedó como `open|filtered` sin confirmar.
+- **Ampliación del 2026-11-19** (`evidencias/p1/13-udp-*`):
+  - **Los 1000 puertos UDP más comunes** en 172.17.0.3, .4, .5, .6, .8, .9 y .10 (23:15 a 23:28
+    UTC, unos 115 segundos por equipo). Solo aparecen abiertos los mismos dos puertos que en la
+    Parte 1: 137/udp en la .8 y 623/udp en la .10. En cada equipo quedan entre 970 y 974 puertos
+    `open|filtered` sin respuesta y entre 26 y 29 cerrados.
+  - **Los 100 puertos UDP más comunes en la .7** (23:34 a 23:35 UTC, `-T2 --max-rate 10`, sin
+    `-sV`): 90 cerrados y 10 `open|filtered` sin confirmar (53, 161, 1026, 1028, 9200, 31337,
+    32771, 49182, 49190 y 49193). Ninguno abierto confirmado.
+  - **El 69/udp (TFTP) de la .7 ahora sale cerrado.** En la primera pasada había quedado
+    `open|filtered`. Al ir más despacio, el equipo tuvo tiempo de contestar con «puerto
+    inalcanzable» a 90 de los 100 puertos. Esto confirma que un `open|filtered` no es un puerto
+    abierto: a menudo es un puerto cerrado cuya respuesta ICMP limitó Linux. Por la misma razón,
+    los 10 `open|filtered` que quedan en la .7 probablemente estén cerrados.
+  - **Vigilancia:** la .10 y la .7 estuvieron vigiladas con `ping` durante el escaneo. No se
+    perdió ningún paquete.
+  - **Conclusión:** con 1000 puertos UDP no aparece ningún servicio nuevo. La única parte de UDP
+    sin revisar son los puertos fuera de los 1000 más comunes, y los 900 siguientes en el equipo
+    delicado.
+
+![Escaneo UDP de los 1000 puertos más comunes](imagenes/p1-10-udp-top1000.png)
+
+![Resumen de puertos UDP abiertos de todos los equipos](imagenes/p1-11-udp-resumen.png)
 
 ![UDP abiertos de 172.17.0.8](imagenes/p1-07-udp-172.17.0.8.png)
 
@@ -191,8 +215,18 @@ No se usó detección activa de sistema operativo (`-O`) para no enviar tráfico
 | 172.17.0.6 | Linux Debian 12 | OpenSSH 9.2p1 Debian 2+deb12u2; Service Info: OS: Linux |
 | 172.17.0.7 | No identificado (sistema antiguo) | OpenSSH 7.7 sin paquete de distribución |
 | 172.17.0.8 | Linux Ubuntu | OpenSSH 9.6p1 Ubuntu 3ubuntu13.5; Service Info: Host: SAMBASERVER |
-| 172.17.0.9 | Linux Debian 12 | OpenSSH 9.2p1 Debian 2+deb12u10; Service Info: OS: Linux |
+| 172.17.0.9 | Linux Debian 12 | OpenSSH 9.2p1 Debian 2+deb12u10; Service Info: OS: Linux. Apache 2.4.68 es la versión que distribuye Debian 12 (`2.4.68-1~deb12u1`), ver la nota siguiente |
 | 172.17.0.10 | No identificado | Solo muestra Python 3.11.2 |
+
+**Verificación del banner de Apache 2.4.68 (172.17.0.9).** Era la versión más alta de Apache de
+la red, así que se comprobó que no fuera un banner inventado. El 2026-11-19 a las 22:52 UTC se
+consultaron fuentes públicas, sin tocar la red del cliente:
+- El registro de cambios oficial de Apache incluye la 2.4.68; la última publicada es la 2.4.71.
+- Debian 12 (bookworm) distribuye `2.4.68-1~deb12u1`.
+
+El banner es coherente con un Debian 12 actualizado, igual que su OpenSSH `deb12u10`. Evidencias:
+`evidencias/p3/34-apache-versiones-publicadas.txt`, `evidencias/p3/34-apache-debian.txt`,
+[captura](imagenes/p3-05-apache-2.4.68.png).
 
 ### Hallazgos graves detectados (no se han tocado)
 Según las reglas de compromiso, se anotan y se avisan sin comprobarlos. Se estudian en la Parte 3:

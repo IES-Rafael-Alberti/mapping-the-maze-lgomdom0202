@@ -20,7 +20,7 @@ Con el presupuesto de este trimestre, recomendamos corregir primero estas tres:
    que llegue a este equipo por la red podría tomar el control del servidor sin necesitar
    contraseña. Es un fallo usado en ataques de ransomware. Acción: actualizar ActiveMQ a la
    versión 5.18.3 o posterior (como mínimo 5.16.7), que corrige también el fallo de su consola
-   web (prioridad 7).
+   web (prioridad 8).
 2. **Servidor Jenkins (172.17.0.6, Jenkins 2.441, herramienta de automatización de tareas)**:
    un atacante sin contraseña podría leer ficheros del servidor, entre ellos claves y
    contraseñas guardadas. También se ha usado en ataques de ransomware. Acción: actualizar
@@ -31,13 +31,26 @@ Con el presupuesto de este trimestre, recomendamos corregir primero estas tres:
    que corrige también el fallo de prioridad 4 del mismo equipo, y cerrar el puerto 8009 a la
    red si no se usa.
 
+**Medida urgente y de bajo coste, además de las tres anteriores: el servidor FTP (172.17.0.3).**
+Funciona con vsftpd 2.3.4, una versión que se distribuyó con una puerta trasera. Esa puerta
+permite a cualquiera tomar el control del equipo sin contraseña. No está en el catálogo KEV, por
+eso queda en el puesto 5 por datos. Pero corregirla apenas cuesta, y si la puerta trasera es real,
+el equipo podría estar ya comprometido. Recomendamos:
+- Si el FTP no se usa, pararlo.
+- Si se usa, sustituir vsftpd por la versión que da el sistema operativo y revisar el equipo antes
+  de volver a confiar en él.
+
+Las prioridades 1 y 3 corrigen también otros dos fallos de la lista: la actualización de ActiveMQ
+cubre el de su consola (prioridad 8) y la de Tomcat cubre el de prioridad 4. Con tres
+actualizaciones y la medida del FTP quedan atendidos los 5 primeros puestos y el 8.
+
 ## 2. Qué hay en su red
 
 | Equipo | Para qué sirve | Servicios que ofrece a la red |
 |---|---|---|
 | 172.17.0.5 | Portal de clientes | Web en los puertos 80 y 443 (cifrada, con el certificado caducado desde abril de 2025) |
 | 172.17.0.5 | Mensajería con operadores | Programa ActiveMQ en los puertos 1883, 5672, 61613, 61614 y 61616, y su consola web en el 8161 (pide contraseña). Además, en el puerto 38443 hay un servicio que no se ha podido identificar |
-| 172.17.0.9 | Servidor de pruebas del antiguo informático | Web «en desarrollo» con página de acceso (puerto 80) y acceso remoto SSH (puerto 22) |
+| 172.17.0.9 | Probablemente un servidor de pruebas: su web dice «Under Development». Podría ser el equipo donde el antiguo informático «montaba cosas», pero no se ha podido confirmar | Web «en desarrollo» con página de acceso (puerto 80) y acceso remoto SSH (puerto 22) |
 | 172.17.0.10 | Consola de gestión de servidores | Gestión remota IPMI (puerto 623/udp) y una web informativa (puerto 80) |
 | 172.17.0.7 | Equipo antiguo | Solo acceso remoto SSH (puerto 22), con una versión de 2018 |
 | 172.17.0.3 | Servidor FTP y web (no figuraba en su hoja) | Transferencia de ficheros FTP (puerto 21) y web por defecto (puerto 80) |
@@ -56,7 +69,7 @@ autorizaron a revisar y no la hemos comprobado. El detalle está en `inventario.
 | 1 | 172.17.0.5, mensajería con operadores (ActiveMQ 5.15.15) | Un atacante sin contraseña podría ejecutar órdenes en el servidor. Está en el catálogo KEV, con uso en ransomware | Control del servidor de mensajería: lectura o alteración de los mensajes con los operadores y parada de la facturación | Actualizar ActiveMQ a la 5.18.3 o posterior (mínimo 5.16.7) |
 | 2 | 172.17.0.6, Jenkins 2.441 | Un atacante sin contraseña podría leer ficheros del servidor. Está en el catálogo KEV, con uso en ransomware | Robo de las claves y contraseñas que guarda Jenkins, con las que podría saltar a otros equipos | Actualizar Jenkins a la 2.442 o posterior (o LTS 2.426.3 o posterior) |
 | 3 | 172.17.0.4, Tomcat 9.0.30 (conector AJP, puerto 8009) | Un atacante podría leer ficheros de las aplicaciones a través del conector AJP abierto. Está en el catálogo KEV | Robo de la configuración de las aplicaciones, que suele incluir contraseñas de bases de datos | Actualizar Tomcat a la 9.0.99 o posterior y cerrar el puerto 8009 a la red si no se usa |
-| 4 y siguientes | Para próximos trimestres | 4: Tomcat de la .4 (otro fallo en KEV, que se corrige con la misma actualización de la prioridad 3). 5: FTP de la .3 (vsftpd 2.3.4, versión con puerta trasera). 6: consola de gestión de la .10 (IPMI 2.0, permite obtener contraseñas cifradas). 7 a 12: consola de ActiveMQ, SSH de la .6, Jetty de la .5, equipo antiguo .7 y Apache de la .3, .5 y .8 | Variable según el equipo; el detalle está en `registro-vulns.md` | Ver cada ficha en `registro-vulns.md` |
+| 4 y siguientes | Para próximos trimestres | 4: Tomcat de la .4 (otro fallo en KEV, que se corrige con la misma actualización de la prioridad 3). 5: FTP de la .3 (vsftpd 2.3.4, versión con puerta trasera; ver la medida urgente del apartado 1). 6: consola de gestión de la .10 (IPMI 2.0, permite obtener contraseñas cifradas). 7 a 12: SSH de la .6, consola de ActiveMQ (se corrige con la prioridad 1), Jetty de la .5, equipo antiguo .7 y Apache de la .3, .5 y .8 | Variable según el equipo; el detalle está en `registro-vulns.md` | Ver cada ficha en `registro-vulns.md` |
 
 **Por qué este orden.** No hemos ordenado solo por la nota de gravedad técnica (CVSS). Hemos
 adelantado lo que los atacantes ya están usando (catálogo KEV) o tienen mucha probabilidad de
@@ -75,6 +88,14 @@ otro con nota más alta pero sin ataques conocidos.
   conector AJP de Tomcat en la 172.17.0.4 y la consola de gestión IPMI de la 172.17.0.10, que
   anuncia entre sus métodos de acceso uno sin contraseña (`null`); no hemos comprobado si
   está activo.
+- Además de los fallos con CVE, hay **errores de configuración** que se corrigen sin coste. Los
+  más importantes:
+  - La consola de gestión (172.17.0.10) admite acceso sin contraseña entre sus métodos.
+  - Las carpetas compartidas (172.17.0.8) no exigen firma.
+  - El certificado del portal de clientes (172.17.0.5) está caducado desde abril de 2025.
+  - La mensajería (172.17.0.5) acepta conexiones MQTT sin pedir contraseña.
+  
+  La lista completa está en `registro-vulns.md`, apartado «Hallazgos de configuración sin CVE».
 - Todo lo indicado es **potencial**: se basa en las versiones observadas desde la red, no en
   haber atacado los equipos.
 

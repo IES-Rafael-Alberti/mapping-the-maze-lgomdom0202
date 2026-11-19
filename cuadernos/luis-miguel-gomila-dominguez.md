@@ -1094,8 +1094,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Captura:** sin captura.
 - **Siguiente paso:** ordenar los hallazgos y completar las fichas del registro.
 
-### 2026-11-18 - Método y orden de prioridad (pasos 4 a 6)
-- **Cuándo:** 2026-11-18, después de las 00:20.
+### 2026-11-18 00:30 - Método y orden de prioridad (pasos 4 a 6)
+- **Cuándo:** 2026-11-18, de 00:20 a 00:30 UTC (subido a git a las 00:30).
 - **Objetivo y alcance:** decidir qué debe corregir primero el cliente y que el orden se pueda
   justificar con datos, no solo con el CVSS. Trabajo de redacción sobre `registro-vulns.md`; no toca
   la red del cliente.
@@ -1125,8 +1125,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Siguiente paso:** revisar el inventario antes de redactar el informe, porque el informe repite
   sus cifras.
 
-### 2026-11-18 - Revisión de la hoja del cliente en el inventario
-- **Cuándo:** 2026-11-18, por la mañana.
+### 2026-11-18 antes de las 10:56 - Revisión de la hoja del cliente en el inventario
+- **Cuándo:** 2026-11-18, entre las 00:30 y las 10:56 UTC (subido a git a las 10:56).
 - **Objetivo y alcance:** que las cifras sobre la hoja del cliente sean exactas antes de pasarlas
   al informe. Revisión de documentos; no toca la red del cliente.
 - **Qué hice:** volví a comparar la hoja del cliente con `vivos.txt` y `resumen-puertos.txt`, y
@@ -1147,8 +1147,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Captura:** ![Hoja de inventario del cliente](../imagenes/p1-09-hoja-cliente.png)
 - **Siguiente paso:** redactar el informe para la dirección.
 
-### 2026-11-18 - Informe para el cliente (paso 8, salvo el aviso)
-- **Cuándo:** 2026-11-18, por la mañana, a continuación de la entrada anterior.
+### 2026-11-18 antes de las 10:56 - Informe para el cliente (paso 8, salvo el aviso)
+- **Cuándo:** 2026-11-18, entre las 00:30 y las 10:56 UTC, a continuación de la entrada anterior (subido a git a las 10:56).
 - **Objetivo y alcance:** explicar a la dirección, sin jerga, qué hay en su red y qué corregir
   primero. Redacción a partir de `inventario.md` y `registro-vulns.md`; no toca la red del cliente.
 - **Qué hice:** rellené `informe-cliente.md` respetando el orden del registro: resumen, tabla de
@@ -1171,8 +1171,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Captura:** sin captura; es redacción.
 - **Siguiente paso:** cuando el profesor dé el aviso, el paso 7.
 
-### 2026-11-18 - Historiales separados por parte
-- **Cuándo:** 2026-11-18, al cerrar el cuaderno de la Parte 4.
+### 2026-11-18 antes de las 10:56 - Historiales separados por parte
+- **Cuándo:** 2026-11-18, entre las 00:30 y las 10:56 UTC, al cerrar el cuaderno de la Parte 4 (subido a git a las 10:56).
 - **Objetivo y alcance:** que cada `evidencias/pN/historial-comandos.txt` contenga solo los
   comandos de su parte. Cada exportación con `fc -li` arrastraba todo lo anterior: el de la Parte 3
   empezaba en la Parte 0. Edición de ficheros locales; no toca la red del cliente.
@@ -1190,8 +1190,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Captura:** sin captura.
 - **Siguiente paso:** el aviso de la noticia.
 
-### 2026-11-18 - Decisiones justificadas en el inventario y el registro
-- **Cuándo:** 2026-11-18, al revisar la documentación de las Partes 1 a 4.
+### 2026-11-18 antes de las 10:56 - Decisiones justificadas en el inventario y el registro
+- **Cuándo:** 2026-11-18, entre las 00:30 y las 10:56 UTC, al revisar la documentación de las Partes 1 a 4 (subido a git a las 10:56).
 - **Objetivo y alcance:** que cada decisión técnica (qué se escaneó, cómo y por qué no se hizo
   otra cosa) esté justificada en los entregables, no solo en este cuaderno. Revisión de
   documentos; no toca la red del cliente.
@@ -1212,8 +1212,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Captura:** sin captura; es redacción.
 - **Siguiente paso:** el aviso de la noticia.
 
-### 2026-11-18 12:20 - Categorías de mqtt-subscribe
-- **Cuándo:** 2026-11-18 12:20
+### 2026-11-18 11:20 - Categorías de mqtt-subscribe
+- **Cuándo:** 2026-11-18 11:20 UTC (12:20 hora local)
 - **Objetivo y alcance:** aclarar por qué se ejecutó `mqtt-subscribe` en la .5 si no se pidió. La
   guía lo incluye entre los scripts que no se deben usar. Comando local; no envía tráfico a la red.
 - **Qué hice:** `nmap --script-help mqtt-subscribe | grep -i categories`
@@ -1224,6 +1224,86 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   sin contenido. Corregí `inventario.md`, que decía que iba incluido en el filtro default y safe.
 - **Captura:** ![Categorías de mqtt-subscribe](../imagenes/p2-11-categorias-mqtt-subscribe.png)
 - **Siguiente paso:** el aviso de la noticia.
+
+### 2026-11-19 20:56 - Revisión del orden de prioridad, de V-07 y del informe
+- **Cuándo:** 2026-11-19 20:56 (21:56 hora local).
+- **Objetivo y alcance:** que el orden cumpla el método escrito sin contradicciones, y corregir
+  datos del registro con evidencias que ya tenía. Revisión de documentos; no toca la red del
+  cliente ni lanza ningún comando contra ella.
+- **Qué hice:**
+  - **Orden:** V-09 (CVSS 8,8, requiere autenticación, pendiente, EPSS 0,866) estaba por delante
+    de V-04 (CVSS 8,1, sin credenciales, evidencia sólida, EPSS 0,995). Eso contradecía la
+    excepción de EPSS y evidencia del propio método. Fijé el orden de los criterios dentro de un
+    tramo de CVSS: primero esa excepción, después la importancia del equipo y por último la
+    solidez de la evidencia. Entre tramos manda el tramo, salvo V-11. Con esa regla, V-04 pasa al
+    puesto 7 y V-09 al 8. Comprobé el resto del orden y no cambia. Rehíce la «Comprobación del
+    orden» y renombré «Ejemplos para la defensa» a «Casos en los que el orden no sigue al CVSS».
+  - **V-07 (Terrapin):** la ficha decía que no se habían comprobado los algoritmos del servidor,
+    pero `evidencias/p2/22-ssh-172.17.0.7.nmap` (entrada de las 21:18 del 17) muestra
+    `chacha20-poly1305@openssh.com` y MAC `-etm`, que son la condición del ataque, y no anuncia
+    `kex-strict-s-v00@openssh.com`. Lo pasé a «Lo observado» y actualicé las limitaciones. El
+    puesto no cambia, porque sigue exigiendo una posición de intermediario.
+  - **Hallazgos de configuración:** añadí la tabla C-01 a C-09 al registro, con lo ya observado en
+    la Parte 2 (IPMI `null`, firma SMB no obligatoria, certificado caducado, SHA-1 en SSH, `TRACE`,
+    trazas de ActiveMQ, MQTT sin credenciales, AJP expuesto y versiones visibles). No tienen CVE y
+    no entran en el orden.
+  - **Informe:** añadí la medida urgente y de bajo coste para el vsftpd 2.3.4 (puesto 5 por
+    datos, pero barata de corregir y con posible compromiso previo). Marqué como «probable» la
+    función de la .9. Actualicé la numeración de la consola de ActiveMQ (prioridad 8) y añadí los
+    errores de configuración a las advertencias.
+  - **Inventario:** en la tabla de la Parte 1 indiqué que la .6 se identificó como Jenkins en la
+    Parte 2.
+- **Qué salió:** el orden es coherente con el método en todas las filas. V-07 tiene ahora
+  evidencia de su condición técnica, y el informe recomienda una medida para la puerta trasera
+  dentro de este trimestre.
+- **Captura:** sin captura; es redacción.
+- **Siguiente paso:** comprobar si existe Apache 2.4.68 (banner de la .9) y el aviso de la
+  noticia.
+
+### 2026-11-19 22:52 - Comprobación de la versión Apache 2.4.68 (172.17.0.9)
+- **Cuándo:** 2026-11-19 22:52 UTC
+- **Objetivo y alcance:** comprobar que el banner `Apache/2.4.68 (Debian)` de la .9 corresponde a
+  una versión real, y que no es un banner inventado o modificado. Si fuera falso, el descarte de
+  CVE-2024-38476 en la .9 no valdría. Solo consultas a fuentes públicas (apache.org y
+  sources.debian.org); no toca la red del cliente.
+- **Qué hice:**
+  `curl -s https://downloads.apache.org/httpd/CHANGES_2.4 | grep -m8 "Changes with Apache 2.4" | tee evidencias/p3/34-apache-versiones-publicadas.txt`
+  y
+  `curl -s https://sources.debian.org/api/src/apache2/ | jq -r '.versions[] | "\(.version)  \(.suites | join(","))"' | head -20 | tee evidencias/p3/34-apache-debian.txt`
+- **Qué salió:** Apache ha publicado de la 2.4.64 a la 2.4.71, incluida la 2.4.68. Debian 12
+  (bookworm) distribuye `2.4.68-1~deb12u1`. El banner es creíble y coherente con un Debian 12
+  actualizado (su OpenSSH también lleva una revisión reciente, `deb12u10`). Se mantiene el
+  descarte de CVE-2024-38476 en la .9 y se añade esta comprobación como evidencia.
+- **Captura:** ![Versiones de Apache publicadas y en Debian](../imagenes/p3-05-apache-2.4.68.png)
+- **Siguiente paso:** ampliar el escaneo UDP.
+
+### 2026-11-19 23:15 - Ampliación de UDP a los 1000 puertos más comunes
+- **Cuándo:** 2026-11-19 de 23:15 a 23:28 UTC (siete equipos) y de 23:34 a 23:35 UTC (172.17.0.7)
+- **Objetivo y alcance:** reducir la parte de UDP sin revisar, que en la Parte 1 se limitó a los
+  100 puertos más comunes. Equipos 172.17.0.3 a 172.17.0.10, todos dentro de 172.17.0.0/24.
+- **Qué hice:**
+  - Equipos normales y la .10:
+    `for IP in 172.17.0.3 172.17.0.4 172.17.0.5 172.17.0.6 172.17.0.8 172.17.0.9 172.17.0.10; do sudo nmap -Pn -sU --top-ports 1000 --max-retries 1 --max-rate 100 -sV --version-intensity 0 -oA evidencias/p1/13-udp-top1000-$IP $IP; done`
+  - Equipo delicado, diez veces más despacio y sin sondas de versión:
+    `sudo nmap -Pn -sU --top-ports 100 -T2 --max-retries 1 --max-rate 10 -oA evidencias/p1/13-udp-top100-172.17.0.7 172.17.0.7`
+  - `ping` en paralelo a la .10 y a la .7 mientras se escaneaban.
+- **Qué salió:**
+  - Siete equipos, unos 115 segundos cada uno. Solo aparecen abiertos 137/udp en la .8 y 623/udp
+    en la .10, los mismos que en la Parte 1. El resto: entre 970 y 974 `open|filtered` y entre 26
+    y 29 cerrados por equipo. Aviso «retransmission cap hit», esperado por `--max-retries 1`.
+  - .7: 90 puertos cerrados y 10 `open|filtered` (53, 161, 1026, 1028, 9200, 31337, 32771, 49182,
+    49190 y 49193). El 69/udp, que en la Parte 1 quedó `open|filtered`, ahora sale cerrado. Al ir
+    más despacio llegan más respuestas ICMP de «puerto inalcanzable», lo que confirma que
+    `open|filtered` no significa abierto.
+  - Ningún servicio UDP nuevo, así que no hay nada nuevo que enumerar ni cuentas nuevas. No se
+    intenta averiguar si el 161/udp de la .7 es SNMP: habría que probar nombres de comunidad, que
+    son credenciales.
+  - Vigilancia: mientras se escaneaban, la .10 y la .7 estuvieron vigiladas con `ping` en otra
+    terminal. No se perdió ningún paquete y los dos equipos siguieron respondiendo.
+- **Captura:** ![Escaneo UDP de los 1000 puertos más comunes](../imagenes/p1-10-udp-top1000.png)
+  y ![Resumen de puertos UDP abiertos de todos los equipos](../imagenes/p1-11-udp-resumen.png)
+- **Siguiente paso:** actualizar el apartado UDP de `inventario.md`; después, el aviso de la
+  noticia.
 
 ### PENDIENTE - Aviso de la noticia (paso 7)
 - **Cuándo:** PENDIENTE: el profesor todavía no ha dado el CVE del aviso.
@@ -1243,9 +1323,10 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   registro y 2 descartados). Todos tienen dato; CVE-2013-4786 solo tiene CVSS 3.0.
 - 4 hallazgos en KEV, 2 de ellos con ransomware Known (ActiveMQ y Jenkins), que encabezan el orden.
 - Orden de los 12 hallazgos justificado fila a fila en
-  [registro-vulns.md](../registro-vulns.md#orden-de-prioridad). Cuatro decisiones contradicen al
-  CVSS y están explicadas (V-08 antes que V-01, V-12 antes que V-04, V-06 antes que V-07 y V-11
-  la última).
+  [registro-vulns.md](../registro-vulns.md#orden-de-prioridad). Las decisiones que no siguen al
+  CVSS están explicadas: V-08 antes que V-01, V-12 antes que V-04, V-04 antes que V-09, V-05 y
+  V-06 antes que V-07, y V-11 la última.
+- 9 hallazgos de configuración sin CVE (C-01 a C-09) recogidos aparte, sin priorizar.
 - Informe para la dirección redactado salvo la respuesta al aviso:
   [informe-cliente.md](../informe-cliente.md).
 - Ninguna consulta de esta parte ha tocado la red del cliente.
