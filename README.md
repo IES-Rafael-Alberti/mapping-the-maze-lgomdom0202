@@ -97,7 +97,7 @@ Todo el trabajo es identificación no intrusiva dentro de `172.17.0.0/24`:
      versión (backports).
   3. Añadí a mano lo que las herramientas no veían: Jenkins, porque nmap no lo identificaba, e
      IPMI, porque `vulners` solo revisa TCP.
-- **12 hallazgos, cada uno con su ficha:**
+- **13 hallazgos, cada uno con su ficha:**
   - CVE con explicación.
   - CWE, la que asigna NVD (o señalada como propia cuando NVD no da una concreta).
   - Técnica ATT&CK, con una regla única: T1190 para lo que da la cara al exterior y T1210 para los
@@ -113,6 +113,8 @@ Todo el trabajo es identificación no intrusiva dentro de `172.17.0.0/24`:
   - Más de 300 CVE de Samba: la versión «4» no permite evaluar ningún rango.
   - Además comprobé que el Apache 2.4.68 de la .9 es una versión real que distribuye Debian 12, y
     no un banner falso, antes de usarlo para descartar.
+  - El CVE de la noticia, descartado en la .4, .6, .8 y .9: exige musl libc y esos equipos son
+    Debian o Ubuntu (glibc), según los trackers de Debian y Ubuntu.
 - **Priorización con datos, no por intuición**
   ([apartado](registro-vulns.md#orden-de-prioridad)):
   - Cada ficha tiene CVSS (versión, vector e impacto en confidencialidad, integridad y
@@ -122,14 +124,25 @@ Todo el trabajo es identificación no intrusiva dentro de `172.17.0.0/24`:
   - Cada fila justifica por qué va antes que la siguiente. Hay casos en los que el orden contradice
     al CVSS, explicados uno a uno; por ejemplo, Apache, con CVSS 9,8, queda último porque depende
     de una configuración sin indicios y tiene el EPSS más bajo.
-  - Resultado: 4 hallazgos en KEV, 2 de ellos usados en ransomware (ActiveMQ y Jenkins), que
+  - Resultado: 5 hallazgos en KEV, 2 de ellos usados en ransomware (ActiveMQ y Jenkins), que
     encabezan la lista.
+  - Ejemplo de KEV por encima del CVSS: el fallo de la noticia (V-13, CVSS 8,1) va antes que la
+    puerta trasera de vsftpd (V-01, CVSS 9,8) porque CISA confirma que ya se está explotando.
+- **Respuesta al aviso de la noticia** (CVE-2026-123158, «sshole»): lo investigué en NVD, cve.org,
+  EPSS, KEV, los trackers de Debian y Ubuntu y el artículo que reenvió el cliente. Lo contrasté
+  con los cinco equipos que tienen OpenSSH. Resultado:
+  - En los cuatro Debian y Ubuntu, «según lo observado, no», porque el fallo exige musl libc sin
+    PAM.
+  - En la .7, «no lo podemos descartar»: su versión entra en el rango y no se sabe qué sistema
+    usa. Queda como V-13, con lo que falta comprobar desde dentro y una mitigación barata
+    (desactivar el acceso por contraseña).
 - **Hallazgos de configuración sin CVE** (C-01 a C-09), recogidos aparte porque no se pueden
   puntuar con CVSS, EPSS ni KEV.
 - **Informe para el cliente** ([informe-cliente.md](informe-cliente.md)) en lenguaje no técnico:
-  - Las tres correcciones prioritarias y una medida urgente y barata para la puerta trasera de
-    vsftpd.
+  - Las tres correcciones prioritarias y dos medidas urgentes y baratas: la puerta trasera de
+    vsftpd y el acceso por contraseña del equipo antiguo.
   - Qué otros fallos quedan cubiertos por esas mismas actualizaciones.
+  - La respuesta a la noticia, separando lo que sostienen las evidencias de lo que queda pendiente.
 
 ### Cuaderno y evidencias → [mi cuaderno](cuadernos/luis-miguel-gomila-dominguez.md)
 - Desde el primer comando, cada acción tiene sus cinco notas: cuándo (en UTC), objetivo y que está

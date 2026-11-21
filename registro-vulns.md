@@ -2,7 +2,7 @@
 
 **Alcance:** 172.17.0.0/24
 **Autor:** Luis Miguel Gomila Domínguez
-**Fecha:** 2026-11-18
+**Fecha:** 2026-11-18 (actualizado el 2026-11-21 con el aviso de la noticia, V-13)
 **Criterio de evaluación:** RA3.b, inventario de potenciales vulnerabilidades.
 
 ## Método
@@ -20,6 +20,10 @@
    distribución ya lo ha parcheado, si la identificación del servicio es fiable y si el fallo
    depende de una configuración concreta.
 5. Descarte de los falsos positivos, documentado al final de este registro.
+6. Aviso de la noticia (2026-11-21): el CVE que preguntó el cliente (CVE-2026-123158, «sshole») se
+   pasó por el mismo proceso (NVD, cve.org, EPSS, KEV, trackers de Debian y Ubuntu, y contraste con
+   las versiones de OpenSSH observadas). Resultado: una ficha nueva para la .7 (V-13) y cuatro
+   descartes (.4, .6, .8 y .9).
 
 ### Decisiones de las Partes 3 y 4 y por qué
 
@@ -31,11 +35,12 @@
 | Añadir a mano Jenkins 2.441 e IPMI 2.0 | `vulners` no podía verlos: nmap identificaba el 8080 de la .6 solo como «Jetty», y `vulners` solo revisa puertos TCP, mientras que IPMI es 623/udp. Sin la revisión manual faltarían dos hallazgos, uno de ellos el segundo en prioridad |
 | `searchsploit` solo para listar, sin abrir, copiar ni ejecutar nada | Saber que existe código público es un dato para la prioridad. Usarlo sería explotar, y está prohibido |
 | Comprobar cada candidato en NVD (`cpeMatch`) y en los trackers de Debian y Ubuntu | Las herramientas comparan solo el número de versión. Debian y Ubuntu corrigen fallos sin cambiar ese número (backport), así que hace falta la revisión del paquete para saber si el equipo está parcheado |
-| Separar «sospecha fundada» (V-01 a V-08) de «pendientes de confirmar» (V-09 a V-12) | Los segundos dependen de algo que no se puede ver sin credenciales o sin pruebas intrusivas (configuración, autenticación, fabricante). Se mantienen, pero con menos peso |
+| Separar «sospecha fundada» (V-01 a V-08) de «pendientes de confirmar» (V-09 a V-13) | Los segundos dependen de algo que no se puede ver sin credenciales o sin pruebas intrusivas (configuración, autenticación, fabricante). Se mantienen, pero con menos peso |
 | CWE: la que asigna NVD; si NVD no da una concreta, una elegida y señalada como propia | Así cada CWE se puede rastrear hasta su fuente. Solo pasa en V-03, donde NVD pone «NVD-CWE-Other» y se eligió CWE-284 (Tomcat confía en las conexiones AJP más que en las HTTP) |
 | ATT&CK: si el fallo se aprovecha atacando un servicio, T1190 para la .5 y T1210 para los equipos internos; si no, la técnica que describe el ataque | T1190 (Exploit Public-Facing Application) es para lo que da la cara al exterior: la .5 tiene el portal de clientes y la mensajería con operadores externos. El resto de equipos solo se alcanzan desde la red interna, que corresponde a T1210 (Exploitation of Remote Services). Los fallos que no consisten en atacar un servicio llevan la técnica de lo que hace el atacante: T1087 (descubrir cuentas, V-06), T1557 (ponerse en medio, V-07) y T1110.002 con T1078 (descifrar y usar contraseñas, V-12). Se añaden técnicas complementarias cuando describen el efecto (T1005 lectura de ficheros, T1078 cuentas válidas, T1195.002 origen en la cadena de suministro) |
 | CVSS: puntuación de NVD, preferentemente la 3.1 | NVD es la fuente de referencia del CVE. Usar la misma versión de CVSS en todos los hallazgos permite compararlos; solo CVE-2013-4786 no tiene 3.1 y se usa su 3.0 |
 | Consultar también CVSS, EPSS y KEV de los dos CVE descartados | Para documentar sus datos. Siguen descartados y no entran en el orden |
+| Incluir el CVE del aviso solo donde no se puede descartar | El cliente preguntó por un fallo concreto. Se contrastó con todos los equipos con OpenSSH: en los que muestran Debian o Ubuntu se descarta, porque el fallo exige musl libc sin PAM, y en la .7 se registra como V-13 porque no se conoce su sistema. Así el aviso no mete ruido en el registro, pero tampoco se ignora |
 | Ordenar con KEV y EPSS antes que con CVSS | Lo pide el enunciado: un fallo que ya se explota de verdad es más urgente que otro con más nota pero sin ataques conocidos. El método completo está en «Orden de prioridad» |
 
 Ningún hallazgo se ha confirmado explotándolo. Todos son vulnerabilidades **potenciales**: se
@@ -52,7 +57,7 @@ automática, los scripts de la categoría `version` asociados a los puertos dete
 ## Orden de prioridad
 
 **Autor de la priorización:** Luis Miguel Gomila Domínguez
-**Fecha de consulta de las fuentes:** 2026-11-18
+**Fecha de consulta de las fuentes:** 2026-11-18 (V-01 a V-12) y 2026-11-21 (V-13, aviso de la noticia)
 **Fuentes:** NVD (CVSS y CWE), FIRST EPSS, CISA KEV.
 
 ### Método
@@ -67,8 +72,8 @@ No se ordena solo por CVSS. Los criterios, de mayor a menor peso, son:
 Cómo se aplican:
 - **KEV:** los CVE del catálogo van por delante de todos los demás. Entre ellos, primero los que
   tienen `ransomware: Known`.
-- **EPSS:** en esta consulta los 12 CVE del registro superan el umbral (el más bajo es 0,416 y todos
-  tienen percentil igual o superior a 0,987). Como umbral no separa unos hallazgos de otros, así
+- **EPSS:** en esta consulta los 13 CVE del registro superan el umbral (el más bajo es 0,189, de
+  V-13, y todos tienen percentil igual o superior a 0,973). Como umbral no separa unos hallazgos de otros, así
   que el orden fuera de KEV lo decide el tramo de CVSS.
 - **CVSS por tramos:** crítico (9 a 10), alto (7 a 8,9) y medio (4 a 6,9). Entre tramos manda el
   tramo. Dentro de un mismo tramo se aplican, por este orden:
@@ -93,6 +98,10 @@ Casos en los que el orden no sigue al CVSS:
   uso en ransomware y EPSS 0,99999, y V-01 no figura en KEV.
 - V-10 (PUT parcial en Tomcat) va antes que V-01 aunque depende de una configuración no estándar:
   está en KEV y el criterio 1 pesa más que la solidez de la evidencia.
+- V-13 («sshole», CVSS 8,1 y EPSS 0,189) va antes que V-01 (vsftpd, CVSS 9,8 y EPSS 0,962): está en
+  KEV, con explotación activa confirmada por CISA. Es el caso que pide el enunciado: un fallo con
+  menos nota técnica pero que ya se está aprovechando va antes que otro más grave sin ataques
+  conocidos.
 - V-12 (IPMI, CVSS 7,5) va antes que V-04 (regreSSHion, CVSS 8,1): los dos están en el tramo alto,
   y la .10 es la consola de gestión, el equipo más importante para el negocio.
 - V-04 (regreSSHion, CVSS 8,1) va antes que V-09 (Jolokia, CVSS 8,8). Los dos están en el tramo
@@ -107,14 +116,15 @@ Casos en los que el orden no sigue al CVSS:
 | 2 | V-08 | 172.17.0.6, 8080/tcp, Jenkins 2.441 | CVE-2024-23897 | 9.8 | 0.99999 | Sí, ransomware | Mismo nivel que V-02 (KEV con ransomware, sin credenciales, EPSS prácticamente igual); va detrás porque la .6 no figura entre los equipos críticos del cliente |
 | 3 | V-03 | 172.17.0.4, 8009/tcp, Tomcat 9.0.30 (AJP) | CVE-2020-1938 | 9.8 | 0.99270 | Sí | En KEV (ransomware desconocido) y la condición necesaria, el AJP expuesto, sí se observa |
 | 4 | V-10 | 172.17.0.4, 8080/tcp, Tomcat 9.0.30 | CVE-2025-24813 | 9.8 | 0.99942 | Sí | En KEV, con EPSS algo mayor que V-03, pero requiere la escritura activada, que no es la configuración por defecto: evidencia más débil |
-| 5 | V-01 | 172.17.0.3, 21/tcp, vsftpd 2.3.4 | CVE-2011-2523 | 9.8 | 0.96184 | No | El primero fuera de KEV: CVSS crítico, sin credenciales y versión exacta confirmada por banner. Ya comunicado al profesor |
-| 6 | V-12 | 172.17.0.10, 623/udp, IPMI 2.0 | CVE-2013-4786 | 7.5 | 0.98385 | No | Primero del tramo alto: la .10 es la consola de gestión, el equipo más importante para el negocio, y tiene el EPSS más alto del tramo junto a V-04. Pendiente de identificar el fabricante |
-| 7 | V-04 | 172.17.0.6, 22/tcp, OpenSSH 9.2p1 Debian 2+deb12u2 | CVE-2024-6387 | 8.1 | 0.99506 | No | Tramo alto, sin credenciales, con evidencia sólida (revisión anterior al parche de Debian) y más EPSS que V-09. El ataque es de complejidad alta y el equipo no figura entre los críticos |
-| 8 | V-09 | 172.17.0.5, 8161/tcp, consola de ActiveMQ 5.15.15 | CVE-2022-41678 | 8.8 | 0.86575 | No | Tramo alto y en la mensajería ligada a la facturación, pero exige estar autenticado, está pendiente de confirmar y tiene el EPSS más bajo del tramo. Se corrige con la misma actualización que V-02 |
-| 9 | V-05 | 172.17.0.5, 8161 y 61614/tcp, Jetty 9.4.39 | CVE-2021-34429 | 5.3 | 0.99330 | No | Primero del tramo medio: está en el equipo de mensajería y portal, y tiene el EPSS más alto del tramo |
-| 10 | V-06 | 172.17.0.7, 22/tcp, OpenSSH 7.7 | CVE-2018-15473 | 5.3 | 0.98675 | No | Equipo antiguo. Va antes que V-07 aunque tiene menos CVSS: más EPSS, no necesita posición de intermediario y `searchsploit` lista código público |
-| 11 | V-07 | 172.17.0.7, 22/tcp, OpenSSH 7.7 | CVE-2023-48795 | 5.9 | 0.93547 | No | Equipo antiguo; exige que el atacante esté en medio de la comunicación |
-| 12 | V-11 | 172.17.0.3, .5 y .8, 80/tcp (y 443 en la .5), Apache httpd 2.4.58/2.4.59 | CVE-2024-38476 | 9.8 | 0.41611 | No | Solo iría más arriba por el CVSS: tiene el EPSS más bajo del registro con diferencia, solo aplica si Apache hace de proxy (sin evidencia) y en la .3 y la .8 no se conoce la revisión del paquete |
+| 5 | V-13 | 172.17.0.7, 22/tcp, OpenSSH 7.7 | CVE-2026-123158 | 8.1 | 0.18900 | Sí | En KEV desde el 2026-11-09 (ransomware desconocido). Es el último de los KEV: tramo alto frente a crítico, el EPSS más bajo del registro y depende de condiciones no observadas (musl libc sin PAM). Es el fallo de la noticia; su mitigación (desactivar el acceso por contraseña) es barata |
+| 6 | V-01 | 172.17.0.3, 21/tcp, vsftpd 2.3.4 | CVE-2011-2523 | 9.8 | 0.96184 | No | El primero fuera de KEV: CVSS crítico, sin credenciales y versión exacta confirmada por banner. Ya comunicado al profesor |
+| 7 | V-12 | 172.17.0.10, 623/udp, IPMI 2.0 | CVE-2013-4786 | 7.5 | 0.98385 | No | Primero del tramo alto fuera de KEV: la .10 es la consola de gestión, el equipo más importante para el negocio, y tiene el EPSS más alto del tramo junto a V-04. Pendiente de identificar el fabricante |
+| 8 | V-04 | 172.17.0.6, 22/tcp, OpenSSH 9.2p1 Debian 2+deb12u2 | CVE-2024-6387 | 8.1 | 0.99506 | No | Tramo alto, sin credenciales, con evidencia sólida (revisión anterior al parche de Debian) y más EPSS que V-09. El ataque es de complejidad alta y el equipo no figura entre los críticos |
+| 9 | V-09 | 172.17.0.5, 8161/tcp, consola de ActiveMQ 5.15.15 | CVE-2022-41678 | 8.8 | 0.86575 | No | Tramo alto y en la mensajería ligada a la facturación, pero exige estar autenticado, está pendiente de confirmar y tiene el EPSS más bajo del tramo. Se corrige con la misma actualización que V-02 |
+| 10 | V-05 | 172.17.0.5, 8161 y 61614/tcp, Jetty 9.4.39 | CVE-2021-34429 | 5.3 | 0.99330 | No | Primero del tramo medio: está en el equipo de mensajería y portal, y tiene el EPSS más alto del tramo |
+| 11 | V-06 | 172.17.0.7, 22/tcp, OpenSSH 7.7 | CVE-2018-15473 | 5.3 | 0.98675 | No | Equipo antiguo. Va antes que V-07 aunque tiene menos CVSS: más EPSS, no necesita posición de intermediario y `searchsploit` lista código público |
+| 12 | V-07 | 172.17.0.7, 22/tcp, OpenSSH 7.7 | CVE-2023-48795 | 5.9 | 0.93547 | No | Equipo antiguo; exige que el atacante esté en medio de la comunicación |
+| 13 | V-11 | 172.17.0.3, .5 y .8, 80/tcp (y 443 en la .5), Apache httpd 2.4.58/2.4.59 | CVE-2024-38476 | 9.8 | 0.41611 | No | Solo iría más arriba por el CVSS: tiene el EPSS más bajo del registro con diferencia, solo aplica si Apache hace de proxy (sin evidencia) y en la .3 y la .8 no se conoce la revisión del paquete |
 
 ### Comprobación del orden
 Para cada fila, por qué va antes que la siguiente (y no solo por tener más CVSS):
@@ -123,22 +133,26 @@ Para cada fila, por qué va antes que la siguiente (y no solo por tener más CVS
 - 2 antes que 3: ransomware Known frente a Unknown.
 - 3 antes que 4: los dos en KEV; V-10 tiene algo más de EPSS, pero depende de una configuración no
   estándar y V-03 tiene su condición observada.
-- 4 antes que 5: KEV frente a no KEV.
-- 5 antes que 6: tramo crítico frente a alto y evidencia más sólida (versión exacta frente a
+- 4 antes que 5: los dos en KEV con ransomware desconocido; V-10 está en el tramo crítico (9,8)
+  y V-13 en el alto (8,1), y V-10 tiene más EPSS (0,999 frente a 0,189). Los dos dependen de una
+  configuración no observada.
+- 5 antes que 6: KEV frente a no KEV. V-01 tiene más CVSS y más EPSS, pero V-13 ya se está
+  explotando según CISA, y el criterio 1 pesa más que todos los demás.
+- 6 antes que 7: tramo crítico frente a alto y evidencia más sólida (versión exacta frente a
   fabricante desconocido). V-12 tiene algo más de EPSS (0,98385 frente a 0,96184), pero ambos
   están en el percentil 0,998 o superior y la diferencia no compensa.
-- 6 antes que 7: los dos en el tramo alto y sin que la excepción de EPSS se aplique (V-04 tiene
+- 7 antes que 8: los dos en el tramo alto y sin que la excepción de EPSS se aplique (V-04 tiene
   más CVSS y también más EPSS); decide la importancia del equipo (consola de gestión frente a un
   equipo no crítico).
-- 7 antes que 8: los dos en el tramo alto. V-09 solo ganaría por CVSS; V-04 tiene más EPSS
+- 8 antes que 9: los dos en el tramo alto. V-09 solo ganaría por CVSS; V-04 tiene más EPSS
   (0,995 frente a 0,866), no necesita credenciales y su evidencia es más sólida (sospecha fundada
   frente a pendiente de confirmar). La excepción de EPSS y evidencia pesa más que la importancia
   del equipo.
-- 8 antes que 9: tramo alto frente a medio. Entre tramos manda el tramo, aunque V-05 tenga más EPSS.
-- 9 antes que 10: mismo CVSS (5,3); decide el equipo (mensajería y portal frente al equipo
+- 9 antes que 10: tramo alto frente a medio. Entre tramos manda el tramo, aunque V-05 tenga más EPSS.
+- 10 antes que 11: mismo CVSS (5,3); decide el equipo (mensajería y portal frente al equipo
   antiguo), y además tiene más EPSS.
-- 10 antes que 11: más EPSS, sin posición de intermediario y con código público listado.
-- 11 antes que 12: V-11 solo ganaría por CVSS; V-07 tiene más EPSS (0,935 frente a 0,416) y
+- 11 antes que 12: más EPSS, sin posición de intermediario y con código público listado.
+- 12 antes que 13: V-11 solo ganaría por CVSS; V-07 tiene más EPSS (0,935 frente a 0,416) y
   versión confirmada sin condiciones de configuración.
 
 ### Datos no disponibles
@@ -147,12 +161,18 @@ Para cada fila, por qué va antes que la siguiente (y no solo por tener más CVS
 - Todos tienen EPSS publicado. Los valores son del 2026-11-17, la última fecha que devolvía FIRST
   al consultar el 2026-11-18.
 - KEV: catálogo versión 2026.11.17, con 1782 entradas, descargado el 2026-11-18.
+- V-13 (aviso de la noticia) se consultó el 2026-11-21, con datos más recientes que el resto: EPSS
+  del 2026-11-20 y catálogo KEV versión 2026.11.20, con 1790 entradas. NVD no tiene puntuación
+  propia para este CVE: el CVSS 3.1 de 8,1 es el de MITRE, la organización que lo publicó (CNA),
+  y figura en NVD como «Secondary».
 - También se consultaron los dos CVE descartados en la Parte 3 (CVE-2023-38408 y CVE-2024-50379),
   que siguen descartados y no entran en el orden. CVE-2024-50379 no tiene puntuación de NVD: la
   que figura (9,8) es de otra fuente (`134c704f-9b21-4f2e-91b3-4a467353bcc0`).
 
 Evidencias: `evidencias/p4/40-cvss.txt`, `evidencias/p4/41-epss.json`, `evidencias/p4/42-kev-2026-11-18.json` (resúmenes en `evidencias/p4/41-epss.txt` y
-`evidencias/p4/42-kev.txt`; lista de CVE en `evidencias/p4/39-cves.txt`).
+`evidencias/p4/42-kev.txt`; lista de CVE en `evidencias/p4/39-cves.txt`). Para V-13:
+`evidencias/p4/43-aviso-nvd.json`, `evidencias/p4/43-aviso-epss.json`,
+`evidencias/p4/43-aviso-kev-2026-11-21.json` y `evidencias/p4/43-aviso-cveorg.json`.
 
 ![Puntuaciones CVSS obtenidas de NVD](imagenes/p4-01-cvss.png)
 
@@ -190,7 +210,7 @@ de la distribución, servicio bien identificado y sin requisitos de configuraci�
 | Qué implica (C/I/A) | Confidencialidad: alta, la consola que abre la puerta trasera da acceso a todos los ficheros del servidor. Integridad: alta, podría modificarlos o instalar software. Disponibilidad: alta, podría detener el FTP y la web de la .3. Se ataca por red, con complejidad baja, sin credenciales y sin intervención del usuario. |
 | EPSS | 0.96184 (percentil 0.99879). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **5**. Primero fuera de KEV: CVSS crítico, sin credenciales y versión exacta confirmada por banner. |
+| Prioridad | **6**. Primero fuera de KEV: CVSS crítico, sin credenciales y versión exacta confirmada por banner. |
 
 ---
 
@@ -260,7 +280,7 @@ de la distribución, servicio bien identificado y sin requisitos de configuraci�
 | Qué implica (C/I/A) | Confidencialidad: alta, ejecución de código como root con acceso a todo el sistema. Integridad: alta, control total del equipo. Disponibilidad: alta, podría detenerlo. Se ataca por red, sin credenciales y sin intervención del usuario, pero con complejidad alta (condición de carrera que requiere muchos intentos). |
 | EPSS | 0.99506 (percentil 0.99945). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **7**. Tramo alto, sin credenciales y con evidencia sólida. Va antes que V-09 por más EPSS y mejor evidencia, aunque el ataque es de complejidad alta y el equipo no está en la lista de críticos del cliente. |
+| Prioridad | **8**. Tramo alto, sin credenciales y con evidencia sólida. Va antes que V-09 por más EPSS y mejor evidencia, aunque el ataque es de complejidad alta y el equipo no está en la lista de críticos del cliente. |
 
 ---
 
@@ -283,7 +303,7 @@ de la distribución, servicio bien identificado y sin requisitos de configuraci�
 | Qué implica (C/I/A) | Confidencialidad: baja, podría leer ficheros internos de `WEB-INF`. Integridad: sin impacto. Disponibilidad: sin impacto. Se ataca por red, con complejidad baja, sin credenciales y sin intervención del usuario. |
 | EPSS | 0.99330 (percentil 0.99939). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **9**. Primero del tramo medio por estar en el equipo de mensajería y portal y por su EPSS. |
+| Prioridad | **10**. Primero del tramo medio por estar en el equipo de mensajería y portal y por su EPSS. |
 
 ---
 
@@ -306,7 +326,7 @@ de la distribución, servicio bien identificado y sin requisitos de configuraci�
 | Qué implica (C/I/A) | Confidencialidad: baja, solo revela qué cuentas existen. Integridad: sin impacto. Disponibilidad: sin impacto. Se ataca por red, con complejidad baja, sin credenciales y sin intervención del usuario. |
 | EPSS | 0.98675 (percentil 0.99924). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **10**. Tramo medio, en el equipo antiguo. Antes que V-07 por más EPSS, sin necesidad de intermediario y con código público listado. |
+| Prioridad | **11**. Tramo medio, en el equipo antiguo. Antes que V-07 por más EPSS, sin necesidad de intermediario y con código público listado. |
 
 ---
 
@@ -329,7 +349,7 @@ de la distribución, servicio bien identificado y sin requisitos de configuraci�
 | Qué implica (C/I/A) | Confidencialidad: sin impacto. Integridad: alta, podría borrar mensajes del inicio del canal y desactivar protecciones negociadas. Disponibilidad: sin impacto. Se ataca por red, sin credenciales y sin intervención del usuario, pero con complejidad alta (hay que estar en medio de la comunicación). |
 | EPSS | 0.93547 (percentil 0.99844). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **11**. Tramo medio, en el equipo antiguo; exige posición de intermediario y tiene menos EPSS que V-06. |
+| Prioridad | **12**. Tramo medio, en el equipo antiguo; exige posición de intermediario y tiene menos EPSS que V-06. |
 
 ---
 
@@ -383,7 +403,7 @@ mantienen en el registro con menor confianza y se resuelven en la siguiente fase
 | Qué implica (C/I/A) | Confidencialidad: alta, podría leer datos del broker y del sistema. Integridad: alta, podría escribir ficheros y llegar a ejecutar código. Disponibilidad: alta, podría detener el broker. Se ataca por red, con complejidad baja y sin intervención del usuario, pero requiere credenciales de bajo privilegio (PR:L). |
 | EPSS | 0.86575 (percentil 0.99743). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **8**. Tramo alto, en la mensajería ligada a la facturación, pero exige estar autenticado y tiene el EPSS más bajo del tramo. Se corrige con la misma actualización de ActiveMQ que V-02 (prioridad 1). |
+| Prioridad | **9**. Tramo alto, en la mensajería ligada a la facturación, pero exige estar autenticado y tiene el EPSS más bajo del tramo. Se corrige con la misma actualización de ActiveMQ que V-02 (prioridad 1). |
 
 ---
 
@@ -429,7 +449,7 @@ mantienen en el registro con menor confianza y se resuelven en la siguiente fase
 | Qué implica (C/I/A) | Confidencialidad: alta, fuga de información. Integridad: alta, ejecución de scripts locales. Disponibilidad: alta. Se ataca por red, con complejidad baja, sin credenciales y sin intervención del usuario, siempre que Apache haga de proxy de una aplicación cuya respuesta pueda manipularse. |
 | EPSS | 0.41611 (percentil 0.98703). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **12**. Solo iría más arriba por el CVSS: EPSS más bajo del registro (0,416), depende de que Apache haga de proxy (sin evidencia) y en la .3 y la .8 no se conoce la revisión del paquete. |
+| Prioridad | **13**. Solo iría más arriba por el CVSS: EPSS más bajo del registro (0,416), depende de que Apache haga de proxy (sin evidencia) y en la .3 y la .8 no se conoce la revisión del paquete. |
 
 ---
 
@@ -452,9 +472,33 @@ mantienen en el registro con menor confianza y se resuelven en la siguiente fase
 | Qué implica (C/I/A) | Confidencialidad: alta, podría obtener el hash de la contraseña de un usuario del BMC y descifrarla sin conexión. Integridad: sin impacto directo (sí indirecto si se recupera la contraseña de la consola). Disponibilidad: sin impacto directo. Se ataca por red, con complejidad baja, sin credenciales y sin intervención del usuario. |
 | EPSS | 0.98385 (percentil 0.99918). Fuente: FIRST EPSS (valores del 2026-11-17), consultado el 2026-11-18. |
 | KEV | No figura. Fuente: CISA KEV (catálogo 2026.11.17), consultado el 2026-11-18. |
-| Prioridad | **6**. Primero del tramo alto: consola de gestión, el equipo más importante para el negocio. |
+| Prioridad | **7**. Primero del tramo alto fuera de KEV: consola de gestión, el equipo más importante para el negocio. |
 
 ---
+
+---
+
+## V-13 - «sshole»: acceso sin contraseña en OpenSSH sobre musl libc sin PAM (aviso de la noticia)
+
+| Campo | Valor |
+|---|---|
+| Origen | Aviso de la noticia que reenvió el cliente el 2026-11-21 (correo de un tercero con un enlace a un artículo de OX Security). Se contrastó con fuentes oficiales: NVD, cve.org, FIRST EPSS, CISA KEV y los trackers de Debian y Ubuntu. |
+| Equipo y servicio | 172.17.0.7, 22/tcp, OpenSSH 7.7; sistema operativo y biblioteca C (libc) no identificados |
+| CVE | [CVE-2026-123158](https://nvd.nist.gov/vuln/detail/CVE-2026-123158) («sshole»), publicado el 2026-11-05; estado «Analyzed» en NVD y «PUBLISHED» en cve.org |
+| Explicación | En Linux con la biblioteca musl libc y sin PAM (por ejemplo, Alpine Linux), cuando la contraseña recibida supera los 256 caracteres, la función que la cifra (`crypt()`) falla y devuelve `*`. Ese mismo `*` es lo que se guarda en `/etc/shadow` para las cuentas que no admiten contraseña. `sshd` compara los dos valores, los ve iguales y acepta la entrada. Resultado: cualquier contraseña de 256 a 1024 caracteres entra en una cuenta marcada con `*`, si en el equipo hay además otra cuenta con contraseña real. Se corrige en OpenSSH 10.6p2. |
+| CWE | CWE-394: valor de retorno o código de estado inesperado, según NVD y CISA |
+| Técnica ATT&CK | T1210 Exploitation of Remote Services (servicio de un equipo interno) y T1021.004 Remote Services: SSH (uso del acceso conseguido para entrar en el equipo) |
+| Lo observado | Banner `SSH-2.0-OpenSSH_7.7`, sin sufijo de distribución. Es el único equipo con OpenSSH de la red cuyo sistema no consta: no se usó detección de sistema operativo (`-O`) por ser el equipo delicado, y no expone otros servicios que lo revelen. |
+| Por qué sospechamos | NVD da como afectadas todas las versiones de OpenSSH anteriores a 10.6p2 en Linux (`cpeMatch` hasta 10.6 sin incluir, más 10.6 y 10.6p1), y la 7.7 entra. El comportamiento de OpenSSH que forma parte del fallo es de 2016, anterior a la 7.7 (2018). Sin sufijo de distribución no hay revisión de paquete que contrastar, así que no consta ningún backport. Con lo observado no se puede descartar que el equipo use musl libc sin PAM. |
+| Evidencias | `evidencias/p2/22-ssh-banner-172.17.0.7.txt`, `evidencias/p1/11-tcp-ver-172.17.0.7.nmap`, `evidencias/p4/43-aviso-nvd.json`, `evidencias/p4/43-aviso-cveorg.json`, `evidencias/p4/43-aviso-epss.json`, `evidencias/p4/43-aviso-kev-2026-11-21.json` |
+| Capturas | [NVD: descripción, CVSS, CWE y versiones](imagenes/p4-04-aviso.png), [EPSS, KEV y cve.org](imagenes/p4-04b-aviso-epss-kev.png), [OpenSSH en nuestras evidencias](imagenes/p4-04c-aviso-inventario.png), [artículo del aviso](imagenes/p4-06-aviso-articulo.png), [versiones afectadas según el artículo](imagenes/p4-06b-aviso-articulo.png) |
+| Limitaciones | Faltan las cuatro condiciones del fallo, y ninguna se puede ver desde la red sin autenticarse: (1) que use musl libc, (2) que `sshd` no use PAM, (3) que acepte contraseñas y (4) que tenga una cuenta con `*` además de otra con contraseña. El script `ssh-auth-methods`, que diría si acepta contraseñas, es de las categorías `auth` e `intrusive` y no se usó. Probar una contraseña larga sería explotar el fallo. Según el artículo, Alpine solo publicó parches para sus ramas 3.16 y posteriores (OpenSSH 9.0 o superior), así que un sistema musl con OpenSSH 7.7 no tendría parche oficial de su distribución. |
+| Pendiente de comprobar | Con permiso y acceso al equipo, y con cuidado por su fragilidad: el sistema (`cat /etc/os-release`), si `sshd` usa musl (`ldd $(command -v sshd)`), si usa PAM y acepta contraseñas (`sshd -T`, valores `usepam` y `passwordauthentication`), qué cuentas tienen `*` en `/etc/shadow` y, como pide CISA (triaje forense), si en los registros hay entradas «Accepted password for» en cuentas sin contraseña. |
+| CVSS | Versión 3.1, puntuación **8.1 (Alta)**, vector `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H`. Fuente: MITRE (CNA), mostrada en NVD como «Secondary»; NVD no ha publicado puntuación propia. |
+| Qué implica (C/I/A) | Confidencialidad: alta, el atacante entra en el equipo como un usuario. Integridad: alta, puede modificar ficheros y, si la cuenta tiene privilegios (por ejemplo, `root` o un usuario con `doas` sin contraseña), controlar el equipo. Disponibilidad: alta, podría detenerlo. Se ataca por red, sin credenciales y sin intervención del usuario, pero con complejidad alta porque exige una combinación concreta de sistema y configuración. |
+| EPSS | 0.18900 (percentil 0.97362). Fuente: FIRST EPSS (valores del 2026-11-20), consultado el 2026-11-21. |
+| KEV | Sí, incluido el 2026-11-09, con fecha límite para las agencias de EE. UU. el 2026-11-12; uso en ransomware: Unknown. CISA pide además triaje forense (`forensicTriage: Yes`), es decir, buscar indicios de que ya se haya usado. Acción indicada: aplicar las mitigaciones del fabricante (directiva BOD 26-04) o dejar de usar el producto. En su análisis SSVC, CISA marca la explotación como activa («active»). Fuente: CISA KEV (catálogo 2026.11.20), consultado el 2026-11-21. |
+| Prioridad | **5**. En KEV, pero en el tramo alto, con el EPSS más bajo del registro y con sus condiciones sin observar; por eso es el último de los KEV. Va antes que V-01 por estar en KEV. La mitigación es barata: desactivar el acceso por contraseña en la .7 (`PasswordAuthentication no`) y limitar desde qué equipos se llega a su puerto 22. |
 
 ## Hallazgos de configuración sin CVE
 
@@ -488,6 +532,9 @@ Propuestos por las herramientas automáticas y descartados tras revisarlos.
 | CVE-2023-48795 | 172.17.0.4, OpenSSH 7.9p1 Debian 10+deb10u4 | vulners | Parcheado por Debian 10 en `deb10u4` (DLA-3694-1); el equipo tiene exactamente esa revisión (backport) | [tracker de Debian](imagenes/p3-04-backport-CVE-2023-48795-debian.png) |
 | CVE-2023-48795 | 172.17.0.8, OpenSSH 9.6p1 | revisión propia (vulners no lo devolvió para la .8) | La versión observada queda fuera del rango (anteriores a 9.6) | `evidencias/p3/33-nvd-CVE-2023-48795.json`, campo cpeMatch |
 | CVE-2024-38476 | 172.17.0.9, Apache httpd 2.4.68 | revisión propia (vulners no lo devolvió para la .9) | La versión observada queda fuera del rango (anteriores a 2.4.60). Se comprobó que la 2.4.68 existe y que es la que distribuye Debian 12 (`2.4.68-1~deb12u1`), así que el banner es creíble | `evidencias/p3/33-nvd-CVE-2024-38476.json` (campo cpeMatch), `evidencias/p3/34-apache-*.txt`, [captura](imagenes/p3-05-apache-2.4.68.png) |
+| CVE-2026-123158 («sshole», aviso de la noticia) | 172.17.0.6 y 172.17.0.9, OpenSSH 9.2p1 Debian 12 (`deb12u2` y `deb12u10`) | aviso del cliente | El fallo solo existe con musl libc sin PAM, y Debian usa glibc. El tracker de Debian marca bookworm como «vulnerable» solo por número de versión, pero le da urgencia «unimportant»; el artículo del aviso cita expresamente a Debian entre los no afectados | `evidencias/p4/43-aviso-nvd.json`, [tracker de Debian](imagenes/p4-05-aviso-debian.png), [artículo](imagenes/p4-06-aviso-articulo.png) |
+| CVE-2026-123158 | 172.17.0.4, OpenSSH 7.9p1 Debian 10 | aviso del cliente | Mismo motivo: Debian usa glibc. Debian 10 ya no aparece en el tracker porque está fuera de soporte, pero eso no cambia la libc que usa | [tracker de Debian](imagenes/p4-05-aviso-debian.png) |
+| CVE-2026-123158 | 172.17.0.8, OpenSSH 9.6p1 Ubuntu 24.04 | aviso del cliente | Ubuntu marca `openssh` como «Not affected» en la 24.04 (noble) y en todas sus versiones | [tracker de Ubuntu](imagenes/p4-05b-aviso-ubuntu.png) |
 | CVE-2024-50379 | 172.17.0.4, Tomcat 9.0.30 | vulners | Solo afecta a sistemas de ficheros que no distinguen mayúsculas (Windows); el equipo es Debian | `evidencias/p3/33-nvd-CVE-2024-50379.json` |
 | CVE-2023-38408 | 172.17.0.4, .6, .7 y .9, OpenSSH | vulners / NVD | Afecta al `ssh-agent` del cliente, no al servidor SSH que se observa | `evidencias/p3/33-nvd-CVE-2023-38408.json` |
 | Más de 300 CVE de Samba | 172.17.0.8, Samba smbd 4 | vulners | La versión detectada es solo «4», sin versión menor: no permite evaluar ningún rango. Obtener la versión exacta habría requerido abrir una sesión SMB, que no se ha hecho. Queda como limitación. | `evidencias/p3/31-vulners-172.17.0.8.nmap` |

@@ -1305,28 +1305,155 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Siguiente paso:** actualizar el apartado UDP de `inventario.md`; después, el aviso de la
   noticia.
 
-### PENDIENTE - Aviso de la noticia (paso 7)
-- **Cuándo:** PENDIENTE: el profesor todavía no ha dado el CVE del aviso.
-- **Objetivo y alcance:** responder al cliente si el fallo de la noticia le afecta. Consultas a NVD,
-  FIRST y CISA, y búsqueda del producto en las evidencias propias; no toca la red del cliente.
-- **Qué haré:** descargar la ficha NVD del CVE del aviso a `evidencias/p4/43-aviso-nvd.json`, su
-  EPSS a `evidencias/p4/43-aviso-epss.json` y buscarlo en `evidencias/p4/42-kev-2026-11-18.json`.
-  Después, buscar el producto en `evidencias/p1/` y `evidencias/p2/` con `grep -rilE` y hacer la
-  captura `imagenes/p4-04-aviso.png`.
-- **Qué salió:** PENDIENTE.
-- **Siguiente paso:** con la respuesta (sí / no se puede descartar / no), completar el apartado 5
-  de `informe-cliente.md` y volver a exportar el historial de la Parte 4
-  (`evidencias/p4/historial-comandos.txt`) para que incluya los comandos del aviso.
+### 2026-11-21 11:33 - Aviso de la noticia: ficha del CVE en NVD (paso 7)
+- **Cuándo:** 2026-11-21 de 11:33 a 11:36 UTC
+- **Objetivo y alcance:** el cliente preguntó por un fallo de las noticias llamado «sshole» y
+  reenvió un correo de un tercero con un enlace a un artículo. En la dirección del artículo figura
+  el CVE: CVE-2026-123158. El objetivo es saber qué producto y qué versiones afecta, y con qué
+  condiciones. Consulta a la API pública de NVD; no toca la red del cliente.
+- **Qué hice:**
+  - `CVE=CVE-2026-123158`
+  - `curl -s "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=$CVE" -o evidencias/p4/43-aviso-nvd.json`
+  - Lectura con `jq` del número de resultados, la descripción, el CVSS, la CWE y los rangos
+    `cpeMatch`.
+- **Qué salió:**
+  - 1 resultado. CVE-2026-123158, publicado el 2026-11-05, estado «Analyzed». Afecta a `sshd` en
+    OpenSSH anterior a 10.6p2, en Linux, cuando se usa musl libc sin PAM: una contraseña de 256 a
+    1024 caracteres entra en ciertas cuentas. Ejemplo de plataforma: Alpine Linux.
+  - CVSS 3.1: 8,1 (HIGH), `AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H`. CWE-394.
+  - `cpeMatch`: OpenSSH hasta 10.6 sin incluir, más 10.6 y 10.6p1, con Alpine Linux como
+    plataforma.
+  - Dos comandos fallaron y se repitieron. El de CVSS (11:35) se quedó en `quote>` por una comilla
+    sin cerrar al copiarlo y se canceló. El de `cpeMatch` (11:35) se lanzó sin el nombre del
+    fichero, se quedó esperando datos y se cortó con Ctrl+C. Los dos se repitieron bien a
+    continuación.
+  - Al revisar el JSON después: el CVSS lo publica MITRE (la CNA que asignó el CVE), y NVD lo
+    muestra como «Secondary», sin puntuación propia.
+- **Captura:** ![NVD: descripción, CVSS, CWE y versiones afectadas](../imagenes/p4-04-aviso.png)
+- **Siguiente paso:** EPSS, KEV y registro oficial del CVE.
 
-### Resumen de la Parte 4 (hasta el paso 8, sin el aviso)
+### 2026-11-21 11:36 - Aviso de la noticia: EPSS, KEV y cve.org
+- **Cuándo:** 2026-11-21 de 11:36 a 11:38 UTC
+- **Objetivo y alcance:** saber si el fallo se está explotando de verdad, como decía el correo
+  («el Gobierno americano lo ha metido en su lista»), y con qué probabilidad. Consultas a FIRST,
+  CISA y cve.org; no tocan la red del cliente.
+- **Qué hice:**
+  - `curl -s "https://api.first.org/data/v1/epss?cve=$CVE" -o evidencias/p4/43-aviso-epss.json`
+  - Catálogo KEV actualizado (el del 2026-11-18 podía no incluirlo):
+    `F="evidencias/p4/43-aviso-kev-$(date +%F).json"` y
+    `curl -s "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" -o "$F"`,
+    seguido de `jq` con `select(.cveID==$c)`.
+  - `curl -s "https://cveawg.mitre.org/api/cve/$CVE" -o evidencias/p4/43-aviso-cveorg.json`
+- **Qué salió:**
+  - EPSS 0,189 (percentil 0,97362), valores del 2026-11-20.
+  - KEV, catálogo 2026.11.20 con 1790 entradas: **sí figura**, desde el 2026-11-09;
+    `knownRansomwareCampaignUse: Unknown`; fecha límite 2026-11-12; `forensicTriage: Yes`.
+    Nombre en CISA: «OpenBSD OpenSSH Unexpected Status Code or Return Value Vulnerability».
+  - cve.org: estado `PUBLISHED`, asignado por MITRE el 2026-11-05. En el JSON, CISA marca en su
+    análisis SSVC la explotación como `active`. El CVE es real y el correo no exageraba: está en
+    KEV.
+  - La descarga del KEV y la consulta a cve.org se lanzaron dos veces (11:37 y 11:38). El resultado
+    es el mismo; se repitieron para hacer la captura con todo en pantalla.
+- **Captura:** ![EPSS, KEV y cve.org del aviso](../imagenes/p4-04b-aviso-epss-kev.png)
+- **Siguiente paso:** buscar OpenSSH en nuestras evidencias.
+
+### 2026-11-21 11:41 - Aviso de la noticia: ¿tenemos OpenSSH en la red?
+- **Cuándo:** 2026-11-21 11:41 UTC
+- **Objetivo y alcance:** contrastar el aviso con el inventario: qué equipos de 172.17.0.0/24
+  (scope.txt) tienen OpenSSH y con qué versión y distribución. Solo lee ficheros propios; no envía
+  tráfico a la red.
+- **Qué hice:** `grep -rilE "openssh" evidencias/p1/ evidencias/p2/ | sort` y
+  `grep -H "SSH-2.0" evidencias/p2/22-ssh-banner-*.txt`
+- **Qué salió:** cinco equipos con OpenSSH, todos anteriores a 10.6p2:
+  - .4: `OpenSSH_7.9p1 Debian-10+deb10u4`
+  - .6: `OpenSSH_9.2p1 Debian-2+deb12u2`
+  - .7: `OpenSSH_7.7`, sin distribución
+  - .8: `OpenSSH_9.6p1 Ubuntu-3ubuntu13.5`
+  - .9: `OpenSSH_9.2p1 Debian-2+deb12u10`
+  
+  Cuatro muestran distribuciones con glibc (Debian, Ubuntu). La .7 no muestra ninguna.
+- **Captura:** ![OpenSSH en nuestras evidencias](../imagenes/p4-04c-aviso-inventario.png)
+- **Siguiente paso:** ver qué dicen Debian y Ubuntu, y contrastar el artículo del aviso.
+
+### 2026-11-21 - Aviso de la noticia: trackers de Debian y Ubuntu, y artículo
+- **Cuándo:** 2026-11-21, después de las 11:41 UTC. Son consultas en el navegador y no quedan en el
+  historial de comandos.
+- **Objetivo y alcance:** saber si las distribuciones de la .4, .6, .8 y .9 están afectadas, y
+  comparar lo que dice el artículo reenviado con las fuentes oficiales. Webs públicas; no tocan la
+  red del cliente.
+- **Qué hice:** abrí `https://security-tracker.debian.org/tracker/CVE-2026-123158`,
+  `https://ubuntu.com/security/CVE-2026-123158` y el artículo del correo
+  (`https://www.ox.security/blog/openssh-authentication-bypass-cve-2026-123158/`). No abrí los
+  enlaces a código de prueba que citan NVD y el artículo.
+- **Qué salió:**
+  - **Debian:** bookworm (`1:9.2p1-2+deb12u10`) y trixie aparecen «vulnerable» por número de
+    versión, pero la urgencia es «unimportant». Solo forky y sid tienen la 10.6p2 («fixed»). Debian
+    10 (buster, la de la .4) ya no aparece porque está fuera de soporte.
+  - **Ubuntu:** `openssh` «Not affected» en todas las versiones, incluida la 24.04 LTS (noble), la
+    de la .8.
+  - **Artículo** (OX Security, 2026-11-05): coincide con NVD en el rango (< 10.6p2), la corrección
+    (10.6p2) y el CVSS (8,1). Enumera las condiciones: musl, sin PAM, acceso por contraseña
+    activado, una cuenta con `*` y otra con contraseña real. Cita «Debian, Ubuntu, Fedora y otros
+    sistemas con glibc» entre los no afectados. Según su tabla, Alpine solo parchea desde la rama
+    3.16 (OpenSSH 9.0).
+  - Pequeña diferencia: el artículo habla de contraseñas de 257 a 1024 bytes y NVD de 256 a 1024
+    caracteres. No cambia la conclusión.
+- **Captura:** ![Tracker de Debian](../imagenes/p4-05-aviso-debian.png),
+  ![Tracker de Ubuntu](../imagenes/p4-05b-aviso-ubuntu.png),
+  ![Artículo del aviso](../imagenes/p4-06-aviso-articulo.png) y
+  ![Versiones afectadas según el artículo](../imagenes/p4-06b-aviso-articulo.png)
+- **Siguiente paso:** decidir si afecta y documentarlo.
+
+### 2026-11-21 - Aviso de la noticia: conclusión, registro e informe (pasos 7 y 8)
+- **Cuándo:** 2026-11-21, a continuación de la entrada anterior.
+- **Objetivo y alcance:** aplicar los tres casos de la guía (afecta / no se puede descartar / no
+  afecta) a cada equipo con OpenSSH y responder al cliente. Redacción; no toca la red.
+- **Qué hice:**
+  - **.4, .6, .8 y .9 → «según lo observado, no».** El producto aparece y la versión entra en el
+    rango, pero el fallo exige musl libc sin PAM y estos equipos son Debian o Ubuntu (glibc). Los
+    añadí a los descartes de `registro-vulns.md` con su motivo.
+  - **.7 → «no lo podemos descartar».** La versión entra en el rango, no hay distribución que
+    permita descartar musl ni backport que buscar, y las condiciones (libc, PAM, acceso por
+    contraseña, cuentas con `*`) no se ven sin autenticarse. No usé `ssh-auth-methods` (categorías
+    `auth` e `intrusive`) ni probé ninguna contraseña. Creé la ficha **V-13** en
+    `registro-vulns.md`.
+  - **Prioridad de V-13: puesto 5.** Está en KEV, así que va por delante de todo lo que no lo está
+    (V-01 baja al 6), pero es el último de los KEV: tramo alto (8,1) frente a crítico, el EPSS más
+    bajo del registro (0,189) y condiciones sin observar. Renumeré los puestos 6 a 13 y rehíce la
+    comprobación del orden.
+  - En `informe-cliente.md`: rellené el apartado 5, añadí la medida urgente para la .7, actualicé
+    los recuentos (13 vulnerabilidades, 5 en KEV) y las fuentes, y puse la fecha 2026-11-21.
+- **Qué salió:** respuesta al cliente: «No podemos descartarlo en el equipo antiguo (172.17.0.7);
+  en los otros cuatro, según lo observado, no». Se separa lo que sostienen las evidencias (versiones
+  y distribuciones de los banners, NVD, KEV y trackers) de lo que queda pendiente (sistema, libc,
+  PAM y configuración de la .7).
+- **Captura:** sin captura; es redacción.
+- **Siguiente paso:** exportar el historial de la Parte 4.
+
+### 2026-11-21 - Historial de la Parte 4 ampliado (paso 9)
+- **Cuándo:** 2026-11-21, al cerrar la Parte 4.
+- **Objetivo y alcance:** que los comandos del aviso queden como evidencia con su fecha y hora.
+  Comando local; no toca la red.
+- **Qué hice:** añadí a `evidencias/p4/historial-comandos.txt` los comandos del 2026-11-21 (del 535
+  al 559), sin quitar los que fallaron, y lo mostré con `head -30`.
+- **Qué salió:** el historial tiene ahora los comandos de las consultas de CVSS, EPSS y KEV
+  (2026-11-18) y los del aviso (2026-11-21), cada uno con su hora.
+- **Captura:** ![Historial de la Parte 4](../imagenes/p4-historial.png)
+- **Siguiente paso:** Parte 5 (el agente).
+
+### Resumen de la Parte 4
 - CVSS de NVD, EPSS de FIRST y KEV de CISA consultados el 2026-11-18 para los 14 CVE (12 del
   registro y 2 descartados). Todos tienen dato; CVE-2013-4786 solo tiene CVSS 3.0.
-- 4 hallazgos en KEV, 2 de ellos con ransomware Known (ActiveMQ y Jenkins), que encabezan el orden.
-- Orden de los 12 hallazgos justificado fila a fila en
+- Aviso de la noticia (CVE-2026-123158, «sshole») consultado el 2026-11-21: real, en KEV desde el
+  2026-11-09, CVSS 8,1 (de MITRE, sin puntuación propia de NVD) y EPSS 0,189. Descartado en la .4,
+  .6, .8 y .9 (Debian o Ubuntu, con glibc). No se puede descartar en la .7, que queda como V-13 en
+  el puesto 5.
+- 5 hallazgos en KEV, 2 de ellos con ransomware Known (ActiveMQ y Jenkins), que encabezan el orden.
+- Orden de los 13 hallazgos justificado fila a fila en
   [registro-vulns.md](../registro-vulns.md#orden-de-prioridad). Las decisiones que no siguen al
-  CVSS están explicadas: V-08 antes que V-01, V-12 antes que V-04, V-04 antes que V-09, V-05 y
-  V-06 antes que V-07, y V-11 la última.
+  CVSS están explicadas: V-08 antes que V-01, V-13 antes que V-01, V-12 antes que V-04, V-04 antes
+  que V-09, V-05 y V-06 antes que V-07, y V-11 la última.
 - 9 hallazgos de configuración sin CVE (C-01 a C-09) recogidos aparte, sin priorizar.
-- Informe para la dirección redactado salvo la respuesta al aviso:
+- Informe para la dirección completo, con la respuesta al aviso:
   [informe-cliente.md](../informe-cliente.md).
 - Ninguna consulta de esta parte ha tocado la red del cliente.
