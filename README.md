@@ -1,13 +1,21 @@
 # Mapping the Maze - Gadir Logística, S.L.
 
-**Alumno:** Luis Miguel Gomila Domínguez
-**Grupo:** Luis Miguel Gomila Domínguez, Gonzalo <Apellido>, Natalia <Apellido>, Pablo Ostenero
+**Grupo:** Luis Miguel Gomila Domínguez, Gonzalo García Vega, Natalia Alejo Pérez y Pablo Ostenero Reyes
 **Alcance autorizado:** `172.17.0.0/24` (ver [scope.txt](scope.txt))
 **Tipo de trabajo:** identificación activa no intrusiva, sin explotación
 
-Todo el trabajo de este repositorio lo he realizado sobre mi propia copia de la red del cliente.
-Cada dato de los documentos se puede rastrear hasta un comando de [mi cuaderno](cuadernos/luis-miguel-gomila-dominguez.md),
-con su salida en [evidencias/](evidencias/) y su captura en [imagenes/](imagenes/).
+Cada integrante hizo las Partes 0 a 4 sobre su propia copia de la red del cliente y tiene su
+propio cuaderno, sus evidencias y sus capturas. **Los cuadernos son individuales; los tres
+entregables ([inventario.md](inventario.md), [registro-vulns.md](registro-vulns.md) e
+[informe-cliente.md](informe-cliente.md)) son de los cuatro.** Los hicimos poniendo en común y
+contrastando lo que obtuvo cada uno: lo que encontramos todos figura como trabajo del grupo, y lo
+que sacó solo una persona lleva su nombre.
+
+Cada dato se puede rastrear hasta un comando del cuaderno de quien lo obtuvo, con su salida en
+`evidencias/EVIDENCIAS_<NOMBRE>/` y su captura en `imagenes/CAPTURAS_<NOMBRE>/`. Como cada uno
+escaneó una copia distinta de la red, las tablas de los entregables citan una sola copia como
+referencia (la de Luis Miguel, `EVIDENCIAS_LUISMI`); los otros tres obtuvimos los mismos resultados
+en las nuestras, y las diferencias están señaladas.
 
 ## Documentos
 
@@ -18,156 +26,215 @@ con su salida en [evidencias/](evidencias/) y su captura en [imagenes/](imagenes
 | 3. De la versión al CVE | [registro-vulns.md](registro-vulns.md) |
 | 4. Priorizar e informar | [registro-vulns.md](registro-vulns.md), [informe-cliente.md](informe-cliente.md) |
 
+## Trabajo en común del grupo
+
+Los cuatro llegamos por separado, cada uno en su red, a los mismos resultados principales:
+- **Inventario:** los mismos 8 equipos vivos (172.17.0.3 a 172.17.0.10), los mismos 24 puertos TCP
+  con sus versiones y los mismos 2 servicios UDP (137/udp en la .8 y 623/udp en la .10). La única
+  diferencia es el número del puerto sin identificar de la .5, que cambia en cada copia de la red.
+- **Hoja del cliente:** la misma conclusión (7 entradas sobran, 2 tienen datos erróneos, faltan 6
+  equipos y 1 queda fuera del alcance).
+- **Hallazgos principales:** vsftpd 2.3.4 en la .3, ActiveMQ 5.15.15 en la .5, Tomcat 9.0.30 en la
+  .4, Jenkins 2.441 en la .6 e IPMI 2.0 en la .10.
+- **Aviso de la noticia («sshole»):** los cuatro lo revisamos; la .7 es el equipo que no se puede
+  descartar.
+
+Al juntar el trabajo, cada aportación individual se añadió a los entregables con el nombre de quien
+la hizo. Las tablas «Contraste con el trabajo del grupo» de [inventario.md](inventario.md) y
+[registro-vulns.md](registro-vulns.md) recogen quién encontró cada cosa, y también las diferencias
+de criterio (por ejemplo, el uso de sesiones nulas de SMB o de `-O`).
+
+## Aportación de cada integrante
+
+### Luis Miguel Gomila Domínguez → [cuaderno](cuadernos/luis-miguel-gomila-dominguez.md)
+- Sus evidencias son la copia de referencia de las tablas de los entregables.
+- Descubrimiento con ICMP, TCP, UDP y ARP; `-p-` de todos los equipos; UDP ampliado a 1000 puertos
+  (100 en la .7, a `--max-rate 10`).
+- Elección de la .7 como equipo delicado y escaneo a velocidad limitada, vigilado con `ping`.
+- Aportaciones que solo están en su trabajo: la versión de ActiveMQ leída del `WireFormatInfo`
+  (61616), que AMQP habla la versión 1.0, la verificación del banner de Apache 2.4.68, y los
+  hallazgos V-04 a V-07, V-09 a V-11 y V-13 con sus trackers de Debian y Ubuntu.
+- Método de priorización por tramos y respuesta al aviso con NVD, cve.org, EPSS, KEV y trackers.
+- Evidencias en [evidencias/EVIDENCIAS_LUISMI/](evidencias/EVIDENCIAS_LUISMI/) y capturas en
+  [imagenes/CAPTURAS_LUISMI/](imagenes/CAPTURAS_LUISMI/).
+
+### Gonzalo García Vega → [cuaderno](cuadernos/gonzalo-garciavega-1.md)
+- Inventario completo (`-p-`, versiones y UDP de 1000 puertos en los ocho equipos) y detección de
+  sistema operativo con `-O`: Linux en los ocho equipos, también en la .7, dato que se usa en V-13.
+- Enumeración de cada servicio, con dos aportaciones propias que están en los entregables:
+  - STOMP de ActiveMQ acepta conexiones sin credenciales (C-11).
+  - Rutas de administración que anuncia Tomcat (C-12).
+- Cuentas de Samba con `rpcclient` y listado de recursos con `smbclient -N -L` (C-10, junto con Natalia).
+- EPSS y KEV de CVE-2024-38475, que está en KEV y faltaba en el registro (V-14), y de CVE-2026-119618 (V-15).
+- Ficha de CVE-2013-4786 (IPMI) a partir de la referencia de la web de la .10.
+- Evidencias en [evidencias/EVIDENCIAS_GONZALO/](evidencias/EVIDENCIAS_GONZALO/) y capturas en
+  [imagenes/CAPTURAS_GONZALO/](imagenes/CAPTURAS_GONZALO/).
+
+### Natalia Alejo Pérez → [cuaderno](cuadernos/natalia-alejo.md)
+- Inventario con registro de sesión completo (`script`) y matriz de trazabilidad de cada dato.
+- Escaneo de la .10 (IPMI) a menor velocidad y comprobación de que los `open|filtered` de la .3 y la
+  .7 eran ruido.
+- Sesión nula de Samba en la .8: cuentas, recursos y el fichero `access.txt` de `myshare`, con un
+  token JWT caducado que contiene el correo `satriani7@eseemeb.dl` (C-10).
+- Intento de obtener la versión de Samba con `smb-os-discovery`, que dejó SambaCry sin confirmar.
+- Consulta de NVD, EPSS y KEV, incluido el KEV del aviso de la noticia.
+- Evidencias en [evidencias/EVIDENCIAS_NATALIA/](evidencias/EVIDENCIAS_NATALIA/).
+
+### Pablo Ostenero Reyes → [cuaderno](cuadernos/pablo-ostenero-reyes.md)
+- Inventario completo, con la .3 como equipo delicado, y la misma comparación con la hoja del cliente.
+- Enumeración de todos los servicios y búsqueda de cuentas, con el mismo resultado (`info@dockerlabs.lab`).
+- Fichas de NVD de CVE-2024-38475 y CVE-2026-119618, evidencias de V-14 y V-15.
+- Descartes razonados de varios CVE propuestos por `vulners`: CVE-2021-28169, CVE-2025-26465,
+  CVE-2023-28531, CVE-2026-60002, SambaCry y Zerologon.
+- regreSSHion en la .6 (V-04), comprobado también con el tracker de Debian.
+- EPSS del aviso de la noticia del 2026-11-23: 0,955, frente al 0,189 del 2026-11-20 (V-13).
+- Evidencias en [evidencias/EVIDENCIAS_PABLO/](evidencias/EVIDENCIAS_PABLO/) y capturas en
+  [imagenes/CAPTURAS_PABLO/](imagenes/CAPTURAS_PABLO/).
+
 ## Relación con la evaluación (RA3.b)
+
+En esta sección «hicimos» indica algo que hicimos los cuatro; cuando algo lo hizo solo una persona,
+se indica su nombre.
 
 ### Respeto de las reglas de compromiso
 Todo el trabajo es identificación no intrusiva dentro de `172.17.0.0/24`:
-- No se ha explotado nada, ni se han probado credenciales (tampoco las de fábrica), ni se ha hecho
-  fuerza bruta.
-- Los scripts de nmap se limitaron a los que son a la vez `default` y `safe`, excluyendo
-  expresamente `intrusive`, `exploit`, `dos`, `brute`, `malware`, `auth`, `broadcast` y
-  `external`. Antes de usar cada script suelto se comprobaron sus categorías.
-- Se descartaron herramientas que, aun pareciendo inofensivas, inician sesión: `smb-os-discovery`
-  abre una sesión anónima y `ipmi-dumphashes` explotaría el fallo de RAKP.
-- La única vez que nmap lanzó por su cuenta un script no pedido (`mqtt-subscribe`, al usar `-sV`)
-  está explicada en el inventario y en el registro.
-- La entrada de la hoja del cliente que queda fuera del alcance (172.17.1.6) no se ha tocado.
+- Nadie ha explotado nada, probado credenciales (tampoco las de fábrica) ni hecho fuerza bruta.
+- Los scripts de nmap se limitaron a categorías seguras, excluyendo `intrusive`, `exploit`, `dos`,
+  `brute`, `malware` y `auth`. Antes de usar cada script suelto comprobamos sus categorías.
+- Nadie usó herramientas que exploten un fallo: por ejemplo, no se pidió a IPMI ningún hash
+  (`ipmi-dumphashes`), no se lanzó ningún script contra el FTP de vsftpd y no se enviaron
+  mensajes ni suscripciones al broker ActiveMQ (la conexión STOMP de Gonzalo se cortó tras el
+  saludo).
+- La entrada de la hoja del cliente que queda fuera del alcance (172.17.1.6) no la tocó nadie.
+- Ningún equipo se cayó: Luis Miguel y Pablo vigilaron con `ping` el equipo que consideraron
+  delicado, sin pérdidas, y Natalia comprobó al terminar que seguían activos los ocho equipos.
+- **Diferencias de criterio**, explicadas en los entregables: Natalia y Gonzalo usaron la sesión
+  nula de SMB (sin contraseña) y Gonzalo usó `-O`; Luis Miguel y Pablo no, para no acceder con
+  credenciales vacías ni cargar el equipo delicado. Lo que se obtuvo así se recoge con su nombre.
+- La única vez que nmap lanzó por su cuenta un script no pedido (`mqtt-subscribe`, al usar `-sV` en
+  la copia de Luis Miguel) está explicada en el inventario y en el registro.
 
 ### Inventario de equipos → [inventario.md](inventario.md), Parte 1
-- **Descubrimiento con técnicas activas, sin fiarme de la hoja del cliente.** Hice un barrido
-  combinando ICMP, TCP SYN/ACK y UDP, y después otro con ARP. Los comparé con `diff`: en la misma
-  red un equipo puede ignorar ICMP, TCP y UDP, pero no ARP. Que coincidan demuestra que no hay
-  equipos ocultos. Resultado: **8 equipos vivos** (172.17.0.3 a 172.17.0.10).
-- **Mapa completo de puertos.** Escaneé los 65 535 puertos TCP de cada equipo, no solo los
+- **Descubrimiento con técnicas activas, sin fiarnos de la hoja del cliente.** Los cuatro hicimos
+  un barrido sin escanear puertos. Luis Miguel y Pablo combinaron ICMP, TCP y UDP y lo contrastaron
+  con un barrido ARP usando `diff`; Gonzalo usó ARP. Resultado común: **8 equipos vivos**
+  (172.17.0.3 a 172.17.0.10).
+- **Mapa completo de puertos.** Los cuatro escaneamos los 65 535 puertos TCP, no solo los
   habituales. Gracias a eso apareció la mensajería real del cliente: un broker ActiveMQ en 7
-  puertos altos de la .5 que la pasada de los 100 puertos más comunes no veía. En UDP revisé los
-  1000 puertos más comunes. Solo los que respondieron cuentan como abiertos (137/udp en la .8 y
-  623/udp en la .10); los `open|filtered` no se dan por abiertos, y la propia red lo confirmó (el
-  69/udp de la .7 resultó estar cerrado al repetirlo más despacio).
-- **Servicio y versión de cada puerto abierto** con `-sV`, solo sobre los puertos ya encontrados
-  abiertos. En total, 24 puertos TCP y 2 UDP, con su producto y versión. El sistema operativo se
-  dedujo de los banners, sin `-O`, para no enviar tráfico innecesario.
-- **Equipo antiguo y delicado.** Antes del escaneo completo hice una pasada suave para localizarlo.
-  Lo identifiqué como la 172.17.0.7 por la antigüedad de su software (OpenSSH 7.7 de 2018, sin
-  paquete de distribución). Lo escaneé con `--max-rate 30` en TCP y con `-T2` y
-  `--max-rate 10` en UDP, con un solo reintento y vigilado con `ping`. No se cayó ni perdió
-  paquetes.
+  puertos altos de la .5 que un escaneo de los puertos comunes no veía (Natalia lo comprobó
+  comparando su escaneo inicial con el completo).
+- **UDP.** Luis Miguel y Gonzalo revisaron los 1000 puertos más comunes y Natalia y Pablo los 100
+  más comunes. Los cuatro obtuvimos lo mismo: 137/udp en la .8 y 623/udp en la .10. Los
+  `open|filtered` no se dan por abiertos: Natalia vio que los de la .3 y la .7 desaparecían al
+  repetir el escaneo, y Luis Miguel que el 69/udp de la .7 salía cerrado al ir más despacio.
+- **Servicio y versión de cada puerto abierto** con `-sV`, solo sobre los puertos abiertos: 24
+  puertos TCP y 2 UDP, iguales en las cuatro copias. El sistema se dedujo de los banners y, además,
+  Gonzalo lo confirmó con `-O` (Linux en los ocho equipos).
+- **Equipo antiguo y delicado.** Cada uno lo buscó con su propio criterio antes del escaneo
+  completo: Luis Miguel eligió la .7 (OpenSSH 7.7 sin distribución), Pablo la .3 (vsftpd 2.3.4) y
+  Natalia escaneó la .10 (IPMI) más despacio. Los tres criterios están explicados en el inventario.
 - **Corrección de la hoja del cliente** ([apartado](inventario.md#correcciones-al-inventario-del-cliente)):
-  de sus 10 entradas, **7 sobran** (no responden ni a ARP), **2 tienen datos erróneos** (la .9 y la
-  .10 existen, pero con otro sistema y otros servicios) y 1 queda sin comprobar por estar fuera del
-  alcance. Además le **faltan 6 equipos vivos**, entre ellos los que prestan de verdad el FTP, el
-  portal, la mensajería y las carpetas compartidas. También se señala el nombre duplicado
-  SRV-PORTAL01.
+  Luis Miguel y Pablo llegaron por separado a las mismas cifras, y Natalia confirmó las mismas IP
+  sin respuesta: **7 entradas sobran**, **2 tienen datos erróneos** (la .9 y la .10), 1 queda sin
+  comprobar por estar fuera del alcance y **faltan 6 equipos vivos**, entre ellos los que prestan
+  de verdad el FTP, el portal, la mensajería y las carpetas compartidas.
 - Cada decisión (qué escanear, a qué velocidad y por qué no se hizo otra cosa) está justificada en
   la tabla «Decisiones de la Parte 1 y por qué».
 
 ### Enumeración de servicios y cuentas → [inventario.md](inventario.md), Parte 2
-- **Técnica adecuada a cada servicio, sin autenticarme:**
-  - Banners con `nc` sin enviar datos.
-  - Cabeceras HTTP, portada y `robots.txt` con `curl`, y `whatweb` en su nivel menos agresivo.
-  - Certificado TLS con `openssl`.
-  - Negociación SSH (`ssh2-enum-algos`, `ssh-hostkey`).
-  - Negociación SMB y nombres NetBIOS (`smb-protocols`, `smb2-security-mode`, `nbstat`,
-    `nmblookup`).
-  - Versión de IPMI (`ipmi-version`).
-- **Lo que se obtuvo, incluidos puertos altos y UDP:**
-  - Jenkins 2.441 en la .6, gracias a la cabecera `X-Jenkins`; nmap solo veía «Jetty».
-  - La versión exacta de ActiveMQ (5.15.15), anunciada por el propio broker en su `WireFormatInfo`
-    del puerto 61616.
-  - La traza Java que devuelve STOMP (61613).
-  - El certificado autofirmado y caducado del portal.
-  - En SMB, la firma no es obligatoria; nombre del equipo SAMBASERVER y grupo de trabajo
-    ESEEMEB.DL por NetBIOS (137/udp).
-  - IPMI 2.0 con autenticación `null` anunciada (623/udp).
-  - Algoritmos SSH débiles en los equipos antiguos.
+- **Técnica adecuada a cada servicio, sin autenticarnos:** banners con `nc`, cabeceras HTTP y
+  portada con `curl` (y `whatweb` en su nivel menos agresivo), certificado TLS con `openssl`,
+  negociación SSH (`ssh2-enum-algos`, `ssh-hostkey`), nombres NetBIOS (`nbstat`, `nmblookup`) y
+  versión de IPMI (`ipmi-version`). Los cuatro usamos técnicas equivalentes.
+- **Lo que obtuvimos entre todos:** Jenkins 2.441 en la .6 por la cabecera `X-Jenkins` (nmap solo
+  veía «Jetty»); la consola de ActiveMQ en el 8161 pidiendo contraseña; el certificado autofirmado
+  y caducado del portal; el nombre SAMBASERVER y el grupo ESEEMEB.DL; e IPMI 2.0 con autenticación
+  `null` anunciada en la .10.
+- **Aportaciones individuales:**
+  - Luis Miguel: la versión exacta de ActiveMQ (5.15.15) en el `WireFormatInfo` del 61616, la traza
+    Java de STOMP, la firma SMB no obligatoria y los algoritmos SSH débiles.
+  - Gonzalo: STOMP acepta conexiones sin credenciales; Tomcat anuncia sus rutas de administración;
+    y la web de la .10 cita CVE-2013-4786.
+  - Natalia y Gonzalo: con la sesión nula de Samba, las cuentas y los recursos de la .8; Natalia,
+    además, el fichero `access.txt` de `myshare` con un token JWT caducado.
 - **Cuentas de usuario** ([apartado](inventario.md#cuentas-de-usuario-descubiertas)): el correo
-  `info@dockerlabs.lab` y el autor `Devcrud` de la web de la .5. Busqué con `grep` todo lo que
-  pareciera una cuenta en las evidencias y revisé a mano cada candidato. Explico por qué
-  `ejemplo@correo.com`, `SAMBASERVER<03>` o `ESEEMEB.DL` **no** son cuentas.
-- **Limitaciones documentadas:** qué no se pudo obtener y por qué. Por ejemplo, los recursos y
-  usuarios de Samba exigirían una sesión nula, y las consolas de ActiveMQ, Jenkins y los
-  formularios de acceso piden credenciales. No se intentó ninguno.
+  `info@dockerlabs.lab` y el autor `Devcrud` de la web de la .5 (Luis Miguel y Pablo, cada uno con
+  su búsqueda revisada a mano); las cuentas de Samba de la .8 (`usuario1` a `usuario3`,
+  `satriani7`, `administrador`, `nobody` y `ubuntu`) y `satriani7@eseemeb.dl` (Natalia y
+  Gonzalo). Se explica también por qué `ejemplo@correo.com`, `SAMBASERVER<03>` o `ESEEMEB.DL`
+  **no** son cuentas.
+- **Limitaciones documentadas:** la versión exacta de Samba no se conoce (tampoco con la sesión
+  nula de Natalia), y las consolas de ActiveMQ, Jenkins y los formularios de acceso piden
+  credenciales. Nadie las probó.
 
 ### Vulnerabilidades caracterizadas y priorizadas → [registro-vulns.md](registro-vulns.md)
-- **De la versión al CVE con contraste:**
-  1. Saqué los candidatos con el script `vulners` de nmap y con `searchsploit`, en este último
-     solo para listar, sin abrir ni ejecutar nada.
-  2. Verifiqué cada uno en NVD (rango de versiones afectadas, campo `cpeMatch`) y en los trackers
-     de seguridad de Debian y Ubuntu, para detectar parches aplicados sin cambiar el número de
-     versión (backports).
-  3. Añadí a mano lo que las herramientas no veían: Jenkins, porque nmap no lo identificaba, e
-     IPMI, porque `vulners` solo revisa TCP.
-- **13 hallazgos, cada uno con su ficha:**
-  - CVE con explicación.
-  - CWE, la que asigna NVD (o señalada como propia cuando NVD no da una concreta).
-  - Técnica ATT&CK, con una regla única: T1190 para lo que da la cara al exterior y T1210 para los
-    servicios internos.
-  - Lo observado, por qué se sospecha, evidencias y capturas, limitaciones y qué queda pendiente
-    de comprobar sin explotar.
-- **Descarte de falsos positivos** ([apartado](registro-vulns.md#candidatos-descartados-falsos-positivos)),
-  cada uno con su motivo:
-  - regreSSHion en la .8 y la .9, y Terrapin en la .4, .6 y .9: ya parcheados por la distribución,
-    porque la revisión del paquete es posterior a la del parche.
-  - CVE-2024-50379: solo afecta a Windows.
-  - CVE-2023-38408: afecta al cliente SSH, no al servidor.
-  - Más de 300 CVE de Samba: la versión «4» no permite evaluar ningún rango.
-  - Además comprobé que el Apache 2.4.68 de la .9 es una versión real que distribuye Debian 12, y
-    no un banner falso, antes de usarlo para descartar.
-  - El CVE de la noticia, descartado en la .4, .6, .8 y .9: exige musl libc y esos equipos son
-    Debian o Ubuntu (glibc), según los trackers de Debian y Ubuntu.
-- **Priorización con datos, no por intuición**
-  ([apartado](registro-vulns.md#orden-de-prioridad)):
-  - Cada ficha tiene CVSS (versión, vector e impacto en confidencialidad, integridad y
-    disponibilidad), EPSS y KEV con uso en ransomware, con fuente y fecha de consulta.
+- **De la versión al CVE con contraste:** sacamos candidatos con `vulners` y `searchsploit` (solo
+  para listar), los verificamos en NVD (`cpeMatch`) y, en el caso de Luis Miguel y Pablo, en los
+  trackers de Debian y Ubuntu para detectar backports. Luis Miguel añadió a mano Jenkins e IPMI,
+  que las herramientas no veían.
+- **15 hallazgos, cada uno con su ficha:** CVE con explicación, CWE, técnica ATT&CK (T1190 para lo
+  que da la cara al exterior y T1210 para lo interno), lo observado, por qué se sospecha,
+  evidencias, limitaciones y qué queda por comprobar sin explotar. La tabla «Contraste con el
+  trabajo del grupo» del registro dice quién registró cada uno:
+  - Comunes a todos: vsftpd (V-01), ActiveMQ (V-02) y «sshole» (V-13); Ghostcat (V-03), Jenkins
+    (V-08), IPMI (V-12) y el de enumeración de usuarios SSH (V-06) los registramos varios.
+  - Aportados por Gonzalo y Pablo: `mod_rewrite` de Apache (V-14, en KEV) y `mod_http2` (V-15).
+- **Descarte de falsos positivos**
+  ([apartado](registro-vulns.md#candidatos-descartados-falsos-positivos)), cada uno con su motivo:
+  backports de Debian y Ubuntu (regreSSHion en la .8 y la .9, Terrapin en la .4, .6 y .9), fallos
+  que solo afectan al cliente SSH o a Windows, Samba sin versión evaluable y, aportados por Pablo,
+  el ConcatServlet de Jetty, SambaCry y Zerologon. Luis Miguel comprobó además que el Apache 2.4.68
+  de la .9 es una versión real antes de usarla para descartar.
+- **Priorización con datos, no por intuición** ([apartado](registro-vulns.md#orden-de-prioridad)):
+  - Cada ficha tiene CVSS (versión, vector e impacto en C/I/A), EPSS y KEV con uso en ransomware,
+    con fuente y fecha de consulta (y quién la hizo, cuando el dato viene de otro integrante).
   - El orden aplica primero KEV, después el tramo de CVSS y, dentro de cada tramo, EPSS y la
-    solidez de la evidencia antes que la importancia del equipo.
-  - Cada fila justifica por qué va antes que la siguiente. Hay casos en los que el orden contradice
-    al CVSS, explicados uno a uno; por ejemplo, Apache, con CVSS 9,8, queda último porque depende
-    de una configuración sin indicios y tiene el EPSS más bajo.
-  - Resultado: 5 hallazgos en KEV, 2 de ellos usados en ransomware (ActiveMQ y Jenkins), que
-    encabezan la lista.
-  - Ejemplo de KEV por encima del CVSS: el fallo de la noticia (V-13, CVSS 8,1) va antes que la
-    puerta trasera de vsftpd (V-01, CVSS 9,8) porque CISA confirma que ya se está explotando.
-- **Respuesta al aviso de la noticia** (CVE-2026-123158, «sshole»): lo investigué en NVD, cve.org,
-  EPSS, KEV, los trackers de Debian y Ubuntu y el artículo que reenvió el cliente. Lo contrasté
-  con los cinco equipos que tienen OpenSSH. Resultado:
-  - En los cuatro Debian y Ubuntu, «según lo observado, no», porque el fallo exige musl libc sin
-    PAM.
-  - En la .7, «no lo podemos descartar»: su versión entra en el rango y no se sabe qué sistema
-    usa. Queda como V-13, con lo que falta comprobar desde dentro y una mitigación barata
-    (desactivar el acceso por contraseña).
-- **Hallazgos de configuración sin CVE** (C-01 a C-09), recogidos aparte porque no se pueden
-  puntuar con CVSS, EPSS ni KEV.
-- **Informe para el cliente** ([informe-cliente.md](informe-cliente.md)) en lenguaje no técnico:
-  - Las tres correcciones prioritarias y dos medidas urgentes y baratas: la puerta trasera de
-    vsftpd y el acceso por contraseña del equipo antiguo.
-  - Qué otros fallos quedan cubiertos por esas mismas actualizaciones.
-  - La respuesta a la noticia, separando lo que sostienen las evidencias de lo que queda pendiente.
+    solidez de la evidencia antes que la importancia del equipo. Cada fila justifica por qué va
+    antes que la siguiente.
+  - Resultado: 6 hallazgos en KEV, 2 de ellos usados en ransomware (ActiveMQ y Jenkins), que
+    encabezan la lista. El sexto, `mod_rewrite` de Apache, salió al contrastar el trabajo del grupo.
+  - Ejemplo de KEV por encima del CVSS: «sshole» (V-13, CVSS 8,1) va antes que la puerta trasera de
+    vsftpd (V-01, CVSS 9,8) porque CISA confirma que ya se está explotando.
+- **Respuesta al aviso de la noticia** (CVE-2026-123158, «sshole»): los cuatro lo contrastamos con
+  los cinco equipos con OpenSSH. En los cuatro Debian y Ubuntu, «según lo observado, no» (el fallo
+  exige musl libc sin PAM); en la .7, «no lo podemos descartar». Gonzalo aportó que la .7 es Linux
+  (`-O`) y Pablo que el EPSS subió de 0,189 a 0,955 en tres días, lo que refuerza la urgencia.
+- **Hallazgos de configuración sin CVE** (C-01 a C-12; C-10 a C-12 aportados por Natalia y
+  Gonzalo), aparte porque no se puntúan con CVSS, EPSS ni KEV.
+- **Informe para el cliente** ([informe-cliente.md](informe-cliente.md)), en lenguaje no técnico:
+  tres correcciones prioritarias, tres medidas urgentes y baratas (vsftpd, acceso por contraseña
+  del equipo antiguo y acceso anónimo a las carpetas compartidas), qué otros fallos cubren esas
+  mismas actualizaciones y la respuesta a la noticia, separando lo que sostienen las evidencias de
+  lo que queda pendiente.
 
-### Cuaderno y evidencias → [mi cuaderno](cuadernos/luis-miguel-gomila-dominguez.md)
-- Desde el primer comando, cada acción tiene sus cinco notas: cuándo (en UTC), objetivo y que está
-  en alcance, qué hice (con el comando exacto), qué salió y siguiente paso. Al final de cada parte
-  hay un resumen.
-- Cada dato de los entregables cita su fichero de salida en [evidencias/](evidencias/), ordenado
-  por parte (p1 a p4), y su captura en [imagenes/](imagenes/). Los comandos con su fecha y hora
-  están en `evidencias/pN/historial-comandos.txt`.
-- El cuaderno también recoge los errores y las rectificaciones: escaneos cancelados por lentos,
-  el script lanzado sin pedirlo, la corrección de criterios de ATT&CK y del orden de prioridad.
-  Así se puede seguir cómo se llegó a cada conclusión.
+### Cuadernos y evidencias → [Cuadernos del grupo](#cuadernos-del-grupo)
+- Cada integrante tiene su cuaderno individual con las cinco notas de cada comprobación: cuándo,
+  objetivo y que está en alcance, qué se hizo (con el comando exacto), qué salió y siguiente paso.
+- Cada dato de los entregables cita el fichero de salida o la captura de quien lo obtuvo, en
+  `evidencias/EVIDENCIAS_<NOMBRE>/` e `imagenes/CAPTURAS_<NOMBRE>/`.
+- Los cuadernos recogen también los errores y las rectificaciones de cada uno, para poder seguir
+  cómo se llegó a cada conclusión.
 
 ## Cuadernos del grupo
 
 Cada integrante ha trabajado sobre su propia red y mantiene su propio cuaderno.
 
-- [Luis Miguel Gomila Domínguez](cuadernos/luis-miguel-gomila-dominguez.md)
-- [Gonzalo <Apellido>](cuadernos/gonzalo-<apellido>.md)
-- [Natalia <Apellido>](cuadernos/natalia-<apellido>.md)
-- [Pablo Ostenero](cuadernos/pablo-ostenero.md)
-
-Las capturas y evidencias que citan los cuadernos de mis compañeros están en
-`imagenes/<nombre>/` y `evidencias/<nombre>/`.
+| Integrante | Cuaderno | Evidencias | Capturas |
+|---|---|---|---|
+| Luis Miguel Gomila Domínguez | [cuaderno](cuadernos/luis-miguel-gomila-dominguez.md) | [EVIDENCIAS_LUISMI](evidencias/EVIDENCIAS_LUISMI/) | [CAPTURAS_LUISMI](imagenes/CAPTURAS_LUISMI/) |
+| Gonzalo García Vega | [cuaderno](cuadernos/gonzalo-garciavega-1.md) | [EVIDENCIAS_GONZALO](evidencias/EVIDENCIAS_GONZALO/) | [CAPTURAS_GONZALO](imagenes/CAPTURAS_GONZALO/) |
+| Natalia Alejo Pérez | [cuaderno](cuadernos/natalia-alejo.md) | [EVIDENCIAS_NATALIA](evidencias/EVIDENCIAS_NATALIA/) | dentro de sus evidencias |
+| Pablo Ostenero Reyes | [cuaderno](cuadernos/pablo-ostenero-reyes.md) | [EVIDENCIAS_PABLO](evidencias/EVIDENCIAS_PABLO/) | [CAPTURAS_PABLO](imagenes/CAPTURAS_PABLO/) |
 
 ## Evidencias y capturas
 
-- [evidencias/](evidencias/): salidas de todas mis herramientas, por parte (p1 a p4).
-- [imagenes/](imagenes/): capturas de pantalla de cada comando, con el prefijo de su parte (p0 a p4).
+**Nota sobre las evidencias:** el fichero `access.txt` que Natalia leyó en el recurso `myshare` de la
+172.17.0.8 no se publica en el repositorio. En su registro de sesión
+([`registro_sesion_terminal.log`](evidencias/EVIDENCIAS_NATALIA/registro_sesion_terminal.log)) la
+firma del token aparece sustituida por `[FIRMA-JWT-REDACTADA]`; solo queda visible su contenido
+decodificado (correo, rol y fechas), que es lo que se cita en los entregables.
+
+- `evidencias/EVIDENCIAS_<NOMBRE>/`: salidas de las herramientas de cada integrante.
+- `imagenes/CAPTURAS_<NOMBRE>/`: capturas de pantalla de cada integrante.
+- Las de Luis Miguel están ordenadas por parte: [evidencias/EVIDENCIAS_LUISMI/](evidencias/EVIDENCIAS_LUISMI/)
+  (p1 a p4) e [imagenes/CAPTURAS_LUISMI/](imagenes/CAPTURAS_LUISMI/) (prefijos p0 a p4).

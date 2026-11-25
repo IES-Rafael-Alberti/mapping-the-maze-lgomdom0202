@@ -7,7 +7,14 @@ IP desde la que trabajo: 172.17.0.1 (interfaz docker0)
 Partes: de la 0 a la 4 (cada integrante las hace todas sobre su propia red)
 
 Cada entrada sigue las cinco notas de la UD1: cuándo, objetivo y alcance,
-qué hice, qué salió y siguiente paso. Las salidas completas están en evidencias/.
+qué hice, qué salió y siguiente paso. Las salidas completas están en
+`evidencias/EVIDENCIAS_LUISMI/` y las capturas en `imagenes/CAPTURAS_LUISMI/`.
+
+**Sobre las rutas:** al reunir el trabajo del grupo en un solo repositorio, mis evidencias y
+capturas se movieron a carpetas con mi nombre (`evidencias/p1/` pasó a ser
+`evidencias/EVIDENCIAS_LUISMI/p1/`, y lo mismo con p2 a p4 y con `imagenes/`). Las referencias del
+cuaderno ya apuntan a la ruta nueva. Los comandos se han dejado **tal como se ejecutaron**, con la
+ruta original, para que coincidan con `historial-comandos.txt`.
 
 **Sobre los `git add`, `git commit` y `git push` del historial:** durante el trabajo usé un
 repositorio intermedio para pasar los ficheros de evidencias desde la máquina Kali a mi
@@ -26,7 +33,7 @@ en el historial y en algunas entradas. No envían tráfico a la red del cliente.
 - **Qué salió:** las nueve herramientas están instaladas en `/usr/bin/`; no hace falta instalar
   nada. Se ejecutó en una terminal que estaba en PowerShell, por lo que este comando no quedó
   en el historial con fecha de zsh.
-- **Captura:** ![Comprobación de herramientas instaladas](../imagenes/p0-01-herramientas.png)
+- **Captura:** ![Comprobación de herramientas instaladas](../imagenes/CAPTURAS_LUISMI/p0-01-herramientas.png)
 - **Siguiente paso:** clonar el repositorio del proyecto y comprobar el alcance.
 
 ### 2026-11-17 antes de las 15:03 - Repositorio clonado y alcance comprobado
@@ -40,7 +47,7 @@ en el historial y en algunas entradas. No envían tráfico a la red del cliente.
   repositorio tiene la estructura del enunciado: `cuadernos/` (con este cuaderno),
   `inventario.md`, `registro-vulns.md`, `informe-cliente.md`, `README.md`, `evidencias/p1` a
   `p4` e `imagenes/`. La carpeta `agente/` y `comparativa.md` se añadirán en la Parte 5.
-- **Captura:** ![Contenido de scope.txt y estructura del repositorio](../imagenes/p0-02-estructura-scope.png)
+- **Captura:** ![Contenido de scope.txt y estructura del repositorio](../imagenes/CAPTURAS_LUISMI/p0-02-estructura-scope.png)
 - **Siguiente paso:** pasar la terminal a zsh, activar el historial con fecha y guardar el filtro
   seguro de scripts de nmap.
 
@@ -56,7 +63,7 @@ en el historial y en algunas entradas. No envían tráfico a la red del cliente.
   `default` y `safe`, y quedan excluidas las categorías que prohíben las reglas de compromiso
   (exploit, intrusive, dos, brute, malware), además de auth, broadcast y external. Se ve en la
   parte superior de la captura de la entrada siguiente.
-- **Captura:** ![Filtro SAFE comprobado](../imagenes/p0-03-mi-ip.png)
+- **Captura:** ![Filtro SAFE comprobado](../imagenes/CAPTURAS_LUISMI/p0-03-mi-ip.png)
 - **Siguiente paso:** identificar desde qué IP trabajo dentro de la red del cliente.
 
 ### 2026-11-17 15:04 - IP de trabajo y ruta hacia la red del cliente
@@ -70,7 +77,7 @@ en el historial y en algunas entradas. No envían tráfico a la red del cliente.
   salir de él. Las otras interfaces, `eth0` (10.30.0.15/16) y `eth1` (10.50.0.105/24), están fuera
   del alcance y no se escanearán. Hay varias interfaces `veth`, que son los equipos del laboratorio
   conectados a `docker0`.
-- **Captura:** ![IP de trabajo dentro del rango](../imagenes/p0-03-mi-ip.png)
+- **Captura:** ![IP de trabajo dentro del rango](../imagenes/CAPTURAS_LUISMI/p0-03-mi-ip.png)
 - **Siguiente paso:** Parte 1. Descubrir los equipos vivos de 172.17.0.0/24 y excluir del
   inventario mi propia IP, 172.17.0.1.
 
@@ -81,7 +88,7 @@ en el historial y en algunas entradas. No envían tráfico a la red del cliente.
 Criterio de toda la parte: todo se lanza contra `scope.txt` (172.17.0.0/24); sin scripts NSE,
 sin `-O` y sin `-A`, solo descubrimiento, escaneo de puertos y detección de versión. La hoja del
 cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
-`evidencias/p1/historial-comandos.txt` y de las cabeceras de nmap.
+`evidencias/EVIDENCIAS_LUISMI/p1/historial-comandos.txt` y de las cabeceras de nmap.
 
 ### 2026-11-17 15:12 - Descubrimiento de equipos vivos
 - **Cuándo:** 2026-11-17 15:12 (nmap de 15:12:50 a 15:12:54)
@@ -94,8 +101,8 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
   `awk '/Status: Up/{print $2}' evidencias/p1/01-descubrimiento.gnmap | sort -t. -k4 -n | tee evidencias/p1/vivos.txt`.
 - **Qué salió:** 256 direcciones escaneadas en 4 segundos y **9 equipos vivos**: 172.17.0.1 (yo) y
   de 172.17.0.3 a 172.17.0.10, todos con dirección MAC. Evidencias:
-  `evidencias/p1/01-descubrimiento.{nmap,gnmap,xml}` y `evidencias/p1/vivos.txt`.
-- **Captura:** ![Barrido de descubrimiento con los equipos vivos](../imagenes/p1-01-descubrimiento.png)
+  `evidencias/EVIDENCIAS_LUISMI/p1/01-descubrimiento.{nmap,gnmap,xml}` y `evidencias/EVIDENCIAS_LUISMI/p1/vivos.txt`.
+- **Captura:** ![Barrido de descubrimiento con los equipos vivos](../imagenes/CAPTURAS_LUISMI/p1-01-descubrimiento.png)
 - **Siguiente paso:** contrastar el resultado con un barrido ARP.
 
 ### 2026-11-17 15:17 - Contraste con barrido ARP
@@ -103,11 +110,11 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
 - **Objetivo y alcance:** confirmar que no se escapa ningún equipo. En una red local un equipo
   puede ignorar ICMP o TCP, pero no ARP. Mismo alcance.
 - **Qué hice:** `sudo nmap -sn -PR -iL scope.txt -oA evidencias/p1/02-descubrimiento-arp`, extracción
-  a `evidencias/p1/vivos-arp.txt` y comparación con
+  a `evidencias/EVIDENCIAS_LUISMI/p1/vivos-arp.txt` y comparación con
   `diff evidencias/p1/vivos.txt evidencias/p1/vivos-arp.txt && echo "COINCIDEN"`.
 - **Qué salió:** `COINCIDEN`. ARP ve exactamente los mismos 9 equipos; no hay equipos ocultos.
-  Evidencias: `evidencias/p1/02-descubrimiento-arp.{nmap,gnmap,xml}` y `evidencias/p1/vivos-arp.txt`.
-- **Captura:** ![Barrido ARP: coinciden con el descubrimiento](../imagenes/p1-02-arp-coinciden.png)
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p1/02-descubrimiento-arp.{nmap,gnmap,xml}` y `evidencias/EVIDENCIAS_LUISMI/p1/vivos-arp.txt`.
+- **Captura:** ![Barrido ARP: coinciden con el descubrimiento](../imagenes/CAPTURAS_LUISMI/p1-02-arp-coinciden.png)
 - **Siguiente paso:** quitar mi propia IP de la lista de equipos.
 
 ### 2026-11-17 15:20 - Exclusión de mi IP
@@ -115,10 +122,10 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
 - **Objetivo y alcance:** que la lista de trabajo solo tenga equipos del cliente.
 - **Qué hice:** `MIIP=$(ip -br a | grep -oE '172\.17\.0\.[0-9]+' | head -1)` y
   `grep -vx "$MIIP" evidencias/p1/vivos.txt > /tmp/v && mv /tmp/v evidencias/p1/vivos.txt`.
-- **Qué salió:** `evidencias/p1/vivos.txt` queda con **8 equipos del cliente, de 172.17.0.3 a
+- **Qué salió:** `evidencias/EVIDENCIAS_LUISMI/p1/vivos.txt` queda con **8 equipos del cliente, de 172.17.0.3 a
   172.17.0.10**. `vivos-arp.txt` conserva la .1 porque es la salida en bruto del ARP.
 - **Captura:** se ve el resultado en la captura de la entrada anterior
-  (![Lista de vivos](../imagenes/p1-02-arp-coinciden.png)).
+  (![Lista de vivos](../imagenes/CAPTURAS_LUISMI/p1-02-arp-coinciden.png)).
 - **Siguiente paso:** pasada suave a cada equipo para localizar el equipo delicado antes de
   escanear a fondo.
 
@@ -134,8 +141,8 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
 - **Qué salió:** todos responden y ninguno se cae. Destacan 172.17.0.3 con **vsftpd 2.3.4**,
   172.17.0.7 con **solo SSH, OpenSSH 7.7** sin paquete de distribución, y 172.17.0.10 con un
   servidor web de Python. El resto muestra Debian o Ubuntu con versiones de paquete. Evidencias:
-  `evidencias/p1/03-suave-172.17.0.*.{nmap,gnmap,xml}`.
-- **Captura:** ![Pasada suave con los banners de todos los equipos](../imagenes/p1-03-pasada-suave.png)
+  `evidencias/EVIDENCIAS_LUISMI/p1/03-suave-172.17.0.*.{nmap,gnmap,xml}`.
+- **Captura:** ![Pasada suave con los banners de todos los equipos](../imagenes/CAPTURAS_LUISMI/p1-03-pasada-suave.png)
 - **Siguiente paso:** comparar los tres candidatos a equipo delicado (.3, .7 y .10).
 
 ### 2026-11-17 15:41 - Búsqueda del equipo delicado por tiempos de respuesta
@@ -143,7 +150,7 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
 - **Objetivo y alcance:** ver si alguno de los candidatos responde peor que el resto (latencia,
   variación, retransmisiones). Lectura de evidencias y `ping` a tres equipos del alcance.
 - **Qué hice:** `grep -H -E "Host is up|scanned in" evidencias/p1/03-suave-172.17.0.{3,7,10}.nmap`;
-  bucle `ping -c 20 -i 0.5` a 172.17.0.3, .7 y .10 guardado en `evidencias/p1/04-ping-candidatos.txt`;
+  bucle `ping -c 20 -i 0.5` a 172.17.0.3, .7 y .10 guardado en `evidencias/EVIDENCIAS_LUISMI/p1/04-ping-candidatos.txt`;
   `grep -H "<times" evidencias/p1/03-suave-*.xml` y búsqueda de avisos
   (`Warning|retransmission|giving up|RTTVAR`) en las salidas suaves.
 - **Qué salió:** no se distinguen. En los XML todos tienen `srtt` entre 40 y 55 µs y `rttvar`
@@ -151,7 +158,7 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
   se nota en reposo. **Limitación:** el bucle de `ping` no dejó estadísticas en
   `04-ping-candidatos.txt` (solo las cabeceras `== IP`), así que esa comparación no tiene evidencia
   válida; la vigilancia que sí la tiene es la de las 16:08.
-- **Captura:** no hay; la evidencia es `evidencias/p1/03-suave-*.xml`.
+- **Captura:** no hay; la evidencia es `evidencias/EVIDENCIAS_LUISMI/p1/03-suave-*.xml`.
 - **Siguiente paso:** decidir por los banners. 172.17.0.7 es el sistema más antiguo (OpenSSH 7.7,
   de 2018, sin paquete de distribución) y lo trato como equipo delicado.
 
@@ -174,8 +181,8 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
   Terminal 2: `ping 172.17.0.7` durante todo el escaneo.
 - **Qué salió:** solo 22/tcp abierto (OpenSSH 7.7). El `ping` dio **43 paquetes enviados, 43
   recibidos, 0 % de pérdida**, rtt 0,017/0,037/0,093 ms: el equipo no sufrió. Evidencias:
-  `evidencias/p1/03b-suave-vigilado-172.17.0.7.{nmap,gnmap,xml}`.
-- **Captura:** ![Ping de vigilancia al equipo delicado durante el escaneo](../imagenes/p1-04-ping-fragil.png)
+  `evidencias/EVIDENCIAS_LUISMI/p1/03b-suave-vigilado-172.17.0.7.{nmap,gnmap,xml}`.
+- **Captura:** ![Ping de vigilancia al equipo delicado durante el escaneo](../imagenes/CAPTURAS_LUISMI/p1-04-ping-fragil.png)
 - **Siguiente paso:** escanear todos los puertos TCP, empezando por los equipos normales.
 
 ### 2026-11-17 16:12 - Todos los puertos TCP de los 7 equipos normales
@@ -188,8 +195,8 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
   5672, 8161, 38443, 61613, 61614 y 61616 (el broker de mensajería). Los nombres de servicio de
   esta salida (`http-proxy`, `unknown`...) los pone nmap solo por el número de puerto; los reales
   salen en la detección de versión de las 18:37. Evidencias:
-  `evidencias/p1/10-tcp-all-172.17.0.{3,4,5,6,8,9,10}.{nmap,gnmap,xml}`.
-- **Captura:** ![Escaneo completo de puertos TCP de todos los equipos](../imagenes/p1-05-tcp-all-todas.png)
+  `evidencias/EVIDENCIAS_LUISMI/p1/10-tcp-all-172.17.0.{3,4,5,6,8,9,10}.{nmap,gnmap,xml}`.
+- **Captura:** ![Escaneo completo de puertos TCP de todos los equipos](../imagenes/CAPTURAS_LUISMI/p1-05-tcp-all-todas.png)
 - **Siguiente paso:** escanear todos los puertos del equipo delicado, más despacio.
 
 ### 2026-11-17 16:54 - Todos los puertos TCP del equipo delicado
@@ -203,9 +210,9 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
   el límite real lo pone `--max-rate 30` (como mucho 30 paquetes por segundo), no la plantilla
   de tiempos. Revisión con `grep open evidencias/p1/10-tcp-all-$FRAGIL.nmap`.
 - **Qué salió:** 65 534 puertos cerrados y **solo 22/tcp abierto**. El equipo siguió respondiendo
-  durante todo el escaneo. Evidencias: `evidencias/p1/10-tcp-all-172.17.0.7.{nmap,gnmap,xml}`.
+  durante todo el escaneo. Evidencias: `evidencias/EVIDENCIAS_LUISMI/p1/10-tcp-all-172.17.0.7.{nmap,gnmap,xml}`.
 - **Captura:** se incluye en la captura del escaneo completo
-  (![Escaneo completo de puertos TCP](../imagenes/p1-05-tcp-all-todas.png)).
+  (![Escaneo completo de puertos TCP](../imagenes/CAPTURAS_LUISMI/p1-05-tcp-all-todas.png)).
 - **Siguiente paso:** detectar la versión de cada puerto abierto.
 
 ### 2026-11-17 18:37 - Versión de cada puerto TCP abierto
@@ -234,24 +241,24 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
   **Aviso (no se toca):** vsftpd 2.3.4 en 172.17.0.3:21 es una versión conocida por llevar una
   puerta trasera, y ActiveMQ 5.15.15 en 172.17.0.5:61616 es una versión antigua del broker. Solo
   se ha leído el banner; se estudian en la Parte 3. Evidencias:
-  `evidencias/p1/11-tcp-ver-172.17.0.*.{nmap,gnmap,xml}`.
+  `evidencias/EVIDENCIAS_LUISMI/p1/11-tcp-ver-172.17.0.*.{nmap,gnmap,xml}`.
 - **Capturas:**
 
-  ![Versiones de 172.17.0.3](../imagenes/p1-06-versiones-172.17.0.3.png)
+  ![Versiones de 172.17.0.3](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.3.png)
 
-  ![Versiones de 172.17.0.4](../imagenes/p1-06-versiones-172.17.0.4.png)
+  ![Versiones de 172.17.0.4](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.4.png)
 
-  ![Versiones de 172.17.0.5](../imagenes/p1-06-versiones-172.17.0.5.png)
+  ![Versiones de 172.17.0.5](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.5.png)
 
-  ![Versiones de 172.17.0.6](../imagenes/p1-06-versiones-172.17.0.6.png)
+  ![Versiones de 172.17.0.6](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.6.png)
 
-  ![Versiones de 172.17.0.7 (equipo delicado)](../imagenes/p1-06-versiones-172.17.0.7.png)
+  ![Versiones de 172.17.0.7 (equipo delicado)](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.7.png)
 
-  ![Versiones de 172.17.0.8](../imagenes/p1-06-versiones-172.17.0.8.png)
+  ![Versiones de 172.17.0.8](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.8.png)
 
-  ![Versiones de 172.17.0.9](../imagenes/p1-06-versiones-172.17.0.9.png)
+  ![Versiones de 172.17.0.9](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.9.png)
 
-  ![Versiones de 172.17.0.10](../imagenes/p1-06-versiones-172.17.0.10.png)
+  ![Versiones de 172.17.0.10](../imagenes/CAPTURAS_LUISMI/p1-06-versiones-172.17.0.10.png)
 - **Siguiente paso:** UDP, porque no todo habla TCP.
 
 ### 2026-11-17 18:48 - Puertos UDP
@@ -271,35 +278,35 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
     abiertos. El aviso `retransmission cap hit (1)` es por el límite de un reintento que puse a
     propósito.
 
-  Evidencias: `evidencias/p1/12-udp-172.17.0.*.{nmap,gnmap,xml}`.
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p1/12-udp-172.17.0.*.{nmap,gnmap,xml}`.
 - **Capturas:**
 
-  ![UDP de 172.17.0.3](../imagenes/p1-07-udp-172.17.0.3.png)
+  ![UDP de 172.17.0.3](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.3.png)
 
-  ![UDP de 172.17.0.4](../imagenes/p1-07-udp-172.17.0.4.png)
+  ![UDP de 172.17.0.4](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.4.png)
 
-  ![UDP de 172.17.0.5](../imagenes/p1-07-udp-172.17.0.5.png)
+  ![UDP de 172.17.0.5](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.5.png)
 
-  ![UDP de 172.17.0.6](../imagenes/p1-07-udp-172.17.0.6.png)
+  ![UDP de 172.17.0.6](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.6.png)
 
-  ![UDP de 172.17.0.7 (equipo delicado)](../imagenes/p1-07-udp-172.17.0.7.png)
+  ![UDP de 172.17.0.7 (equipo delicado)](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.7.png)
 
-  ![UDP de 172.17.0.8](../imagenes/p1-07-udp-172.17.0.8.png)
+  ![UDP de 172.17.0.8](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.8.png)
 
-  ![UDP de 172.17.0.9](../imagenes/p1-07-udp-172.17.0.9.png)
+  ![UDP de 172.17.0.9](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.9.png)
 
-  ![UDP de 172.17.0.10](../imagenes/p1-07-udp-172.17.0.10.png)
+  ![UDP de 172.17.0.10](../imagenes/CAPTURAS_LUISMI/p1-07-udp-172.17.0.10.png)
 - **Siguiente paso:** juntar todos los puertos abiertos en un resumen.
 
 ### 2026-11-17 18:55 - Resumen de puertos abiertos
 - **Cuándo:** 2026-11-17 18:55; regenerado a las 19:02 tras repetir la versión del equipo delicado
 - **Objetivo y alcance:** una sola lista con todo lo abierto (TCP con versión y UDP) para el
   inventario. Solo se leen evidencias.
-- **Qué hice:** bucle sobre `evidencias/p1/11-tcp-ver-*.nmap` y `evidencias/p1/12-udp-*.nmap` con
+- **Qué hice:** bucle sobre `evidencias/EVIDENCIAS_LUISMI/p1/11-tcp-ver-*.nmap` y `evidencias/EVIDENCIAS_LUISMI/p1/12-udp-*.nmap` con
   `grep -E "^[0-9]+/(tcp|udp) +open "`, guardado con `tee evidencias/p1/resumen-puertos.txt`.
 - **Qué salió:** **8 equipos, 24 puertos TCP y 2 puertos UDP abiertos**. Evidencia:
-  `evidencias/p1/resumen-puertos.txt`.
-- **Captura:** ![Resumen de puertos observados](../imagenes/p1-08-resumen-puertos.png)
+  `evidencias/EVIDENCIAS_LUISMI/p1/resumen-puertos.txt`.
+- **Captura:** ![Resumen de puertos observados](../imagenes/CAPTURAS_LUISMI/p1-08-resumen-puertos.png)
 - **Siguiente paso:** ahora sí, contrastar con la hoja del cliente.
 
 ### 2026-11-17 19:02 - Contraste con el inventario del cliente
@@ -326,7 +333,7 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
     sistema no se pudo identificar.
 
   Detalle completo en [inventario.md](../inventario.md#correcciones-al-inventario-del-cliente).
-- **Captura:** ![Hoja de inventario entregada por el cliente](../imagenes/p1-09-hoja-cliente.png)
+- **Captura:** ![Hoja de inventario entregada por el cliente](../imagenes/CAPTURAS_LUISMI/p1-09-hoja-cliente.png)
 - **Siguiente paso:** guardar el historial de comandos y redactar el inventario.
 
 ### 2026-11-17 19:10 - Historial de comandos guardado
@@ -334,12 +341,12 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
 - **Objetivo y alcance:** dejar como evidencia todos los comandos de la sesión con su hora.
   Comando local.
 - **Qué hice:** exporté el historial de zsh con fecha (`fc -li`) a
-  `evidencias/p1/historial-comandos.txt` y lo comprobé con `wc -l`.
+  `evidencias/EVIDENCIAS_LUISMI/p1/historial-comandos.txt` y lo comprobé con `wc -l`.
 - **Qué salió:** el fichero tiene todas las órdenes con su hora, incluidos los intentos
   cancelados y repetidos. Es la fuente de las horas de esta parte. El 2026-11-18 se le añadieron
   los comandos de subida de estas evidencias (19:11 a 19:24), que estaban en el historial de la
   Parte 2 (ver «Historiales separados por parte», en la Parte 4).
-- **Captura:** no hay; la evidencia es `evidencias/p1/historial-comandos.txt`.
+- **Captura:** no hay; la evidencia es `evidencias/EVIDENCIAS_LUISMI/p1/historial-comandos.txt`.
 - **Siguiente paso:** Parte 2. Enumerar sin autenticar cada servicio, empezando por los puertos
   altos de 172.17.0.5, Samba y NetBIOS en 172.17.0.8 e IPMI en 172.17.0.10. 172.17.0.7 se seguirá
   tratando como equipo delicado.
@@ -361,7 +368,7 @@ cliente no se usa como fuente: solo se contrasta al final. Las horas salen de
 Criterio de toda la parte: solo scripts NSE de las categorías default y safe a la vez (filtro
 `$SAFE`), scripts sueltos comprobados antes con `--script-help`, banners con `nc` y peticiones HTTP
 normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta. Todo dentro de
-172.17.0.0/24 (scope.txt). Las horas y los comandos salen de `evidencias/p2/historial-comandos.txt`.
+172.17.0.0/24 (scope.txt). Las horas y los comandos salen de `evidencias/EVIDENCIAS_LUISMI/p2/historial-comandos.txt`.
 
 ### 2026-11-17 20:27 - Preparación de la Parte 2
 - **Cuándo:** 2026-11-17 20:27 - 20:31
@@ -370,7 +377,7 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
 - **Qué hice:** `echo "SAFE=$SAFE"`, `export FRAGIL=172.17.0.7` y `cat evidencias/p1/resumen-puertos.txt`
 - **Qué salió:** `$SAFE` contiene el filtro `default and safe and not (intrusive or exploit or dos
   or brute or malware or broadcast or external or auth)` y `FRAGIL` vale 172.17.0.7. Lista de
-  trabajo: 24 puertos TCP y 2 UDP en 8 equipos (`evidencias/p1/resumen-puertos.txt`).
+  trabajo: 24 puertos TCP y 2 UDP en 8 equipos (`evidencias/EVIDENCIAS_LUISMI/p1/resumen-puertos.txt`).
 - **Captura:** sin captura.
 - **Siguiente paso:** lanzar los scripts NSE seguros sobre todos los puertos abiertos.
 
@@ -391,22 +398,22 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   - 172.17.0.6:8080: `robots.txt`.
   - 172.17.0.8: firma SMB no obligatoria y nombre NetBIOS `SAMBASERVER`.
 
-  Evidencias: `evidencias/p2/20-nse-172.17.0.*.nmap`. Las salidas se revisaron con `cat` de 20:45 a 20:48.
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p2/20-nse-172.17.0.*.nmap`. Las salidas se revisaron con `cat` de 20:45 a 20:48.
 - **Captura:**
 
-  ![NSE seguros sobre 172.17.0.3](../imagenes/p2-01-nse-172.17.0.3.png)
+  ![NSE seguros sobre 172.17.0.3](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.3.png)
 
-  ![NSE seguros sobre 172.17.0.4](../imagenes/p2-01-nse-172.17.0.4.png)
+  ![NSE seguros sobre 172.17.0.4](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.4.png)
 
-  ![NSE seguros sobre 172.17.0.5](../imagenes/p2-01-nse-172.17.0.5.png)
+  ![NSE seguros sobre 172.17.0.5](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.5.png)
 
-  ![NSE seguros sobre 172.17.0.6](../imagenes/p2-01-nse-172.17.0.6.png)
+  ![NSE seguros sobre 172.17.0.6](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.6.png)
 
-  ![NSE seguros sobre 172.17.0.8](../imagenes/p2-01-nse-172.17.0.8.png)
+  ![NSE seguros sobre 172.17.0.8](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.8.png)
 
-  ![NSE seguros sobre 172.17.0.9](../imagenes/p2-01-nse-172.17.0.9.png)
+  ![NSE seguros sobre 172.17.0.9](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.9.png)
 
-  ![NSE seguros sobre 172.17.0.10](../imagenes/p2-01-nse-172.17.0.10.png)
+  ![NSE seguros sobre 172.17.0.10](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.10.png)
 - **Siguiente paso:** repetir sobre el equipo delicado, más despacio.
 
 ### 2026-11-17 20:41 - Scripts NSE seguros sobre el equipo delicado
@@ -417,8 +424,8 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   `ports=$(grep -oE '[0-9]+/open/tcp' evidencias/p1/10-tcp-all-$FRAGIL.gnmap | cut -d/ -f1 | paste -sd, -)` y
   `sudo nmap -Pn -sV --version-light -T2 --max-retries 1 -p $ports --script "$SAFE" -oA evidencias/p2/20-nse-$FRAGIL $FRAGIL`
 - **Qué salió:** OpenSSH 7.7 (protocol 2.0) con claves de host RSA 2048, ECDSA 256 y ED25519 256.
-  Terminó en 1,86 s y el equipo siguió respondiendo. Evidencia: `evidencias/p2/20-nse-172.17.0.7.nmap`.
-- **Captura:** ![NSE seguros sobre 172.17.0.7](../imagenes/p2-01-nse-172.17.0.7.png)
+  Terminó en 1,86 s y el equipo siguió respondiendo. Evidencia: `evidencias/EVIDENCIAS_LUISMI/p2/20-nse-172.17.0.7.nmap`.
+- **Captura:** ![NSE seguros sobre 172.17.0.7](../imagenes/CAPTURAS_LUISMI/p2-01-nse-172.17.0.7.png)
 - **Siguiente paso:** comprobar las categorías de los scripts sueltos antes de lanzarlos.
 
 ### 2026-11-17 20:50 - Categorías de los scripts sueltos
@@ -429,8 +436,8 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   `clear; date "+%F %H:%M"; for s in ssh2-enum-algos ssh-hostkey smb-os-discovery smb2-security-mode smb-security-mode smb-protocols nbstat ipmi-version amqp-info; do nmap --script-help $s | grep -iE "^$s|categories"; done | tee evidencias/p2/20-categorias-scripts.txt`
 - **Qué salió:** todos son safe y discovery (algunos también default o version). Ninguno pertenece
   a una categoría prohibida. Aun así, decidí no usar `smb-os-discovery` porque inicia una sesión
-  anónima. Evidencia: `evidencias/p2/20-categorias-scripts.txt`.
-- **Captura:** ![Categorías de los scripts NSE usados](../imagenes/p2-02-categorias-scripts.png)
+  anónima. Evidencia: `evidencias/EVIDENCIAS_LUISMI/p2/20-categorias-scripts.txt`.
+- **Captura:** ![Categorías de los scripts NSE usados](../imagenes/CAPTURAS_LUISMI/p2-02-categorias-scripts.png)
 - **Siguiente paso:** enumerar los servicios web.
 
 ### 2026-11-17 21:06 - Servicios web: cabeceras, robots.txt, pistas y whatweb
@@ -454,30 +461,30 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   - 172.17.0.3:80 y 172.17.0.5:80 sirven la página por defecto de Apache.
   - Ninguna otra web tiene `robots.txt`.
 
-  Evidencias: `evidencias/p2/21-http-*` y `evidencias/p2/21-whatweb-*`.
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p2/21-http-*` y `evidencias/EVIDENCIAS_LUISMI/p2/21-whatweb-*`.
 - **Captura:** se hicieron de 21:10 a 21:16 con `clear; date "+%F %H:%M"; tail -n +1 evidencias/p2/21-*-$IP-$P.txt`.
   A las 21:11 lo lancé dos veces sobre `172.17.0.4-80`, que no existe (el puerto web de la .4 es
   el 8080), y lo corregí.
 
-  ![Web de 172.17.0.3:80](../imagenes/p2-03-http-172.17.0.3-80.png)
+  ![Web de 172.17.0.3:80](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.3-80.png)
 
-  ![Web de 172.17.0.4:8080](../imagenes/p2-03-http-172.17.0.4-8080.png)
+  ![Web de 172.17.0.4:8080](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.4-8080.png)
 
-  ![Web de 172.17.0.5:80](../imagenes/p2-03-http-172.17.0.5-80.png)
+  ![Web de 172.17.0.5:80](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.5-80.png)
 
-  ![Web de 172.17.0.5:443](../imagenes/p2-03-http-172.17.0.5-443.png)
+  ![Web de 172.17.0.5:443](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.5-443.png)
 
-  ![Consola de ActiveMQ en 172.17.0.5:8161](../imagenes/p2-03-http-172.17.0.5-8161.png)
+  ![Consola de ActiveMQ en 172.17.0.5:8161](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.5-8161.png)
 
-  ![WebSocket de ActiveMQ en 172.17.0.5:61614](../imagenes/p2-03-http-172.17.0.5-61614.png)
+  ![WebSocket de ActiveMQ en 172.17.0.5:61614](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.5-61614.png)
 
-  ![Jenkins en 172.17.0.6:8080](../imagenes/p2-03-http-172.17.0.6-8080.png)
+  ![Jenkins en 172.17.0.6:8080](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.6-8080.png)
 
-  ![Web de 172.17.0.8:80](../imagenes/p2-03-http-172.17.0.8-80.png)
+  ![Web de 172.17.0.8:80](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.8-80.png)
 
-  ![Web de 172.17.0.9:80](../imagenes/p2-03-http-172.17.0.9-80.png)
+  ![Web de 172.17.0.9:80](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.9-80.png)
 
-  ![Web de 172.17.0.10:80](../imagenes/p2-03-http-172.17.0.10-80.png)
+  ![Web de 172.17.0.10:80](../imagenes/CAPTURAS_LUISMI/p2-03-http-172.17.0.10-80.png)
 - **Siguiente paso:** leer el certificado del único servicio HTTPS.
 
 ### 2026-11-17 21:08 - Certificado TLS de 172.17.0.5:443
@@ -487,8 +494,8 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
 - **Qué hice:** `echo | openssl s_client -connect 172.17.0.5:443 2>/dev/null | openssl x509 -noout -subject -issuer -dates | tee evidencias/p2/21-tls-cert-172.17.0.5-443.txt`
 - **Qué salió:** CN=example.com, O=Your Organization. El emisor es el mismo sujeto (autofirmado) y
   el certificado es válido del 2024-04-17 al 2025-04-17: **caducado**. No incluye nombres ni correos.
-  Evidencia: `evidencias/p2/21-tls-cert-172.17.0.5-443.txt`.
-- **Captura:** ![Certificado TLS de 172.17.0.5](../imagenes/p2-04-tls-172.17.0.5.png)
+  Evidencia: `evidencias/EVIDENCIAS_LUISMI/p2/21-tls-cert-172.17.0.5-443.txt`.
+- **Captura:** ![Certificado TLS de 172.17.0.5](../imagenes/CAPTURAS_LUISMI/p2-04-tls-172.17.0.5.png)
 - **Siguiente paso:** banner y algoritmos de los servidores SSH.
 
 ### 2026-11-17 21:18 - SSH: banner y algoritmos
@@ -507,18 +514,18 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   - .4 y .7 admiten `diffie-hellman-group14-sha1` y claves de host `ssh-rsa`.
   - Todos admiten `hmac-sha1`.
 
-  Evidencias: `evidencias/p2/22-ssh-banner-*.txt` y `evidencias/p2/22-ssh-*.nmap`.
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p2/22-ssh-banner-*.txt` y `evidencias/EVIDENCIAS_LUISMI/p2/22-ssh-*.nmap`.
 - **Captura:**
 
-  ![SSH de 172.17.0.4](../imagenes/p2-05-ssh-172.17.0.4.png)
+  ![SSH de 172.17.0.4](../imagenes/CAPTURAS_LUISMI/p2-05-ssh-172.17.0.4.png)
 
-  ![SSH de 172.17.0.6](../imagenes/p2-05-ssh-172.17.0.6.png)
+  ![SSH de 172.17.0.6](../imagenes/CAPTURAS_LUISMI/p2-05-ssh-172.17.0.6.png)
 
-  ![SSH de 172.17.0.7](../imagenes/p2-05-ssh-172.17.0.7.png)
+  ![SSH de 172.17.0.7](../imagenes/CAPTURAS_LUISMI/p2-05-ssh-172.17.0.7.png)
 
-  ![SSH de 172.17.0.8](../imagenes/p2-05-ssh-172.17.0.8.png)
+  ![SSH de 172.17.0.8](../imagenes/CAPTURAS_LUISMI/p2-05-ssh-172.17.0.8.png)
 
-  ![SSH de 172.17.0.9](../imagenes/p2-05-ssh-172.17.0.9.png)
+  ![SSH de 172.17.0.9](../imagenes/CAPTURAS_LUISMI/p2-05-ssh-172.17.0.9.png)
 - **Siguiente paso:** leer los banners del FTP y de los puertos altos del broker.
 
 ### 2026-11-17 21:30 - Banners de FTP y de los puertos altos de ActiveMQ
@@ -537,9 +544,9 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
     y ProviderVersion `5.15.15`.
   - 172.17.0.5:38443 acepta la conexión pero no envía nada.
 
-  Evidencias: `evidencias/p2/23-ftp-banner-172.17.0.3.txt`, `evidencias/p2/23-banner-172.17.0.5-61616.txt`
-  y `evidencias/p2/23-banner-172.17.0.5-38443.txt`.
-- **Captura:** ![Banners de FTP y ActiveMQ](../imagenes/p2-06-banner-ftp-activemq.png)
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p2/23-ftp-banner-172.17.0.3.txt`, `evidencias/EVIDENCIAS_LUISMI/p2/23-banner-172.17.0.5-61616.txt`
+  y `evidencias/EVIDENCIAS_LUISMI/p2/23-banner-172.17.0.5-38443.txt`.
+- **Captura:** ![Banners de FTP y ActiveMQ](../imagenes/CAPTURAS_LUISMI/p2-06-banner-ftp-activemq.png)
 - **Siguiente paso:** comprobar si el resto de puertos sin identificar envían saludo.
 
 ### 2026-11-17 21:31 - Puertos que no envían saludo
@@ -550,8 +557,8 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   `for s in 172.17.0.5:1883 172.17.0.5:5672 172.17.0.5:61613 172.17.0.4:8009; do echo "##### $s #####"; nc -nv -w 3 ${s%:*} ${s#*:} </dev/null 2>&1 | strings | head -5; done | tee evidencias/p2/23-banner-sin-saludo.txt`
 - **Qué salió:** los cuatro aceptan la conexión, pero ninguno envía datos: son protocolos en los
   que habla primero el cliente. No se les envió ninguna orden. Evidencia:
-  `evidencias/p2/23-banner-sin-saludo.txt`.
-- **Captura:** ![Puertos sin saludo](../imagenes/p2-06-banner-sin-saludo.png)
+  `evidencias/EVIDENCIAS_LUISMI/p2/23-banner-sin-saludo.txt`.
+- **Captura:** ![Puertos sin saludo](../imagenes/CAPTURAS_LUISMI/p2-06-banner-sin-saludo.png)
 - **Siguiente paso:** enumerar Samba y NetBIOS en 172.17.0.8.
 
 ### 2026-11-17 21:37 - SMB y NetBIOS en 172.17.0.8
@@ -569,9 +576,9 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
     recortado como «DL») y explorador maestro (`__MSBROWSE__`).
   - NetBIOS user `<unknown>`: no aparece ningún usuario conectado.
 
-  Evidencias: `evidencias/p2/24-smb-172.17.0.8.nmap`, `evidencias/p2/24-nbstat-172.17.0.8.nmap` y
-  `evidencias/p2/24-nmblookup-172.17.0.8.txt`.
-- **Captura:** ![SMB y NetBIOS de 172.17.0.8](../imagenes/p2-07-smb-172.17.0.8.png)
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p2/24-smb-172.17.0.8.nmap`, `evidencias/EVIDENCIAS_LUISMI/p2/24-nbstat-172.17.0.8.nmap` y
+  `evidencias/EVIDENCIAS_LUISMI/p2/24-nmblookup-172.17.0.8.txt`.
+- **Captura:** ![SMB y NetBIOS de 172.17.0.8](../imagenes/CAPTURAS_LUISMI/p2-07-smb-172.17.0.8.png)
 - **Siguiente paso:** enumerar IPMI en 172.17.0.10.
 
 ### 2026-11-17 21:42 - IPMI en 172.17.0.10
@@ -581,8 +588,8 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
 - **Qué hice:** `sudo nmap -Pn -sU -p 623 --script ipmi-version 172.17.0.10 -oA evidencias/p2/25-ipmi-172.17.0.10`
 - **Qué salió:** **IPMI-2.0** (niveles 1.5 y 2.0). UserAuth `password, md5, md2, null`; PassAuth
   `auth_msg, auth_user, non_null_user`. No anuncia nombres de usuario. No se pidieron usuarios ni
-  hashes. Evidencia: `evidencias/p2/25-ipmi-172.17.0.10.nmap`.
-- **Captura:** ![IPMI de 172.17.0.10](../imagenes/p2-08-udp-ipmi-172.17.0.10.png)
+  hashes. Evidencia: `evidencias/EVIDENCIAS_LUISMI/p2/25-ipmi-172.17.0.10.nmap`.
+- **Captura:** ![IPMI de 172.17.0.10](../imagenes/CAPTURAS_LUISMI/p2-08-udp-ipmi-172.17.0.10.png)
 - **Siguiente paso:** intentar leer las propiedades del broker AMQP.
 
 ### 2026-11-17 21:44 - AMQP en 172.17.0.5
@@ -593,8 +600,8 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
 - **Qué salió:** `ERROR: AQMP:handshake expected header (1) frame, but was 65`. El broker habla
   AMQP 1.0 y el script solo entiende AMQP 0-9-1, así que no se obtuvieron propiedades. No insistí
   con clientes de mensajería. La versión ya está confirmada por el puerto 61616 (5.15.15).
-  Evidencia: `evidencias/p2/26-amqp-172.17.0.5.nmap`.
-- **Captura:** ![amqp-info sobre 172.17.0.5](../imagenes/p2-09-amqp-172.17.0.5.png)
+  Evidencia: `evidencias/EVIDENCIAS_LUISMI/p2/26-amqp-172.17.0.5.nmap`.
+- **Captura:** ![amqp-info sobre 172.17.0.5](../imagenes/CAPTURAS_LUISMI/p2-09-amqp-172.17.0.5.png)
 - **Siguiente paso:** buscar cuentas de usuario en todas las evidencias.
 
 ### 2026-11-17 21:46 - Búsqueda de cuentas de usuario
@@ -611,8 +618,8 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   - `SAMBASERVER<03>`: es el nombre del equipo.
   - El grupo `ESEEMEB.DL`, el certificado genérico y los métodos de autenticación de IPMI.
 
-  Evidencia: `evidencias/p2/29-cuentas-candidatas.txt`.
-- **Captura:** ![Búsqueda de cuentas candidatas](../imagenes/p2-10-cuentas.png)
+  Evidencia: `evidencias/EVIDENCIAS_LUISMI/p2/29-cuentas-candidatas.txt`.
+- **Captura:** ![Búsqueda de cuentas candidatas](../imagenes/CAPTURAS_LUISMI/p2-10-cuentas.png)
 - **Siguiente paso:** guardar las evidencias en el repositorio y exportar el historial.
 
 ### 2026-11-17 21:47 - Evidencias subidas e historial exportado
@@ -629,7 +636,7 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
   comandos de las Partes 0 a 2 con su hora. Es la fuente de esta parte del cuaderno. El
   2026-11-18 se dejaron en él solo los comandos de la Parte 2 (ver «Historiales separados por
   parte», en la Parte 4).
-- **Captura:** ![Exportación del historial con fecha](../imagenes/p2-historial.png)
+- **Captura:** ![Exportación del historial con fecha](../imagenes/CAPTURAS_LUISMI/p2-historial.png)
 - **Siguiente paso:** pasar los resultados a `inventario.md` (Parte 2) y empezar la Parte 3.
 
 ### Vigilancia durante la Parte 2
@@ -643,7 +650,7 @@ normales con `curl`. Sin credenciales, sin sesiones anónimas y sin fuerza bruta
 - **Qué salió:** 172.17.0.10: **516 paquetes enviados, 516 recibidos, 0 % de pérdida**.
   172.17.0.7: 1 enviado, 1 recibido. Ningún equipo se degradó.
 - **Captura:** se ve al fondo de la captura de SMB:
-  ![Ping de vigilancia al fondo](../imagenes/p2-07-smb-172.17.0.8.png)
+  ![Ping de vigilancia al fondo](../imagenes/CAPTURAS_LUISMI/p2-07-smb-172.17.0.8.png)
 - **Siguiente paso:** Parte 3.
 
 ### Resumen de la Parte 2
@@ -666,7 +673,7 @@ con su base de datos y no prueba el fallo; `searchsploit` solo lista (no se usa 
 ningún exploit); NVD y los trackers de Debian y Ubuntu son webs públicas que no tocan la red del
 cliente. Prohibido y no usado: `--script vuln`, Metasploit, nuclei y escáneres de vulnerabilidades.
 Al equipo delicado (172.17.0.7) no se le lanza `vulners`: sus versiones se buscan en NVD con los
-datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-comandos.txt`.
+datos de la Parte 1. Las horas y los comandos salen de `evidencias/EVIDENCIAS_LUISMI/p3/historial-comandos.txt`.
 
 ### 2026-11-17 22:01 - Historial de la Parte 2 subido
 - **Cuándo:** 2026-11-17 22:01 (subida a git) y 22:09 (sincronización)
@@ -675,7 +682,7 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
 - **Qué hice:** `git pull`, `git add .`, `git commit -m "Añadido historial comandos parte 2"`,
   `git push` y, a las 22:09, `git pull`.
 - **Qué salió:** el primer `git commit` quedó con las comillas sin cerrar y se repitió bien escrito
-  en el siguiente comando. Quedó subido `evidencias/p2/historial-comandos.txt` (126 líneas).
+  en el siguiente comando. Quedó subido `evidencias/EVIDENCIAS_LUISMI/p2/historial-comandos.txt` (126 líneas).
 - **Captura:** sin captura.
 - **Siguiente paso:** reunir en un fichero los productos y versiones que hay que investigar.
 
@@ -694,8 +701,8 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   httpd 2.4.58 (Ubuntu), 2.4.59 (Debian) y 2.4.68 (Debian); Apache Tomcat 9.0.30; Jetty
   9.4.39.v20210325 y 10.0.18; ActiveMQ OpenWire 5.15.15; Samba smbd 4; SimpleHTTPServer 0.6 (Python
   3.11.2). Sin versión: mqtt (1883), amqp? (5672), stomp (61613), tcpwrapped (38443) y asf-rmcp
-  (623/udp). Evidencia: `evidencias/p3/30-versiones.txt`.
-- **Captura:** ![Lista de versiones a investigar](../imagenes/p3-00-versiones.png)
+  (623/udp). Evidencia: `evidencias/EVIDENCIAS_LUISMI/p3/30-versiones.txt`.
+- **Captura:** ![Lista de versiones a investigar](../imagenes/CAPTURAS_LUISMI/p3-00-versiones.png)
   La captura se rehízo el 2026-11-18 a las 00:01, así que ya muestra al final las dos líneas
   añadidas después para Jenkins e IPMI (entrada del 2026-11-18 00:01).
 - **Siguiente paso:** buscar candidatos automáticos con `vulners` en todos los equipos menos el
@@ -716,7 +723,7 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   por su cuenta los scripts de versión `mqtt-subscribe` (1883) y `amqp-info` (5672) en la .5: el
   primero devolvió dos temas de aviso de ActiveMQ sin contenido y el segundo el mismo error de
   negociación que en la Parte 2. Lo dejo anotado en el registro. Evidencias:
-  `evidencias/p3/31-vulners-<IP>.nmap`, `.xml` y `.gnmap`.
+  `evidencias/EVIDENCIAS_LUISMI/p3/31-vulners-<IP>.nmap`, `.xml` y `.gnmap`.
 - **Captura:** sin captura (las capturas por equipo se hicieron a las 22:47, entrada siguiente).
 - **Siguiente paso:** buscar en Exploit-DB si hay código público para estas versiones.
 
@@ -731,8 +738,8 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   17491.rb) y para OpenSSH anterior a 7.7 o 7.7 («Username Enumeration», 45233.py, 45210.py y
   45939.py). Para ActiveMQ, Tomcat 9.0, Jetty 9.4, Apache 2.4.5 y Samba solo salen versiones
   distintas de las observadas; Jetty 10.0 y OpenSSH 7.9 no dan resultados. Solo se listó: no se
-  abrió ni se copió nada. Evidencia: `evidencias/p3/32-searchsploit.txt`.
-- **Captura:** ![Listado de searchsploit (una sola captura con todos los productos)](../imagenes/p3-02-searchsploit.png)
+  abrió ni se copió nada. Evidencia: `evidencias/EVIDENCIAS_LUISMI/p3/32-searchsploit.txt`.
+- **Captura:** ![Listado de searchsploit (una sola captura con todos los productos)](../imagenes/CAPTURAS_LUISMI/p3-02-searchsploit.png)
 - **Siguiente paso:** preparar en pantalla las líneas de CVE de cada equipo para capturarlas.
 
 ### 2026-11-17 22:40 - Capturas de vulners por equipo
@@ -748,13 +755,13 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   CVE-2024-6387 (.6, .8 y .9), CVE-2023-48795 y CVE-2023-38408 (.4, .6 y .9) y CVE-2024-38476 (.3,
   .5 y .8). CVE-2021-34429 (Jetty 9.4.39 de la .5) se añadió en la revisión manual. La .10 sale vacía.
 - **Captura:**
-  ![vulners 172.17.0.3](../imagenes/p3-01-vulners-172.17.0.3.png)
-  ![vulners 172.17.0.4](../imagenes/p3-01-vulners-172.17.0.4.png)
-  ![vulners 172.17.0.5](../imagenes/p3-01-vulners-172.17.0.5.png)
-  ![vulners 172.17.0.6](../imagenes/p3-01-vulners-172.17.0.6.png)
-  ![vulners 172.17.0.8](../imagenes/p3-01-vulners-172.17.0.8.png)
-  ![vulners 172.17.0.9](../imagenes/p3-01-vulners-172.17.0.9.png)
-  ![vulners 172.17.0.10](../imagenes/p3-01-vulners-172.17.0.10.png)
+  ![vulners 172.17.0.3](../imagenes/CAPTURAS_LUISMI/p3-01-vulners-172.17.0.3.png)
+  ![vulners 172.17.0.4](../imagenes/CAPTURAS_LUISMI/p3-01-vulners-172.17.0.4.png)
+  ![vulners 172.17.0.5](../imagenes/CAPTURAS_LUISMI/p3-01-vulners-172.17.0.5.png)
+  ![vulners 172.17.0.6](../imagenes/CAPTURAS_LUISMI/p3-01-vulners-172.17.0.6.png)
+  ![vulners 172.17.0.8](../imagenes/CAPTURAS_LUISMI/p3-01-vulners-172.17.0.8.png)
+  ![vulners 172.17.0.9](../imagenes/CAPTURAS_LUISMI/p3-01-vulners-172.17.0.9.png)
+  ![vulners 172.17.0.10](../imagenes/CAPTURAS_LUISMI/p3-01-vulners-172.17.0.10.png)
 - **Siguiente paso:** buscar a mano en NVD los CVE de OpenSSH 7.7, la versión del equipo delicado.
 
 ### 2026-11-17 22:54 - CVE de OpenSSH 7.7 (172.17.0.7) consultados en NVD
@@ -767,8 +774,8 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   `jq -r '.vulnerabilities[].cve | [.id, ((.metrics.cvssMetricV31 // .metrics.cvssMetricV30 // .metrics.cvssMetricV2)[0].cvssData.baseScore // "n/d")] | @tsv' evidencias/p3/31-nvd-openssh-7.7-172.17.0.7.json | sort -k2 -rn | tee evidencias/p3/31-nvd-openssh-7.7-172.17.0.7.txt`
 - **Qué salió:** 42 CVE ordenados por puntuación, del CVE-2023-38408 (9.8) al CVE-2026-106553
   (2.2). Entre ellos están CVE-2023-48795 (5.9) y CVE-2018-15473 (5.3), que pasan a revisión.
-  Evidencias: `evidencias/p3/31-nvd-openssh-7.7-172.17.0.7.json` y `.txt`.
-- **Captura:** ![CVE de OpenSSH 7.7 según NVD](../imagenes/p3-01-nvd-172.17.0.7.png)
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p3/31-nvd-openssh-7.7-172.17.0.7.json` y `.txt`.
+- **Captura:** ![CVE de OpenSSH 7.7 según NVD](../imagenes/CAPTURAS_LUISMI/p3-01-nvd-172.17.0.7.png)
 - **Siguiente paso:** subir las evidencias y revisar cada candidato en su ficha de NVD.
 
 ### 2026-11-17 22:57 - Evidencias de vulners subidas
@@ -803,20 +810,20 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   - CVE-2023-38408: CWE-428; OpenSSH anterior a 9.3p2; afecta a `ssh-agent`, no al servidor.
   - CVE-2024-38476: CWE-829 y NVD-CWE-noinfo; Apache httpd de 2.4.0 a anterior a 2.4.60.
 
-  Evidencias: `evidencias/p3/33-nvd-<CVE>.json`.
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p3/33-nvd-<CVE>.json`.
 - **Captura:**
-  ![NVD CVE-2011-2523](../imagenes/p3-03-nvd-CVE-2011-2523.png)
-  ![NVD CVE-2023-46604](../imagenes/p3-03-nvd-CVE-2023-46604.png)
-  ![NVD CVE-2020-1938](../imagenes/p3-03-nvd-CVE-2020-1938.png)
-  ![NVD CVE-2025-24813](../imagenes/p3-03-nvd-CVE-2025-24813.png)
-  ![NVD CVE-2024-50379](../imagenes/p3-03-nvd-CVE-2024-50379.png)
-  ![NVD CVE-2022-41678](../imagenes/p3-03-nvd-CVE-2022-41678.png)
-  ![NVD CVE-2021-34429](../imagenes/p3-03-nvd-CVE-2021-34429.png)
-  ![NVD CVE-2018-15473](../imagenes/p3-03-nvd-CVE-2018-15473.png)
-  ![NVD CVE-2024-6387](../imagenes/p3-03-nvd-CVE-2024-6387.png)
-  ![NVD CVE-2023-48795](../imagenes/p3-03-nvd-CVE-2023-48795.png)
-  ![NVD CVE-2023-38408](../imagenes/p3-03-nvd-CVE-2023-38408.png)
-  ![NVD CVE-2024-38476](../imagenes/p3-03-nvd-CVE-2024-38476.png)
+  ![NVD CVE-2011-2523](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2011-2523.png)
+  ![NVD CVE-2023-46604](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2023-46604.png)
+  ![NVD CVE-2020-1938](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2020-1938.png)
+  ![NVD CVE-2025-24813](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2025-24813.png)
+  ![NVD CVE-2024-50379](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2024-50379.png)
+  ![NVD CVE-2022-41678](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2022-41678.png)
+  ![NVD CVE-2021-34429](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2021-34429.png)
+  ![NVD CVE-2018-15473](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2018-15473.png)
+  ![NVD CVE-2024-6387](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2024-6387.png)
+  ![NVD CVE-2023-48795](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2023-48795.png)
+  ![NVD CVE-2023-38408](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2023-38408.png)
+  ![NVD CVE-2024-38476](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2024-38476.png)
 - **Siguiente paso:** sacar el rango completo de OpenSSH afectado por CVE-2024-6387.
 
 ### 2026-11-17 23:15 - Rango de versiones de CVE-2024-6387
@@ -830,8 +837,8 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
 - **Qué salió:** el primer intento no mostraba el límite superior del tramo que empieza en 8.6,
   porque NVD lo guarda como «hasta incluida»; por eso lo repetí con ese campo. Rango completo:
   anteriores a 4.4, la 4.4, la 8.5p1 y de 8.6 a 9.8 incluida. Entran la .6 y la .9 (9.2p1) y la .8
-  (9.6p1); quedan fuera la .4 (7.9p1) y la .7 (7.7). Evidencia: `evidencias/p3/33-nvd-CVE-2024-6387.json`.
-- **Captura:** ![Rango de OpenSSH afectado por CVE-2024-6387](../imagenes/p3-03b-nvd-CVE-2024-6387-rango.png)
+  (9.6p1); quedan fuera la .4 (7.9p1) y la .7 (7.7). Evidencia: `evidencias/EVIDENCIAS_LUISMI/p3/33-nvd-CVE-2024-6387.json`.
+- **Captura:** ![Rango de OpenSSH afectado por CVE-2024-6387](../imagenes/CAPTURAS_LUISMI/p3-03b-nvd-CVE-2024-6387-rango.png)
 - **Siguiente paso:** anotar la decisión provisional de cada CVE.
 
 ### 2026-11-17 23:18 - Notas de decisión por CVE
@@ -846,7 +853,7 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   autenticación) y CVE-2025-24813 (escritura activada, no estándar). Descartes: CVE-2024-50379 (solo
   sistemas de ficheros que no distinguen mayúsculas), CVE-2023-38408 (afecta al cliente) y los CVE
   de «Samba 4» en bloque (versión imprecisa). La CWE-284 de CVE-2020-1938 es elección propia,
-  porque NVD da NVD-CWE-Other. Evidencia: `evidencias/p3/notas-cve.txt`.
+  porque NVD da NVD-CWE-Other. Evidencia: `evidencias/EVIDENCIAS_LUISMI/p3/notas-cve.txt`.
 - **Captura:** sin captura.
 - **Siguiente paso:** comprobar los backports en los trackers de Debian y Ubuntu.
 
@@ -871,11 +878,11 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
     no muestra la revisión, así que no se puede saber: queda pendiente, igual que la condición de
     proxy.
 - **Captura:**
-  ![Tracker de Debian, CVE-2024-6387](../imagenes/p3-04-backport-CVE-2024-6387-debian.png)
-  ![Tracker de Ubuntu, CVE-2024-6387](../imagenes/p3-04-backport-CVE-2024-6387-ubuntu.png)
-  ![Tracker de Debian, CVE-2023-48795](../imagenes/p3-04-backport-CVE-2023-48795-debian.png)
-  ![Tracker de Debian, CVE-2024-38476](../imagenes/p3-04-backport-CVE-2024-38476-debian.png)
-  ![Tracker de Ubuntu, CVE-2024-38476](../imagenes/p3-04-backport-CVE-2024-38476-ubuntu.png)
+  ![Tracker de Debian, CVE-2024-6387](../imagenes/CAPTURAS_LUISMI/p3-04-backport-CVE-2024-6387-debian.png)
+  ![Tracker de Ubuntu, CVE-2024-6387](../imagenes/CAPTURAS_LUISMI/p3-04-backport-CVE-2024-6387-ubuntu.png)
+  ![Tracker de Debian, CVE-2023-48795](../imagenes/CAPTURAS_LUISMI/p3-04-backport-CVE-2023-48795-debian.png)
+  ![Tracker de Debian, CVE-2024-38476](../imagenes/CAPTURAS_LUISMI/p3-04-backport-CVE-2024-38476-debian.png)
+  ![Tracker de Ubuntu, CVE-2024-38476](../imagenes/CAPTURAS_LUISMI/p3-04-backport-CVE-2024-38476-ubuntu.png)
 - **Siguiente paso:** subir las fichas NVD y las notas.
 
 ### 2026-11-17 23:41 - Fichas NVD y notas subidas
@@ -894,18 +901,18 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
 - **Qué hice:** exporté el historial con `fc -li`, quitando las órdenes sin interés (cd, ls, clear,
   nano...), lo comprobé con `wc -l evidencias/p3/historial-comandos.txt`, lo revisé en `nano` y lo
   subí a git.
-- **Qué salió:** `evidencias/p3/historial-comandos.txt` subido (156 líneas, del
+- **Qué salió:** `evidencias/EVIDENCIAS_LUISMI/p3/historial-comandos.txt` subido (156 líneas, del
   2026-11-17 15:03 al 23:42), con fecha y hora de cada comando. El 2026-11-18 se dejaron en él
   solo los comandos de la Parte 3, incluidos los de Jenkins e IPMI de las 00:00 a las 00:05 (ver
   «Historiales separados por parte», en la Parte 4). Es la fuente de esta parte del
   cuaderno.
-- **Captura:** ![Historial de comandos con fecha y hora](../imagenes/p3-historial.png)
+- **Captura:** ![Historial de comandos con fecha y hora](../imagenes/CAPTURAS_LUISMI/p3-historial.png)
 - **Siguiente paso:** revisar los dos productos que `vulners` no podía cubrir: Jenkins 2.441 (.6) e
   IPMI 2.0 (.10).
 
 ### 2026-11-18 00:01 - Versiones que faltaban: Jenkins e IPMI
 - **Cuándo:** 2026-11-18 00:01. Comandos posteriores a la primera exportación del historial; están
-  en `evidencias/p3/historial-comandos.txt` (comandos 203 a 221) desde la separación por partes.
+  en `evidencias/EVIDENCIAS_LUISMI/p3/historial-comandos.txt` (comandos 203 a 221) desde la separación por partes.
 - **Objetivo y alcance:** añadir a la lista dos productos con versión conocida de la Parte 2 que no
   estaban en ella: Jenkins 2.441 en 172.17.0.6:8080 (nmap `-sV` solo veía «Jetty 10.0.18») e IPMI
   2.0 en 172.17.0.10:623/udp (`vulners` solo revisa TCP). Ambos dentro de 172.17.0.0/24
@@ -916,8 +923,8 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   y lo revisé con `cat evidencias/p3/30-versiones.txt`.
 - **Qué salió:** la lista termina con las dos líneas nuevas. La línea de IPMI quedó escrita cuatro
   veces en el fichero al repetir el `echo`; la captura se tomó antes y muestra una sola. Evidencia:
-  `evidencias/p3/30-versiones.txt`.
-- **Captura:** ![Lista de versiones con Jenkins e IPMI](../imagenes/p3-00-versiones.png)
+  `evidencias/EVIDENCIAS_LUISMI/p3/30-versiones.txt`.
+- **Captura:** ![Lista de versiones con Jenkins e IPMI](../imagenes/CAPTURAS_LUISMI/p3-00-versiones.png)
 - **Siguiente paso:** buscar Jenkins 2.441 en Exploit-DB.
 
 ### 2026-11-18 00:02 - searchsploit de Jenkins 2.441
@@ -927,9 +934,9 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
 - **Qué hice:** `clear; date "+%F %H:%M"; echo "##### Jenkins 2.441 #####"; searchsploit "Jenkins 2.441" | tee -a evidencias/p3/32-searchsploit.txt`
 - **Qué salió:** una entrada, «Jenkins 2.441 - Local File Inclusion» (`java/webapps/51993.py`). Solo
   se listó; no se abrió ni se copió. El bloque quedó añadido dos veces al final de
-  `evidencias/p3/32-searchsploit.txt` al repetir el comando, y sin la línea de título, porque el
+  `evidencias/EVIDENCIAS_LUISMI/p3/32-searchsploit.txt` al repetir el comando, y sin la línea de título, porque el
   `echo` no pasa por `tee`.
-- **Captura:** ![searchsploit de Jenkins 2.441](../imagenes/p3-02-searchsploit-jenkins.png)
+- **Captura:** ![searchsploit de Jenkins 2.441](../imagenes/CAPTURAS_LUISMI/p3-02-searchsploit-jenkins.png)
 - **Siguiente paso:** descargar la ficha NVD del CVE de Jenkins.
 
 ### 2026-11-18 00:02 - Ficha NVD de CVE-2024-23897 (Jenkins)
@@ -942,8 +949,8 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   a un atacante sin autenticar leer ficheros del servidor a través de la CLI. Rango: Jenkins
   anterior a 2.442 y LTS anterior a 2.426.3. La 2.441 de la .6 entra; no hay paquete de
   distribución, así que no hay backport. **Se queda** como V-08. Evidencia:
-  `evidencias/p3/33-nvd-CVE-2024-23897.json`.
-- **Captura:** ![NVD CVE-2024-23897](../imagenes/p3-03-nvd-CVE-2024-23897.png)
+  `evidencias/EVIDENCIAS_LUISMI/p3/33-nvd-CVE-2024-23897.json`.
+- **Captura:** ![NVD CVE-2024-23897](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2024-23897.png)
 - **Siguiente paso:** hacer lo mismo con el candidato de IPMI 2.0.
 
 ### 2026-11-18 00:04 - Ficha NVD de CVE-2013-4786 (IPMI 2.0)
@@ -957,8 +964,8 @@ datos de la Parte 1. Las horas y los comandos salen de `evidencias/p3/historial-
   `intel:intelligent_platform_management_interface:2.0` y a un firmware de Fujitsu, no a versiones
   de un fabricante concreto. La .10 anuncia IPMI 2.0, pero no se conocen ni el fabricante ni el
   firmware, y el ataque necesita un usuario válido: **pendiente de confirmar** (V-12). Evidencia:
-  `evidencias/p3/33-nvd-CVE-2013-4786.json`.
-- **Captura:** ![NVD CVE-2013-4786](../imagenes/p3-03-nvd-CVE-2013-4786.png)
+  `evidencias/EVIDENCIAS_LUISMI/p3/33-nvd-CVE-2013-4786.json`.
+- **Captura:** ![NVD CVE-2013-4786](../imagenes/CAPTURAS_LUISMI/p3-03-nvd-CVE-2013-4786.png)
 - **Siguiente paso:** pasar todo a `registro-vulns.md`: fichas, pendientes y descartes.
 
 ### Resumen de la Parte 3
@@ -986,7 +993,7 @@ fuentes públicas (NVD, FIRST EPSS y CISA KEV) y se trabaja sobre las evidencias
 a 3. Los datos se usan para ordenar los 12 hallazgos del registro con un método escrito, no solo
 por CVSS.
 
-**Sobre las horas y los comandos de esta parte:** salen de `evidencias/p4/historial-comandos.txt`
+**Sobre las horas y los comandos de esta parte:** salen de `evidencias/EVIDENCIAS_LUISMI/p4/historial-comandos.txt`
 (historial de zsh con fecha y hora). Las entradas que no corresponden a un comando (priorización,
 revisión del inventario e informe) son trabajo de redacción y solo llevan la fecha.
 
@@ -1002,7 +1009,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   (CVE-2023-38408 y CVE-2024-50379), porque la extracción recoge también la tabla de descartados.
   Se dejaron en la lista para documentar sus datos, pero no entran en el orden de prioridad
   (anotado en el apartado «Datos no disponibles» del registro). Fecha de consulta: 2026-11-18.
-  Evidencias: `evidencias/p4/39-cves.txt` y `evidencias/p4/fecha-consulta.txt`.
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p4/39-cves.txt` y `evidencias/EVIDENCIAS_LUISMI/p4/fecha-consulta.txt`.
 - **Captura:** sin captura; la lista se ve en la primera línea de la captura de EPSS.
 - **Siguiente paso:** sacar el CVSS de cada CVE.
 
@@ -1011,7 +1018,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   revisión con `cat`).
 - **Objetivo y alcance:** obtener la versión de CVSS, la puntuación, la gravedad, el vector y quién
   la publica. Se leen las fichas de NVD descargadas en la Parte 3
-  (`evidencias/p3/33-nvd-CVE-*.json`); no se toca la red del cliente.
+  (`evidencias/EVIDENCIAS_LUISMI/p3/33-nvd-CVE-*.json`); no se toca la red del cliente.
 - **Qué hice:**
   1. A las 00:13, el bucle de la guía que descarga de NVD solo las fichas que faltaran
      (`for CVE in $(cat evidencias/p4/39-cves.txt); do [ -f evidencias/p3/33-nvd-$CVE.json ] || { curl -s "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=$CVE" -o evidencias/p3/33-nvd-$CVE.json; sleep 6; }; done`).
@@ -1034,8 +1041,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   - CVE-2024-50379 (descartado) no tiene puntuación de NVD: el 9.8 es de otra fuente
     (`134c704f-9b21-4f2e-91b3-4a467353bcc0`).
 
-  Evidencia: `evidencias/p4/40-cvss.txt`.
-- **Captura:** ![CVSS de cada CVE](../imagenes/p4-01-cvss.png)
+  Evidencia: `evidencias/EVIDENCIAS_LUISMI/p4/40-cvss.txt`.
+- **Captura:** ![CVSS de cada CVE](../imagenes/CAPTURAS_LUISMI/p4-01-cvss.png)
 - **Siguiente paso:** consultar EPSS para saber qué probabilidad hay de que se exploten.
 
 ### 2026-11-18 00:15 - EPSS de cada CVE (FIRST)
@@ -1045,7 +1052,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   próximos 30 días. Consulta a la API pública de FIRST; no toca la red del cliente.
 - **Qué hice:**
   1. A las 00:15, los comandos de la guía copiados en varias líneas. En el historial, el
-     nombre del fichero `evidencias/p4/41-epss.json` quedó en una línea aparte del `jq`.
+     nombre del fichero `evidencias/EVIDENCIAS_LUISMI/p4/41-epss.json` quedó en una línea aparte del `jq`.
   2. A las 00:16 lo repetí en una sola línea, separando los campos con `|` como en el CVSS. Esta
      es la salida que queda en evidencias:
      `LISTA=$(paste -sd, evidencias/p4/39-cves.txt) && echo "$LISTA" && curl -s "https://api.first.org/data/v1/epss?cve=$LISTA" -o evidencias/p4/41-epss.json && jq -r '.data[] | "\(.cve) | EPSS=\(.epss) | percentil=\(.percentile) | fecha=\(.date)"' evidencias/p4/41-epss.json | tee evidencias/p4/41-epss.txt`
@@ -1059,8 +1066,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   - Como todos superan el umbral, el EPSS no separa unos hallazgos de otros por sí solo. Se usa
     para desempatar y para bajar los que solo destacarían por CVSS (V-11).
 
-  Evidencias: `evidencias/p4/41-epss.json` (respuesta completa) y `evidencias/p4/41-epss.txt`.
-- **Captura:** ![EPSS de cada CVE](../imagenes/p4-02-epss.png)
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p4/41-epss.json` (respuesta completa) y `evidencias/EVIDENCIAS_LUISMI/p4/41-epss.txt`.
+- **Captura:** ![EPSS de cada CVE](../imagenes/CAPTURAS_LUISMI/p4-02-epss.png)
 - **Siguiente paso:** comprobar cuáles están en el catálogo KEV de CISA.
 
 ### 2026-11-18 00:18 - Catálogo KEV de CISA y uso en ransomware
@@ -1079,8 +1086,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
     - CVE-2025-24813 (Tomcat PUT, V-10): desde 2025-04-01, ransomware Unknown.
   - Los otros 8 y los 2 descartados no figuran.
 
-  Evidencias: `evidencias/p4/42-kev-2026-11-18.json` (catálogo completo) y `evidencias/p4/42-kev.txt`.
-- **Captura:** ![Comprobación en el catálogo KEV](../imagenes/p4-03-kev.png)
+  Evidencias: `evidencias/EVIDENCIAS_LUISMI/p4/42-kev-2026-11-18.json` (catálogo completo) y `evidencias/EVIDENCIAS_LUISMI/p4/42-kev.txt`.
+- **Captura:** ![Comprobación en el catálogo KEV](../imagenes/CAPTURAS_LUISMI/p4-03-kev.png)
 - **Siguiente paso:** subir las salidas y decidir el orden con un método escrito.
 
 ### 2026-11-18 00:20 - Salidas de CVSS, EPSS y KEV subidas
@@ -1088,7 +1095,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Objetivo y alcance:** guardar en el repositorio las salidas de la Parte 4. Git; no toca la red
   del cliente.
 - **Qué hice:** `git add .`, `git commit -m "Añadida evidencias prueba 4"` y `git push`.
-- **Qué salió:** subidos los 7 ficheros de `evidencias/p4/` (`39-cves.txt`,
+- **Qué salió:** subidos los 7 ficheros de `evidencias/EVIDENCIAS_LUISMI/p4/` (`39-cves.txt`,
   `40-cvss.txt`, `41-epss.json`, `41-epss.txt`, `42-kev-2026-11-18.json`, `42-kev.txt` y
   `fecha-consulta.txt`).
 - **Captura:** sin captura.
@@ -1130,7 +1137,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Objetivo y alcance:** que las cifras sobre la hoja del cliente sean exactas antes de pasarlas
   al informe. Revisión de documentos; no toca la red del cliente.
 - **Qué hice:** volví a comparar la hoja del cliente con `vivos.txt` y `resumen-puertos.txt`, y
-  copié la hoja a `evidencias/p1/inventario-cliente.csv`, porque el inventario la citaba y no
+  copié la hoja a `evidencias/EVIDENCIAS_LUISMI/p1/inventario-cliente.csv`, porque el inventario la citaba y no
   estaba en el repositorio.
 - **Qué salió:**
   - Cada fila de la tabla de correcciones tiene ya un solo tipo. Las filas «Sobra / Mal» pasan a
@@ -1143,8 +1150,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
     srv-backup no coincide con la de la .7.
 
   Evidencias: [inventario.md](../inventario.md#correcciones-al-inventario-del-cliente) y
-  `evidencias/p1/inventario-cliente.csv`.
-- **Captura:** ![Hoja de inventario del cliente](../imagenes/p1-09-hoja-cliente.png)
+  `evidencias/EVIDENCIAS_LUISMI/p1/inventario-cliente.csv`.
+- **Captura:** ![Hoja de inventario del cliente](../imagenes/CAPTURAS_LUISMI/p1-09-hoja-cliente.png)
 - **Siguiente paso:** redactar el informe para la dirección.
 
 ### 2026-11-18 antes de las 10:56 - Informe para el cliente (paso 8, salvo el aviso)
@@ -1166,14 +1173,14 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
       V-10.
   - El apartado 5 queda pendiente del aviso.
 
-  Evidencias: [informe-cliente.md](../informe-cliente.md) y `evidencias/p3/33-nvd-CVE-2023-46604.json`
+  Evidencias: [informe-cliente.md](../informe-cliente.md) y `evidencias/EVIDENCIAS_LUISMI/p3/33-nvd-CVE-2023-46604.json`
   (rangos de versiones).
 - **Captura:** sin captura; es redacción.
 - **Siguiente paso:** cuando el profesor dé el aviso, el paso 7.
 
 ### 2026-11-18 antes de las 10:56 - Historiales separados por parte
 - **Cuándo:** 2026-11-18, entre las 00:30 y las 10:56 UTC, al cerrar el cuaderno de la Parte 4 (subido a git a las 10:56).
-- **Objetivo y alcance:** que cada `evidencias/pN/historial-comandos.txt` contenga solo los
+- **Objetivo y alcance:** que cada `evidencias/EVIDENCIAS_LUISMI/pN/historial-comandos.txt` contenga solo los
   comandos de su parte. Cada exportación con `fc -li` arrastraba todo lo anterior: el de la Parte 3
   empezaba en la Parte 0. Edición de ficheros locales; no toca la red del cliente.
 - **Qué hice:** repartí las líneas por el número de orden de zsh, sin modificar ninguna:
@@ -1185,8 +1192,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   - Parte 4: comandos 222 a 245, del 00:12 al 08:02.
 - **Qué salió:** 75, 51, 48 y 16 líneas respectivamente. Ningún comando de las partes aparece en
   dos ficheros, y los saltos de numeración son las órdenes que el filtro de exportación ya quitaba
-  (`cd`, `ls`, `clear`, `nano`...). Evidencias: `evidencias/p1/historial-comandos.txt` a
-  `evidencias/p4/historial-comandos.txt`.
+  (`cd`, `ls`, `clear`, `nano`...). Evidencias: `evidencias/EVIDENCIAS_LUISMI/p1/historial-comandos.txt` a
+  `evidencias/EVIDENCIAS_LUISMI/p4/historial-comandos.txt`.
 - **Captura:** sin captura.
 - **Siguiente paso:** el aviso de la noticia.
 
@@ -1201,7 +1208,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   - Añadí a [registro-vulns.md](../registro-vulns.md) la tabla «Decisiones de las Partes 3 y 4 y
     por qué».
   - Al escribir el criterio de ATT&CK vi una incoherencia y la corregí. La regla de
-    `evidencias/p3/notas-cve.txt` (línea 20) es T1190 para la .5, que da la cara al exterior, y
+    `evidencias/EVIDENCIAS_LUISMI/p3/notas-cve.txt` (línea 20) es T1190 para la .5, que da la cara al exterior, y
     T1210 para los equipos internos. Sin embargo, V-08 (Jenkins, .6) y V-10 (Tomcat, .4) tenían
     T1190, y V-03, en el mismo Tomcat de la .4, tenía T1210. Ahora V-08 y V-10 llevan T1210. En
     `notas-cve.txt` se mantiene lo que se anotó a las 23:18 (T1190 para CVE-2025-24813), porque es
@@ -1222,7 +1229,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   categoría `version` cuando se usa `-sV`: pasó en el NSE de la Parte 2 y en el `vulners` de la
   Parte 3, siempre contra 172.17.0.5:1883. Solo devolvió dos nombres de temas de aviso de ActiveMQ,
   sin contenido. Corregí `inventario.md`, que decía que iba incluido en el filtro default y safe.
-- **Captura:** ![Categorías de mqtt-subscribe](../imagenes/p2-11-categorias-mqtt-subscribe.png)
+- **Captura:** ![Categorías de mqtt-subscribe](../imagenes/CAPTURAS_LUISMI/p2-11-categorias-mqtt-subscribe.png)
 - **Siguiente paso:** el aviso de la noticia.
 
 ### 2026-11-19 20:56 - Revisión del orden de prioridad, de V-07 y del informe
@@ -1239,7 +1246,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
     puesto 7 y V-09 al 8. Comprobé el resto del orden y no cambia. Rehíce la «Comprobación del
     orden» y renombré «Ejemplos para la defensa» a «Casos en los que el orden no sigue al CVSS».
   - **V-07 (Terrapin):** la ficha decía que no se habían comprobado los algoritmos del servidor,
-    pero `evidencias/p2/22-ssh-172.17.0.7.nmap` (entrada de las 21:18 del 17) muestra
+    pero `evidencias/EVIDENCIAS_LUISMI/p2/22-ssh-172.17.0.7.nmap` (entrada de las 21:18 del 17) muestra
     `chacha20-poly1305@openssh.com` y MAC `-etm`, que son la condición del ataque, y no anuncia
     `kex-strict-s-v00@openssh.com`. Lo pasé a «Lo observado» y actualicé las limitaciones. El
     puesto no cambia, porque sigue exigiendo una posición de intermediario.
@@ -1274,7 +1281,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   (bookworm) distribuye `2.4.68-1~deb12u1`. El banner es creíble y coherente con un Debian 12
   actualizado (su OpenSSH también lleva una revisión reciente, `deb12u10`). Se mantiene el
   descarte de CVE-2024-38476 en la .9 y se añade esta comprobación como evidencia.
-- **Captura:** ![Versiones de Apache publicadas y en Debian](../imagenes/p3-05-apache-2.4.68.png)
+- **Captura:** ![Versiones de Apache publicadas y en Debian](../imagenes/CAPTURAS_LUISMI/p3-05-apache-2.4.68.png)
 - **Siguiente paso:** ampliar el escaneo UDP.
 
 ### 2026-11-19 23:15 - Ampliación de UDP a los 1000 puertos más comunes
@@ -1300,8 +1307,8 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
     son credenciales.
   - Vigilancia: mientras se escaneaban, la .10 y la .7 estuvieron vigiladas con `ping` en otra
     terminal. No se perdió ningún paquete y los dos equipos siguieron respondiendo.
-- **Captura:** ![Escaneo UDP de los 1000 puertos más comunes](../imagenes/p1-10-udp-top1000.png)
-  y ![Resumen de puertos UDP abiertos de todos los equipos](../imagenes/p1-11-udp-resumen.png)
+- **Captura:** ![Escaneo UDP de los 1000 puertos más comunes](../imagenes/CAPTURAS_LUISMI/p1-10-udp-top1000.png)
+  y ![Resumen de puertos UDP abiertos de todos los equipos](../imagenes/CAPTURAS_LUISMI/p1-11-udp-resumen.png)
 - **Siguiente paso:** actualizar el apartado UDP de `inventario.md`; después, el aviso de la
   noticia.
 
@@ -1329,7 +1336,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
     continuación.
   - Al revisar el JSON después: el CVSS lo publica MITRE (la CNA que asignó el CVE), y NVD lo
     muestra como «Secondary», sin puntuación propia.
-- **Captura:** ![NVD: descripción, CVSS, CWE y versiones afectadas](../imagenes/p4-04-aviso.png)
+- **Captura:** ![NVD: descripción, CVSS, CWE y versiones afectadas](../imagenes/CAPTURAS_LUISMI/p4-04-aviso.png)
 - **Siguiente paso:** EPSS, KEV y registro oficial del CVE.
 
 ### 2026-11-21 11:36 - Aviso de la noticia: EPSS, KEV y cve.org
@@ -1354,7 +1361,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
     KEV.
   - La descarga del KEV y la consulta a cve.org se lanzaron dos veces (11:37 y 11:38). El resultado
     es el mismo; se repitieron para hacer la captura con todo en pantalla.
-- **Captura:** ![EPSS, KEV y cve.org del aviso](../imagenes/p4-04b-aviso-epss-kev.png)
+- **Captura:** ![EPSS, KEV y cve.org del aviso](../imagenes/CAPTURAS_LUISMI/p4-04b-aviso-epss-kev.png)
 - **Siguiente paso:** buscar OpenSSH en nuestras evidencias.
 
 ### 2026-11-21 11:41 - Aviso de la noticia: ¿tenemos OpenSSH en la red?
@@ -1372,7 +1379,7 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
   - .9: `OpenSSH_9.2p1 Debian-2+deb12u10`
   
   Cuatro muestran distribuciones con glibc (Debian, Ubuntu). La .7 no muestra ninguna.
-- **Captura:** ![OpenSSH en nuestras evidencias](../imagenes/p4-04c-aviso-inventario.png)
+- **Captura:** ![OpenSSH en nuestras evidencias](../imagenes/CAPTURAS_LUISMI/p4-04c-aviso-inventario.png)
 - **Siguiente paso:** ver qué dicen Debian y Ubuntu, y contrastar el artículo del aviso.
 
 ### 2026-11-21 - Aviso de la noticia: trackers de Debian y Ubuntu, y artículo
@@ -1398,10 +1405,10 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
     3.16 (OpenSSH 9.0).
   - Pequeña diferencia: el artículo habla de contraseñas de 257 a 1024 bytes y NVD de 256 a 1024
     caracteres. No cambia la conclusión.
-- **Captura:** ![Tracker de Debian](../imagenes/p4-05-aviso-debian.png),
-  ![Tracker de Ubuntu](../imagenes/p4-05b-aviso-ubuntu.png),
-  ![Artículo del aviso](../imagenes/p4-06-aviso-articulo.png) y
-  ![Versiones afectadas según el artículo](../imagenes/p4-06b-aviso-articulo.png)
+- **Captura:** ![Tracker de Debian](../imagenes/CAPTURAS_LUISMI/p4-05-aviso-debian.png),
+  ![Tracker de Ubuntu](../imagenes/CAPTURAS_LUISMI/p4-05b-aviso-ubuntu.png),
+  ![Artículo del aviso](../imagenes/CAPTURAS_LUISMI/p4-06-aviso-articulo.png) y
+  ![Versiones afectadas según el artículo](../imagenes/CAPTURAS_LUISMI/p4-06b-aviso-articulo.png)
 - **Siguiente paso:** decidir si afecta y documentarlo.
 
 ### 2026-11-21 - Aviso de la noticia: conclusión, registro e informe (pasos 7 y 8)
@@ -1434,11 +1441,11 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - **Cuándo:** 2026-11-21, al cerrar la Parte 4.
 - **Objetivo y alcance:** que los comandos del aviso queden como evidencia con su fecha y hora.
   Comando local; no toca la red.
-- **Qué hice:** añadí a `evidencias/p4/historial-comandos.txt` los comandos del 2026-11-21 (del 535
+- **Qué hice:** añadí a `evidencias/EVIDENCIAS_LUISMI/p4/historial-comandos.txt` los comandos del 2026-11-21 (del 535
   al 559), sin quitar los que fallaron, y lo mostré con `head -30`.
 - **Qué salió:** el historial tiene ahora los comandos de las consultas de CVSS, EPSS y KEV
   (2026-11-18) y los del aviso (2026-11-21), cada uno con su hora.
-- **Captura:** ![Historial de la Parte 4](../imagenes/p4-historial.png)
+- **Captura:** ![Historial de la Parte 4](../imagenes/CAPTURAS_LUISMI/p4-historial.png)
 - **Siguiente paso:** Parte 5 (el agente).
 
 ### Resumen de la Parte 4
@@ -1457,3 +1464,20 @@ revisión del inventario e informe) son trabajo de redacción y solo llevan la f
 - Informe para la dirección completo, con la respuesta al aviso:
   [informe-cliente.md](../informe-cliente.md).
 - Ninguna consulta de esta parte ha tocado la red del cliente.
+- Después de este resumen, los entregables se pusieron en común con el resto del grupo (entrada
+  siguiente). Las cifras finales son las de esa entrada.
+
+## Puesta en común del grupo
+
+### 2026-11-23 - Contraste con el resto del grupo y entregables comunes
+- **Cuándo:** 2026-11-23 (trabajo sobre ficheros; hora exacta no registrada).
+- **Objetivo y alcance:** juntar mi trabajo con el de Gonzalo, Natalia y Pablo en los tres
+  entregables comunes. Solo ficheros locales, sin tráfico de red.
+- **Qué hice:** contrastamos los cuatro cuadernos y sus evidencias. Mis evidencias quedan como copia
+  de referencia de las tablas; lo que aportó otro integrante se añadió con su nombre.
+- **Qué salió:** [inventario.md](../inventario.md), [registro-vulns.md](../registro-vulns.md) e
+  [informe-cliente.md](../informe-cliente.md) comunes: el registro común tiene 15 fichas (V-01 a V-15), 6 en KEV y 2 con ransomware, y 12 hallazgos de configuración (C-01 a C-12); el informe recoge esas mismas cifras. Cambios respecto al resumen de la
+  Parte 4: entran V-14 (CVE-2024-38475, en KEV, de Gonzalo y Pablo) en el puesto 4 y V-15
+  (CVE-2026-119618) en el 15, y C-10 a C-12 (Natalia y Gonzalo). Por eso V-13 pasa al puesto 6,
+  V-01 al 7 y V-11 al 14. El EPSS de V-13 del 2026-11-23 (0,955) es de Pablo.
+- **Siguiente paso:** revisión final y entrega.
