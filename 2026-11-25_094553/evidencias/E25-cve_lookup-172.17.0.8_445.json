@@ -1,0 +1,601 @@
+{
+ "host": "172.17.0.8",
+ "puerto": 445,
+ "servicio": {
+  "puerto": 445,
+  "protocolo": "tcp",
+  "servicio": "netbios-ssn",
+  "producto": "Samba smbd",
+  "version": "4",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:samba:samba:4"
+  ]
+ },
+ "metodo": "NVD por CPE cpe:2.3:a:samba:samba:4",
+ "fecha": "2026-11-25 09:50",
+ "avisos": [],
+ "cves": [
+  {
+   "id": "CVE-2017-7494",
+   "cvss": 9.8,
+   "cvss_version": "3.1",
+   "severidad": "CRITICAL",
+   "cwe": [
+    "CWE-94"
+   ],
+   "descripcion": "Samba since version 3.5.0 and before 4.6.4, 4.5.10 and 4.4.14 is vulnerable to remote code execution vulnerability, allowing a malicious client to upload a shared library to a writable share, and then cause the server to load and execute it.",
+   "publicado": "2017-05-30",
+   "epss": 0.99448,
+   "kev": {
+    "fecha": "2023-03-30",
+    "ransomware": "Known"
+   }
+  },
+  {
+   "id": "CVE-2020-1472",
+   "cvss": 5.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [],
+   "descripcion": "An elevation of privilege vulnerability exists when an attacker establishes a vulnerable Netlogon secure channel connection to a domain controller, using the Netlogon Remote Protocol (MS-NRPC). An attacker who successfully exploited the vulnerability could run a specially crafted application on a de…",
+   "publicado": "2020-08-17",
+   "epss": 0.99389,
+   "kev": {
+    "fecha": "2021-11-03",
+    "ransomware": "Known"
+   }
+  },
+  {
+   "id": "CVE-2021-44142",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-125",
+    "CWE-787"
+   ],
+   "descripcion": "The Samba vfs_fruit module uses extended file attributes (EA, xattr) to provide \"...enhanced compatibility with Apple SMB clients and interoperability with a Netatalk 3 AFP fileserver.\" Samba versions prior to 4.13.17, 4.14.12 and 4.15.5 with vfs_fruit configured allow out-of-bounds heap read and wr…",
+   "publicado": "2022-02-21",
+   "epss": 0.73589,
+   "kev": false
+  },
+  {
+   "id": "CVE-2023-34966",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-835"
+   ],
+   "descripcion": "An infinite loop vulnerability was found in Samba's mdssvc RPC service for Spotlight. When parsing Spotlight mdssvc RPC packets sent by the client, the core unmarshalling function sl_unpack_loop() did not validate a field in the network packet that contains the count of elements in an array-like str…",
+   "publicado": "2023-07-20",
+   "epss": 0.62146,
+   "kev": false
+  },
+  {
+   "id": "CVE-2023-34967",
+   "cvss": 5.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-843"
+   ],
+   "descripcion": "A Type Confusion vulnerability was found in Samba's mdssvc RPC service for Spotlight. When parsing Spotlight mdssvc RPC packets, one encoded data structure is a key-value style dictionary where the keys are character strings, and the values can be any of the supported types in the mdssvc protocol. D…",
+   "publicado": "2023-07-20",
+   "epss": 0.60938,
+   "kev": false
+  },
+  {
+   "id": "CVE-2016-2118",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-254"
+   ],
+   "descripcion": "The MS-SAMR and MS-LSAD protocol implementations in Samba 3.x and 4.x before 4.2.11, 4.3.x before 4.3.8, and 4.4.x before 4.4.2 mishandle DCERPC connections, which allows man-in-the-middle attackers to perform protocol-downgrade attacks and impersonate users by modifying the client-server data strea…",
+   "publicado": "2016-04-12",
+   "epss": 0.37181,
+   "kev": false
+  },
+  {
+   "id": "CVE-2017-15275",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-119"
+   ],
+   "descripcion": "Samba before 4.7.3 might allow remote attackers to obtain sensitive information by leveraging failure of the server to clear allocated heap memory.",
+   "publicado": "2017-11-27",
+   "epss": 0.21408,
+   "kev": false
+  },
+  {
+   "id": "CVE-2015-5299",
+   "cvss": 5.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-200"
+   ],
+   "descripcion": "The shadow_copy2_get_shadow_copy_data function in modules/vfs_shadow_copy2.c in Samba 3.x and 4.x before 4.1.22, 4.2.x before 4.2.7, and 4.3.x before 4.3.3 does not verify that the DIRECTORY_LIST access right has been granted, which allows remote attackers to access snapshots by visiting a shadow co…",
+   "publicado": "2015-12-29",
+   "epss": 0.13584,
+   "kev": false
+  },
+  {
+   "id": "CVE-2015-5252",
+   "cvss": 7.2,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-264"
+   ],
+   "descripcion": "vfs.c in smbd in Samba 3.x and 4.x before 4.1.22, 4.2.x before 4.2.7, and 4.3.x before 4.3.3, when share names with certain substring relationships exist, allows remote attackers to bypass intended file-access restrictions via a symlink that points outside of a share.",
+   "publicado": "2015-12-29",
+   "epss": 0.13274,
+   "kev": false
+  },
+  {
+   "id": "CVE-2017-12150",
+   "cvss": 7.4,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-300"
+   ],
+   "descripcion": "It was found that samba before 4.4.16, 4.5.x before 4.5.14, and 4.6.x before 4.6.8 did not enforce \"SMB signing\" when certain configuration options were enabled. A remote attacker could launch a man-in-the-middle attack and retrieve information in plain-text.",
+   "publicado": "2018-07-26",
+   "epss": 0.13065,
+   "kev": false
+  },
+  {
+   "id": "CVE-2015-7560",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-284"
+   ],
+   "descripcion": "The SMB1 implementation in smbd in Samba 3.x and 4.x before 4.1.23, 4.2.x before 4.2.9, 4.3.x before 4.3.6, and 4.4.x before 4.4.0rc4 allows remote authenticated users to modify arbitrary ACLs by using a UNIX SMB1 call to create a symlink, and then using a non-UNIX SMB1 call to write to the ACL cont…",
+   "publicado": "2016-03-13",
+   "epss": 0.12938,
+   "kev": false
+  },
+  {
+   "id": "CVE-2017-2619",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-362",
+    "CWE-59"
+   ],
+   "descripcion": "Samba before versions 4.6.1, 4.5.7 and 4.4.11 are vulnerable to a malicious client using a symlink race to allow access to areas of the server file system not exported under the share definition.",
+   "publicado": "2018-03-12",
+   "epss": 0.1102,
+   "kev": false
+  },
+  {
+   "id": "CVE-2016-2125",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-20",
+    "CWE-287"
+   ],
+   "descripcion": "It was found that Samba before versions 4.5.3, 4.4.8, 4.3.13 always requested forwardable tickets when using Kerberos authentication. A service to which Samba authenticated using Kerberos could subsequently use the ticket to impersonate Samba to other services or domain users.",
+   "publicado": "2018-10-31",
+   "epss": 0.09199,
+   "kev": false
+  },
+  {
+   "id": "CVE-2017-12163",
+   "cvss": 7.1,
+   "cvss_version": "3.0",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-200"
+   ],
+   "descripcion": "An information leak flaw was found in the way SMB1 protocol was implemented by Samba before 4.4.16, 4.5.x before 4.5.14, and 4.6.x before 4.6.8. A malicious client could use this flaw to dump server memory contents to a file on the samba share or to a shared printer, though the exact area of server …",
+   "publicado": "2018-07-26",
+   "epss": 0.0759,
+   "kev": false
+  },
+  {
+   "id": "CVE-2015-5296",
+   "cvss": 5.4,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-20"
+   ],
+   "descripcion": "Samba 3.x and 4.x before 4.1.22, 4.2.x before 4.2.7, and 4.3.x before 4.3.3 supports connections that are encrypted but unsigned, which allows man-in-the-middle attackers to conduct encrypted-to-unencrypted downgrade attacks by modifying the client-server data stream, related to clidfs.c, libsmb_ser…",
+   "publicado": "2015-12-29",
+   "epss": 0.07263,
+   "kev": false
+  },
+  {
+   "id": "CVE-2022-42898",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-190"
+   ],
+   "descripcion": "PAC parsing in MIT Kerberos 5 (aka krb5) before 1.19.4 and 1.20.x before 1.20.1 has integer overflows that may lead to remote code execution (in KDC, kadmind, or a GSS or Kerberos application server) on 32-bit platforms (which have a resultant heap-based buffer overflow), and cause a denial of servi…",
+   "publicado": "2022-12-25",
+   "epss": 0.06858,
+   "kev": false
+  },
+  {
+   "id": "CVE-2018-1050",
+   "cvss": 4.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-476"
+   ],
+   "descripcion": "All versions of Samba from 4.0.0 onwards are vulnerable to a denial of service attack when the RPC spoolss service is configured to be run as an external daemon. Missing input sanitization checks on some of the input parameters to spoolss RPC calls could cause the print spooler service to crash.",
+   "publicado": "2018-03-13",
+   "epss": 0.06515,
+   "kev": false
+  },
+  {
+   "id": "CVE-2022-37967",
+   "cvss": 7.2,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [],
+   "descripcion": "Windows Kerberos Elevation of Privilege Vulnerability",
+   "publicado": "2022-11-09",
+   "epss": 0.04779,
+   "kev": false
+  },
+  {
+   "id": "CVE-2018-10858",
+   "cvss": 8.8,
+   "cvss_version": "3.0",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-119",
+    "CWE-20"
+   ],
+   "descripcion": "A heap-buffer overflow was found in the way samba clients processed extra long filename in a directory listing. A malicious samba server could use this flaw to cause arbitrary code execution on a samba client. Samba versions before 4.6.16, 4.7.9 and 4.8.4 are vulnerable.",
+   "publicado": "2018-08-22",
+   "epss": 0.04302,
+   "kev": false
+  },
+  {
+   "id": "CVE-2017-9461",
+   "cvss": 6.5,
+   "cvss_version": "3.0",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-835"
+   ],
+   "descripcion": "smbd in Samba before 4.4.10 and 4.5.x before 4.5.6 has a denial of service vulnerability (fd_open_atomic infinite loop with high CPU usage and memory consumption) due to wrongly handling dangling symlinks.",
+   "publicado": "2017-06-06",
+   "epss": 0.04228,
+   "kev": false
+  },
+  {
+   "id": "CVE-2017-12151",
+   "cvss": 7.4,
+   "cvss_version": "3.0",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-300",
+    "CWE-310"
+   ],
+   "descripcion": "A flaw was found in the way samba client before samba 4.4.16, samba 4.5.14 and samba 4.6.8 used encryption with the max protocol set as SMB3. The connection could lose the requirement for signing and encrypting to any DFS redirects, allowing an attacker to read or alter the contents of the connectio…",
+   "publicado": "2018-07-27",
+   "epss": 0.04104,
+   "kev": false
+  },
+  {
+   "id": "CVE-2019-10218",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-22"
+   ],
+   "descripcion": "A flaw was found in the samba client, all samba versions before samba 4.11.2, 4.10.10 and 4.9.15, where a malicious server can supply a pathname to the client with separators. This could allow the client to access files and folders outside of the SMB network pathnames. An attacker could use this vul…",
+   "publicado": "2019-11-06",
+   "epss": 0.03377,
+   "kev": false
+  },
+  {
+   "id": "CVE-2019-3880",
+   "cvss": 5.4,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-22"
+   ],
+   "descripcion": "A flaw was found in the way samba implemented an RPC endpoint emulating the Windows registry service API. An unprivileged attacker could use this flaw to create a new registry hive file anywhere they have unix permissions which could lead to creation of a new file in the Samba share. Versions before…",
+   "publicado": "2019-04-09",
+   "epss": 0.0324,
+   "kev": false
+  },
+  {
+   "id": "CVE-2022-37966",
+   "cvss": 8.1,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [],
+   "descripcion": "Windows Kerberos RC4-HMAC Elevation of Privilege Vulnerability",
+   "publicado": "2022-11-09",
+   "epss": 0.02936,
+   "kev": false
+  },
+  {
+   "id": "CVE-2019-3824",
+   "cvss": 6.5,
+   "cvss_version": "3.0",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-125"
+   ],
+   "descripcion": "A flaw was found in the way an LDAP search expression could crash the shared LDAP server process of a samba AD DC in samba before version 4.10. An authenticated user, having read permissions on the LDAP server, could use this flaw to cause denial of service.",
+   "publicado": "2019-03-06",
+   "epss": 0.02844,
+   "kev": false
+  },
+  {
+   "id": "CVE-2022-38023",
+   "cvss": 8.1,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [],
+   "descripcion": "Netlogon RPC Elevation of Privilege Vulnerability",
+   "publicado": "2022-11-09",
+   "epss": 0.02726,
+   "kev": false
+  },
+  {
+   "id": "CVE-2023-3961",
+   "cvss": 9.8,
+   "cvss_version": "3.1",
+   "severidad": "CRITICAL",
+   "cwe": [
+    "CWE-22"
+   ],
+   "descripcion": "A path traversal vulnerability was identified in Samba when processing client pipe names connecting to Unix domain sockets within a private directory. Samba typically uses this mechanism to connect SMB clients to remote procedure call (RPC) services like SAMR LSA or SPOOLSS, which Samba initiates on…",
+   "publicado": "2023-11-03",
+   "epss": 0.02688,
+   "kev": false
+  },
+  {
+   "id": "CVE-2021-3671",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-476"
+   ],
+   "descripcion": "A null pointer de-reference was found in the way samba kerberos server handled missing sname in TGS-REQ (Ticket Granting Server - Request). An authenticated user could use this flaw to crash the samba server.",
+   "publicado": "2021-10-12",
+   "epss": 0.02118,
+   "kev": false
+  },
+  {
+   "id": "CVE-2023-5568",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-122",
+    "CWE-787"
+   ],
+   "descripcion": "A heap-based Buffer Overflow flaw was discovered in Samba. It could allow a remote, authenticated attacker to exploit this vulnerability to cause a denial of service.",
+   "publicado": "2023-10-25",
+   "epss": 0.02084,
+   "kev": false
+  },
+  {
+   "id": "CVE-2016-2124",
+   "cvss": 5.9,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-287"
+   ],
+   "descripcion": "A flaw was found in the way samba implemented SMB1 authentication. An attacker could use this flaw to retrieve the plaintext password sent over the wire even if Kerberos authentication was required.",
+   "publicado": "2022-02-18",
+   "epss": 0.01766,
+   "kev": false
+  },
+  {
+   "id": "CVE-2020-25717",
+   "cvss": 8.1,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20"
+   ],
+   "descripcion": "A flaw was found in the way Samba maps domain users to local users. An authenticated attacker could use this flaw to cause possible privilege escalation.",
+   "publicado": "2022-02-18",
+   "epss": 0.01671,
+   "kev": false
+  },
+  {
+   "id": "CVE-2021-20254",
+   "cvss": 6.8,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-125"
+   ],
+   "descripcion": "A flaw was found in samba. The Samba smbd file server must map Windows group identities (SIDs) into unix group ids (gids). The code that performs this had a flaw that could allow it to read data beyond the end of the array in the case where a negative cache entry had been added to the mapping cache.…",
+   "publicado": "2021-05-05",
+   "epss": 0.01616,
+   "kev": false
+  },
+  {
+   "id": "CVE-2020-14318",
+   "cvss": 4.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-266",
+    "CWE-269"
+   ],
+   "descripcion": "A flaw was found in the way samba handled file and directory permissions. An authenticated user could use this flaw to gain access to certain file and directory information which otherwise would be unavailable to the attacker.",
+   "publicado": "2020-12-03",
+   "epss": 0.0154,
+   "kev": false
+  },
+  {
+   "id": "CVE-2022-32742",
+   "cvss": 4.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-200"
+   ],
+   "descripcion": "A flaw was found in Samba. Some SMB1 write requests were not correctly range-checked to ensure the client had sent enough data to fulfill the write, allowing server memory contents to be written into the file (or printer) instead of client-supplied data. The client cannot control the area of the ser…",
+   "publicado": "2022-08-25",
+   "epss": 0.01394,
+   "kev": false
+  },
+  {
+   "id": "CVE-2022-2031",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-287",
+    "CWE-288"
+   ],
+   "descripcion": "A flaw was found in Samba. The security vulnerability occurs when KDC and the kpasswd service share a single account and set of keys, allowing them to decrypt each other's tickets. A user who has been requested to change their password, can exploit this flaw to obtain and use tickets to other servic…",
+   "publicado": "2022-08-25",
+   "epss": 0.01347,
+   "kev": false
+  },
+  {
+   "id": "CVE-2023-4091",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-276"
+   ],
+   "descripcion": "A vulnerability was discovered in Samba, where the flaw allows SMB clients to truncate files, even with read-only permissions when the Samba VFS module \"acl_xattr\" is configured with \"acl_xattr:ignore system acls = yes\". The SMB protocol allows opening files when the client requests read-only access…",
+   "publicado": "2023-11-03",
+   "epss": 0.01334,
+   "kev": false
+  },
+  {
+   "id": "CVE-2023-34968",
+   "cvss": 5.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-201"
+   ],
+   "descripcion": "A path disclosure vulnerability was found in Samba. As part of the Spotlight protocol, Samba discloses the server-side absolute path of shares, files, and directories in the results for search queries. This flaw allows a malicious client or an attacker with a targeted RPC request to view the informa…",
+   "publicado": "2023-07-20",
+   "epss": 0.01322,
+   "kev": false
+  },
+  {
+   "id": "CVE-2023-42670",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-400"
+   ],
+   "descripcion": "A flaw was found in Samba. It is susceptible to a vulnerability where multiple incompatible RPC listeners can be initiated, causing disruptions in the AD DC service. When Samba's RPC server experiences a high load or unresponsiveness, servers intended for non-AD DC purposes (for example, NT4-emulati…",
+   "publicado": "2023-11-03",
+   "epss": 0.01317,
+   "kev": false
+  },
+  {
+   "id": "CVE-2021-20316",
+   "cvss": 6.8,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-362"
+   ],
+   "descripcion": "A flaw was found in the way Samba handled file/directory metadata. This flaw allows an authenticated attacker with permissions to read or modify share metadata, to perform this operation outside of the share.",
+   "publicado": "2022-08-23",
+   "epss": 0.01103,
+   "kev": false
+  },
+  {
+   "id": "CVE-2021-44141",
+   "cvss": 4.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-200",
+    "CWE-59"
+   ],
+   "descripcion": "All versions of Samba prior to 4.15.5 are vulnerable to a malicious client using a server symlink to determine if a file or directory exists in an area of the server file system not exported under the share definition. SMB1 with unix extensions has to be enabled in order for this attack to succeed.",
+   "publicado": "2022-02-21",
+   "epss": 0.01088,
+   "kev": false
+  },
+  {
+   "id": "CVE-2020-14323",
+   "cvss": 5.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-170",
+    "CWE-476"
+   ],
+   "descripcion": "A null pointer dereference flaw was found in samba's Winbind service in versions before 4.11.15, before 4.12.9 and before 4.13.1. A local user could use this flaw to crash the winbind service causing denial of service.",
+   "publicado": "2020-10-29",
+   "epss": 0.00621,
+   "kev": false
+  },
+  {
+   "id": "CVE-2022-45141",
+   "cvss": 9.8,
+   "cvss_version": "3.1",
+   "severidad": "CRITICAL",
+   "cwe": [
+    "CWE-326",
+    "CWE-328"
+   ],
+   "descripcion": "Since the Windows Kerberos RC4-HMAC Elevation of Privilege Vulnerability was disclosed by Microsoft on Nov 8 2022 and per RFC8429 it is assumed that rc4-hmac is weak, Vulnerable Samba Active Directory DCs will issue rc4-hmac encrypted tickets despite the target server supporting better encryption (e…",
+   "publicado": "2023-03-06",
+   "epss": 0.00458,
+   "kev": false
+  },
+  {
+   "id": "CVE-2021-43566",
+   "cvss": 2.5,
+   "cvss_version": "3.1",
+   "severidad": "LOW",
+   "cwe": [
+    "CWE-362"
+   ],
+   "descripcion": "All versions of Samba prior to 4.13.16 are vulnerable to a malicious client using an SMB1 or NFS race to allow a directory to be created in an area of the server file system not exported under the share definition. Note that SMB1 has to be enabled, or the share also available via NFS in order for th…",
+   "publicado": "2022-01-11",
+   "epss": 0.00405,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-58224",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-353"
+   ],
+   "descripcion": "A flaw was found in Samba's CTDB, the clustered database service used by Samba. Insufficient integrity validation of received CTDB protocol packets allows malformed packets containing invalid field lengths, improperly terminated strings, or inconsistent packet sizes to be processed without adequate …",
+   "publicado": "2026-08-14",
+   "epss": 0.00387,
+   "kev": false
+  }
+ ]
+}

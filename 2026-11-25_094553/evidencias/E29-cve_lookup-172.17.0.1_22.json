@@ -1,0 +1,37 @@
+{
+ "host": "172.17.0.1",
+ "puerto": 22,
+ "servicio": {
+  "puerto": 22,
+  "protocolo": "tcp",
+  "servicio": "ssh",
+  "producto": "OpenSSH",
+  "version": "10.6p2 Debian 1",
+  "extra": "protocol 2.0",
+  "cpe": [
+   "cpe:/a:openbsd:openssh:10.6p2",
+   "cpe:/o:linux:linux_kernel"
+  ]
+ },
+ "metodo": "NVD por palabras clave «OpenSSH 10.6p2» (más ruido)",
+ "fecha": "2026-11-25 09:51",
+ "avisos": [],
+ "cves": [
+  {
+   "id": "CVE-2026-123158",
+   "cvss": 8.1,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-394"
+   ],
+   "descripcion": "sshd in OpenSSH before 10.6p2 on Linux, when musl libc is used without PAM, lacks a workaround for a password authentication bypass (related to misinterpretation of whether a string is intended to be a password hash). For some configurations of accounts, any password between 256 and 1024 characters …",
+   "publicado": "2026-11-05",
+   "epss": 0.95538,
+   "kev": {
+    "fecha": "2026-11-09",
+    "ransomware": "Unknown"
+   }
+  }
+ ]
+}

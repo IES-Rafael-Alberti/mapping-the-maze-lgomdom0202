@@ -1,0 +1,19 @@
+{
+ "host": "172.17.0.5",
+ "puerto": 8161,
+ "servicio": {
+  "puerto": 8161,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Jetty",
+  "version": "9.4.39.v20210325",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:mortbay:jetty:9.4.39.v20210325"
+  ]
+ },
+ "metodo": "NVD por palabras clave «Jetty 9.4.39.v20210325» (más ruido)",
+ "fecha": "2026-11-25 09:49",
+ "avisos": [],
+ "cves": []
+}

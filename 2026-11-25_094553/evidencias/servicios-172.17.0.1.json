@@ -1,0 +1,14 @@
+[
+ {
+  "puerto": 22,
+  "protocolo": "tcp",
+  "servicio": "ssh",
+  "producto": "OpenSSH",
+  "version": "10.6p2 Debian 1",
+  "extra": "protocol 2.0",
+  "cpe": [
+   "cpe:/a:openbsd:openssh:10.6p2",
+   "cpe:/o:linux:linux_kernel"
+  ]
+ }
+]

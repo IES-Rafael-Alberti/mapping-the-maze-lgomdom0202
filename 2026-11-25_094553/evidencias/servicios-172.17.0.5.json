@@ -1,0 +1,95 @@
+[
+ {
+  "puerto": 80,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Apache httpd",
+  "version": "2.4.59",
+  "extra": "(Debian)",
+  "cpe": [
+   "cpe:/a:apache:http_server:2.4.59"
+  ]
+ },
+ {
+  "puerto": 443,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Apache httpd",
+  "version": "2.4.59",
+  "extra": "(Debian)",
+  "cpe": [
+   "cpe:/a:apache:http_server:2.4.59"
+  ]
+ },
+ {
+  "puerto": 1883,
+  "protocolo": "tcp",
+  "servicio": "mqtt",
+  "producto": "",
+  "version": "",
+  "extra": "",
+  "cpe": []
+ },
+ {
+  "puerto": 5672,
+  "protocolo": "tcp",
+  "servicio": "amqp",
+  "producto": "",
+  "version": "",
+  "extra": "",
+  "cpe": []
+ },
+ {
+  "puerto": 8161,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Jetty",
+  "version": "9.4.39.v20210325",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:mortbay:jetty:9.4.39.v20210325"
+  ]
+ },
+ {
+  "puerto": 38443,
+  "protocolo": "tcp",
+  "servicio": "tcpwrapped",
+  "producto": "",
+  "version": "",
+  "extra": "",
+  "cpe": []
+ },
+ {
+  "puerto": 61613,
+  "protocolo": "tcp",
+  "servicio": "stomp",
+  "producto": "Apache ActiveMQ",
+  "version": "",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:apache:activemq"
+  ]
+ },
+ {
+  "puerto": 61614,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Jetty",
+  "version": "9.4.39.v20210325",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:mortbay:jetty:9.4.39.v20210325"
+  ]
+ },
+ {
+  "puerto": 61616,
+  "protocolo": "tcp",
+  "servicio": "apachemq",
+  "producto": "ActiveMQ OpenWire transport",
+  "version": "5.15.15",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:apache:activemq:5.15.15"
+  ]
+ }
+]

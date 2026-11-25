@@ -1,0 +1,19 @@
+{
+ "host": "172.17.0.10",
+ "puerto": 80,
+ "servicio": {
+  "puerto": 80,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "SimpleHTTPServer",
+  "version": "0.6",
+  "extra": "Python 3.11.2",
+  "cpe": [
+   "cpe:/a:python:simplehttpserver:0.6"
+  ]
+ },
+ "metodo": "NVD por palabras clave «SimpleHTTPServer 0.6» (más ruido)",
+ "fecha": "2026-11-25 09:50",
+ "avisos": [],
+ "cves": []
+}

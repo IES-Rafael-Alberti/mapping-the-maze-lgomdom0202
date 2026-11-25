@@ -1,0 +1,13 @@
+[
+ {
+  "puerto": 80,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "SimpleHTTPServer",
+  "version": "0.6",
+  "extra": "Python 3.11.2",
+  "cpe": [
+   "cpe:/a:python:simplehttpserver:0.6"
+  ]
+ }
+]

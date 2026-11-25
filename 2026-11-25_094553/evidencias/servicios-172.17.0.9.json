@@ -1,0 +1,25 @@
+[
+ {
+  "puerto": 22,
+  "protocolo": "tcp",
+  "servicio": "ssh",
+  "producto": "OpenSSH",
+  "version": "9.2p1 Debian 2+deb12u10",
+  "extra": "protocol 2.0",
+  "cpe": [
+   "cpe:/a:openbsd:openssh:9.2p1",
+   "cpe:/o:linux:linux_kernel"
+  ]
+ },
+ {
+  "puerto": 80,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Apache httpd",
+  "version": "2.4.68",
+  "extra": "(Debian)",
+  "cpe": [
+   "cpe:/a:apache:http_server:2.4.68"
+  ]
+ }
+]

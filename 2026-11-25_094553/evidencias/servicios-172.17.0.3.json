@@ -1,0 +1,24 @@
+[
+ {
+  "puerto": 21,
+  "protocolo": "tcp",
+  "servicio": "ftp",
+  "producto": "vsftpd",
+  "version": "2.3.4",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:vsftpd:vsftpd:2.3.4"
+  ]
+ },
+ {
+  "puerto": 80,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Apache httpd",
+  "version": "2.4.58",
+  "extra": "(Ubuntu)",
+  "cpe": [
+   "cpe:/a:apache:http_server:2.4.58"
+  ]
+ }
+]

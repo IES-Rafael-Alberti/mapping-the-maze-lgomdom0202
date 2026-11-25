@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.991 scan initiated Wed Nov 25 09:46:08 2026 as: /usr/lib/nmap/nmap -&#45;privileged -sT -sV -p- -n -Pn -T3 -&#45;max-retries 2 -&#45;host-timeout 15m -oX - 172.17.0.3 -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -&#45;privileged -sT -sV -p- -n -Pn -T3 -&#45;max-retries 2 -&#45;host-timeout 15m -oX - 172.17.0.3" start="1795599968" startstr="Wed Nov 25 09:46:08 2026" version="7.991" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1795599968" endtime="1795599975"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="172.17.0.3" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65533">
+<extrareasons reason="conn-refused" count="65533" proto="tcp" ports="1-20,22-79,81-65535"/>
+</extraports>
+<port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ftp" product="vsftpd" version="2.3.4" ostype="Unix" method="probed" conf="10"><cpe>cpe:/a:vsftpd:vsftpd:2.3.4</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="Apache httpd" version="2.4.58" extrainfo="(Ubuntu)" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.58</cpe></service></port>
+</ports>
+<times srtt="74" rttvar="67" to="100000"/>
+</host>
+<runstats><finished time="1795599975" timestr="Wed Nov 25 09:46:15 2026" summary="Nmap done at Wed Nov 25 09:46:15 2026; 1 IP address (1 host up) scanned in 7.70 seconds" elapsed="7.70" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,372 @@
+{
+ "host": "172.17.0.5",
+ "puerto": 61616,
+ "servicio": {
+  "puerto": 61616,
+  "protocolo": "tcp",
+  "servicio": "apachemq",
+  "producto": "ActiveMQ OpenWire transport",
+  "version": "5.15.15",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:apache:activemq:5.15.15"
+  ]
+ },
+ "metodo": "NVD por CPE cpe:2.3:a:apache:activemq:5.15.15",
+ "fecha": "2026-11-25 09:49",
+ "avisos": [],
+ "cves": [
+  {
+   "id": "CVE-2023-46604",
+   "cvss": 9.8,
+   "cvss_version": "3.1",
+   "severidad": "CRITICAL",
+   "cwe": [
+    "CWE-502"
+   ],
+   "descripcion": "The Java OpenWire protocol marshaller is vulnerable to Remote Code Execution. This vulnerability may allow a remote attacker with network access to either a Java-based OpenWire broker or client to run arbitrary shell commands by manipulating serialized class types in the OpenWire protocol to cause e…",
+   "publicado": "2023-10-27",
+   "epss": 0.99992,
+   "kev": {
+    "fecha": "2023-11-02",
+    "ransomware": "Known"
+   }
+  },
+  {
+   "id": "CVE-2026-34197",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20",
+    "CWE-78",
+    "CWE-94"
+   ],
+   "descripcion": "Improper Input Validation, Improper Control of Generation of Code ('Code Injection') vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ. Apache ActiveMQ Classic exposes the Jolokia JMX-HTTP bridge at /api/jolokia/ on the web console. The default Jolokia access policy permits exec operations on…",
+   "publicado": "2026-04-07",
+   "epss": 0.98256,
+   "kev": {
+    "fecha": "2026-04-16",
+    "ransomware": "Unknown"
+   }
+  },
+  {
+   "id": "CVE-2022-41678",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-287"
+   ],
+   "descripcion": "Once an user is authenticated on Jolokia, he can potentially trigger arbitrary code execution. In details, in ActiveMQ configurations, jetty allows org.jolokia.http.AgentServlet to handler request to /api/jolokia org.jolokia.http.HttpRequestHandler#handlePostRequest is able to create JmxRequest thro…",
+   "publicado": "2023-11-28",
+   "epss": 0.86689,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-40466",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20",
+    "CWE-94"
+   ],
+   "descripcion": "Improper Input Validation, Improper Control of Generation of Code ('Code Injection') vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ All, Apache ActiveMQ. An authenticated attacker may bypass the fix in CVE-2026-34197 by adding a connector using an HTTP Discovery transport via BrokerView.ad…",
+   "publicado": "2026-04-24",
+   "epss": 0.04783,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-42253",
+   "cvss": 6.1,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-79"
+   ],
+   "descripcion": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Apache ActiveMQ, Apache ActiveMQ Web. The MessageServlet in the ActiveMQ web console API copies every JMS message property into an HTTP response header without any validation. This can allow overwri…",
+   "publicado": "2026-06-01",
+   "epss": 0.01018,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-41044",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20",
+    "CWE-94"
+   ],
+   "descripcion": "Improper Input Validation, Improper Control of Generation of Code ('Code Injection') vulnerability in Apache ActiveMQ, Apache ActiveMQ Broker, Apache ActiveMQ All. An authenticated attacker can use the admin web console page to construct a malicious broker name that bypasses name validation to inclu…",
+   "publicado": "2026-04-24",
+   "epss": 0.00997,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-39304",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-400",
+    "CWE-770"
+   ],
+   "descripcion": "Denial of Service via Out of Memory vulnerability in Apache ActiveMQ Client, Apache ActiveMQ Broker, Apache ActiveMQ. ActiveMQ NIO SSL transports do not correctly handle TLSv1.3 handshake KeyUpdates triggered by clients. This makes it possible for a client to rapidly trigger updates which causes the…",
+   "publicado": "2026-04-10",
+   "epss": 0.00912,
+   "kev": false
+  },
+  {
+   "id": "CVE-2025-66168",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-190"
+   ],
+   "descripcion": "WARNING: Users of 6.x should upgrade to 6.2.4 or later as the fix was missed in previous 6.x releases. See the following for more details: https://activemq.apache.org/security-advisories.data/CVE-2026-40046-announcement.txt https://www.cve.org/CVERecord?id=CVE-2026-40046 Original Report: Apache Acti…",
+   "publicado": "2026-03-04",
+   "epss": 0.00872,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-49432",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20"
+   ],
+   "descripcion": "Improper Input Validation vulnerability in Apache ActiveMQ, Apache ActiveMQ All, Apache ActiveMQ Stomp. A remote unauthenticated peer that can reach an exposed STOMP connector can trigger denial-of-service behavior by sending a negative content-length. For the NIO STOMP transport, an attacker can ke…",
+   "publicado": "2026-06-30",
+   "epss": 0.00785,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-59878",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20"
+   ],
+   "descripcion": "Improper Input Validation vulnerability in Apache ActiveMQ AMQP, Apache ActiveMQ, Apache ActiveMQ All. A remote unauthenticated peer that can reach an exposed AMQP NIO connector can trigger denial-of-service behavior by sending a frame size value. This cause the NIO threads to die and if done rapidl…",
+   "publicado": "2026-07-28",
+   "epss": 0.00785,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-42588",
+   "cvss": 8.1,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20",
+    "CWE-94"
+   ],
+   "descripcion": "Improper Input Validation, Improper Control of Generation of Code ('Code Injection') vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ All, Apache ActiveMQ. Apache ActiveMQ Classic exposes the Jolokia JMX-HTTP bridge at /api/jolokia/ on the web console. The default Jolokia access policy permi…",
+   "publicado": "2026-06-01",
+   "epss": 0.0074,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-50734",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-789"
+   ],
+   "descripcion": "Memory Allocation with Excessive Size Value vulnerability in Apache ActiveMQ Client, Apache ActiveMQ, Apache ActiveMQ All. An unauthenticated network attacker can cause a broker DoS by sending a crafted WireFormatInfo frame with a malicious large size value. The value is not validate and causes the …",
+   "publicado": "2026-06-30",
+   "epss": 0.0074,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-53916",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-789"
+   ],
+   "descripcion": "Memory Allocation with Excessive Size Value vulnerability in Apache ActiveMQ, Apache ActiveMQ All, Apache ActiveMQ Stomp. An unauthenticated client that opens a STOMP NIO connection can send header bytes that never terminate which makes the broker buffer them without limit, exhausting the JVM heap. …",
+   "publicado": "2026-06-30",
+   "epss": 0.0074,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-53917",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-789"
+   ],
+   "descripcion": "Memory Allocation with Excessive Size Value vulnerability in Apache ActiveMQ, Apache ActiveMQ All, Apache ActiveMQ Client, Apache ActiveMQ Broker. An authenticated user can cause a broker DoS by sending a crafted OpenWire Message with a large encoded size value for the map. OpenWire message property…",
+   "publicado": "2026-06-30",
+   "epss": 0.0074,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-52760",
+   "cvss": 6.1,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-79"
+   ],
+   "descripcion": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Apache ActiveMQ, Apache ActiveMQ Web Console. The browse page in the web console renders a message Id directly without sanitization. This allows an authenticated producer to send a message with a JM…",
+   "publicado": "2026-06-30",
+   "epss": 0.00679,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-49434",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20"
+   ],
+   "descripcion": "Improper Input Validation vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ, Apache ActiveMQ All. An attacker that has access to publish or modify entries in LDAP that match the configured searchBase and searchFilter can instantiate denied transports inside the broker JVM. This can be used to…",
+   "publicado": "2026-06-30",
+   "epss": 0.0063,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-74761",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20"
+   ],
+   "descripcion": "Improper input validation in TopicRegion in Apache ActiveMQ, Apache ActiveMQ Broker, and Apache ActiveMQ All on all platforms. An authenticated client can spoof clientId when removing a durable topic subscription. This issue affects Apache ActiveMQ Broker: before 5.19.11, from 6.0.0 before 6.3.2; Ap…",
+   "publicado": "2026-09-09",
+   "epss": 0.00623,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-45505",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-20",
+    "CWE-94"
+   ],
+   "descripcion": "Improper Input Validation, Improper Control of Generation of Code ('Code Injection') vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ All, Apache ActiveMQ. Non-parenthesized discovery wrappers such as `masterslave:vm://...,...` and `static:vm://...` incorrectly pass validation allowing bypas…",
+   "publicado": "2026-06-01",
+   "epss": 0.006,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-41043",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-79",
+    "CWE-915"
+   ],
+   "descripcion": "Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS) vulnerability in Apache ActiveMQ, Apache ActiveMQ Web. An authenticated attacker can show malicious content when browsing queues in the web console by overriding the content type to be HTML (instead of XML) and by injectin…",
+   "publicado": "2026-04-24",
+   "epss": 0.00569,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-54475",
+   "cvss": 7.5,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-862"
+   ],
+   "descripcion": "Missing Authorization vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ All, Apache ActiveMQ. Apache ActiveMQ Classic temporary destinations are expected to be isolated to the connection that created them. The isolation can be broken as this is only checked in the client, allowing a different…",
+   "publicado": "2026-06-30",
+   "epss": 0.00563,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-49877",
+   "cvss": 8.1,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-285"
+   ],
+   "descripcion": "Improper Authorization vulnerability in Apache ActiveMQ. An authenticated low-privilege Web Console user by default can access /admin/* paths in the Web Console. The default Jetty settings incorrectly did not limit those paths to only admins. This issue affects Apache ActiveMQ: before 5.19.8, from 6…",
+   "publicado": "2026-06-30",
+   "epss": 0.00513,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-61487",
+   "cvss": 6.5,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-285"
+   ],
+   "descripcion": "Improper Authorization vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ All, Apache ActiveMQ. An authenticated low-privilege user can bypass a per-destination write ACL by sending to an ActiveMQ temporary composite destination whose physical name is a comma-separated composite of real queues…",
+   "publicado": "2026-07-28",
+   "epss": 0.00457,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-49157",
+   "cvss": 8.8,
+   "cvss_version": "3.1",
+   "severidad": "HIGH",
+   "cwe": [
+    "CWE-276"
+   ],
+   "descripcion": "Incorrect Default Permissions vulnerability in Apache ActiveMQ. This issue affects Apache ActiveMQ: before 5.19.7, from 6.0.0 before 6.2.6. The default Jolokia authorization settings granted non-admin (low-privilege) web-login accounts access to Jolokia operations which allowed executing broker mana…",
+   "publicado": "2026-06-01",
+   "epss": 0.0044,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-33227",
+   "cvss": 4.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-22"
+   ],
+   "descripcion": "Improper validation and restriction of a classpath path name vulnerability in Apache ActiveMQ Client, Apache ActiveMQ Broker, Apache ActiveMQ All, Apache ActiveMQ Web, Apache ActiveMQ. In two instances (when creating a Stomp consumer and also browsing messages in the Web console) an authenticated us…",
+   "publicado": "2026-04-07",
+   "epss": 0.00426,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-49270",
+   "cvss": 5.9,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-1230"
+   ],
+   "descripcion": "Exposure of Sensitive Information Through Metadata vulnerability in Apache ActiveMQ Broker, Apache ActiveMQ, Apache ActiveMQ All. Brokers that are configured with a network connector with syncDurableSubs set to true, are vulnerable to an unauthenticated attacker who can receive a list of all durable…",
+   "publicado": "2026-06-01",
+   "epss": 0.00369,
+   "kev": false
+  },
+  {
+   "id": "CVE-2026-46605",
+   "cvss": 4.3,
+   "cvss_version": "3.1",
+   "severidad": "MEDIUM",
+   "cwe": [
+    "CWE-285"
+   ],
+   "descripcion": "Incomplete authorization by Apache ActiveMQ server before versions v6.2.6 and v5.19.7 allows authenticated connections to remove existing destinations with proper permissions. This issue affects Apache ActiveMQ Broker: before 5.19.7, from 6.0.0 before 6.2.6; Apache ActiveMQ All: before 5.19.7, from …",
+   "publicado": "2026-06-01",
+   "epss": 0.00348,
+   "kev": false
+  }
+ ]
+}

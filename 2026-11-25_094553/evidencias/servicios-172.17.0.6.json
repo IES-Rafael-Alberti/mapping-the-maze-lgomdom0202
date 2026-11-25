@@ -1,0 +1,25 @@
+[
+ {
+  "puerto": 22,
+  "protocolo": "tcp",
+  "servicio": "ssh",
+  "producto": "OpenSSH",
+  "version": "9.2p1 Debian 2+deb12u2",
+  "extra": "protocol 2.0",
+  "cpe": [
+   "cpe:/a:openbsd:openssh:9.2p1",
+   "cpe:/o:linux:linux_kernel"
+  ]
+ },
+ {
+  "puerto": 8080,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Jetty",
+  "version": "10.0.18",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:mortbay:jetty:10.0.18"
+  ]
+ }
+]

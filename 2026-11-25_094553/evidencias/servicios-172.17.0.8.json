@@ -1,0 +1,47 @@
+[
+ {
+  "puerto": 22,
+  "protocolo": "tcp",
+  "servicio": "ssh",
+  "producto": "OpenSSH",
+  "version": "9.6p1 Ubuntu 3ubuntu13.5",
+  "extra": "Ubuntu Linux; protocol 2.0",
+  "cpe": [
+   "cpe:/a:openbsd:openssh:9.6p1",
+   "cpe:/o:linux:linux_kernel"
+  ]
+ },
+ {
+  "puerto": 80,
+  "protocolo": "tcp",
+  "servicio": "http",
+  "producto": "Apache httpd",
+  "version": "2.4.58",
+  "extra": "(Ubuntu)",
+  "cpe": [
+   "cpe:/a:apache:http_server:2.4.58"
+  ]
+ },
+ {
+  "puerto": 139,
+  "protocolo": "tcp",
+  "servicio": "netbios-ssn",
+  "producto": "Samba smbd",
+  "version": "4",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:samba:samba:4"
+  ]
+ },
+ {
+  "puerto": 445,
+  "protocolo": "tcp",
+  "servicio": "netbios-ssn",
+  "producto": "Samba smbd",
+  "version": "4",
+  "extra": "",
+  "cpe": [
+   "cpe:/a:samba:samba:4"
+  ]
+ }
+]
